@@ -1,0 +1,162 @@
+[
+  {
+    "id": "2hop_01",
+    "path": ["title", "directed_by", "person_name", "starred_actors", "title"],
+    "question": "Which movies starred actors who worked with the director of {title}?"
+  },
+  {
+    "id": "2hop_02",
+    "path": ["title", "written_by", "person_name", "starred_actors", "title"],
+    "question": "Which movies starred actors who appeared in films written by the writer of {title}?"
+  },
+  {
+    "id": "2hop_03",
+    "path": ["title", "directed_by", "person_name", "written_by", "title"],
+    "question": "Which movies were written by the director of {title}?"
+  },
+  {
+    "id": "2hop_04",
+    "path": ["title", "starred_actors", "person_name", "directed_by", "title"],
+    "question": "Which movies were directed by someone who worked with an actor from {title}?"
+  },
+  {
+    "id": "2hop_05",
+    "path": ["title", "starred_actors", "person_name", "written_by", "title"],
+    "question": "Which movies were written by someone who worked with an actor from {title}?"
+  },
+
+  {
+    "id": "2hop_06",
+    "path": ["title", "has_genre", "genre", "directed_by", "person_name"],
+    "question": "Who directed movies in the same genre as {title}?"
+  },
+  {
+    "id": "2hop_07",
+    "path": ["title", "has_genre", "genre", "starred_actors", "person_name"],
+    "question": "Which actors starred in movies of the same genre as {title}?"
+  },
+  {
+    "id": "2hop_08",
+    "path": ["title", "has_genre", "genre", "written_by", "person_name"],
+    "question": "Who wrote movies in the same genre as {title}?"
+  },
+
+  {
+    "id": "2hop_09",
+    "path": ["title", "release_year", "year", "directed_by", "person_name"],
+    "question": "Who directed movies released in the same year as {title}?"
+  },
+  {
+    "id": "2hop_10",
+    "path": ["title", "release_year", "year", "starred_actors", "person_name"],
+    "question": "Which actors starred in movies released in the same year as {title}?"
+  },
+  {
+    "id": "2hop_11",
+    "path": ["title", "release_year", "year", "written_by", "person_name"],
+    "question": "Who wrote movies released in the same year as {title}?"
+  },
+
+  {
+    "id": "2hop_12",
+    "path": ["title", "in_language", "language", "directed_by", "person_name"],
+    "question": "Who directed movies in the same language as {title}?"
+  },
+  {
+    "id": "2hop_13",
+    "path": ["title", "in_language", "language", "starred_actors", "person_name"],
+    "question": "Which actors starred in movies in the same language as {title}?"
+  },
+  {
+    "id": "2hop_14",
+    "path": ["title", "in_language", "language", "has_genre", "genre"],
+    "question": "Which genres are common among movies in the same language as {title}?"
+  },
+
+  {
+    "id": "2hop_15",
+    "path": ["title", "has_tags", "tag", "has_genre", "genre"],
+    "question": "Which genres are associated with the same tags as {title}?"
+  },
+  {
+    "id": "2hop_16",
+    "path": ["title", "has_tags", "tag", "directed_by", "person_name"],
+    "question": "Who directed movies that share tags with {title}?"
+  },
+
+  {
+    "id": "2hop_17",
+    "path": ["person_name", "directed_by", "title", "starred_actors", "person_name"],
+    "question": "Which actors starred in movies directed by {person}?"
+  },
+  {
+    "id": "2hop_18",
+    "path": ["person_name", "written_by", "title", "starred_actors", "person_name"],
+    "question": "Which actors starred in movies written by {person}?"
+  },
+  {
+    "id": "2hop_19",
+    "path": ["person_name", "directed_by", "title", "has_genre", "genre"],
+    "question": "What genres are common in movies directed by {person}?"
+  },
+
+  {
+    "id": "2hop_20",
+    "path": ["genre", "directed_by", "person_name", "starred_actors", "person_name"],
+    "question": "Which actors worked with directors associated with the {genre} genre?"
+  },
+  {
+    "id": "2hop_21",
+    "path": ["genre", "starred_actors", "person_name", "directed_by", "person_name"],
+    "question": "Which directors worked with actors from the {genre} genre?"
+  },
+
+  {
+    "id": "2hop_22",
+    "path": ["year", "directed_by", "person_name", "starred_actors", "person_name"],
+    "question": "Which actors worked with directors active in {year}?"
+  },
+  {
+    "id": "2hop_23",
+    "path": ["year", "starred_actors", "person_name", "directed_by", "person_name"],
+    "question": "Which directors worked with actors active in {year}?"
+  },
+
+  {
+    "id": "2hop_24",
+    "path": ["language", "directed_by", "person_name", "starred_actors", "person_name"],
+    "question": "Which actors worked with directors of movies in {language}?"
+  },
+  {
+    "id": "2hop_25",
+    "path": ["language", "starred_actors", "person_name", "directed_by", "person_name"],
+    "question": "Which directors worked with actors in {language} movies?"
+  },
+
+  {
+    "id": "2hop_26",
+    "path": ["tag", "has_genre", "genre", "directed_by", "person_name"],
+    "question": "Who directed movies in genres associated with the tag {tag}?"
+  },
+  {
+    "id": "2hop_27",
+    "path": ["tag", "has_genre", "genre", "starred_actors", "person_name"],
+    "question": "Which actors starred in genres associated with the tag {tag}?"
+  },
+
+  {
+    "id": "2hop_28",
+    "path": ["title", "directed_by", "person_name", "has_genre", "genre"],
+    "question": "What genres are associated with the director of {title}?"
+  },
+  {
+    "id": "2hop_29",
+    "path": ["title", "written_by", "person_name", "has_genre", "genre"],
+    "question": "What genres are associated with the writer of {title}?"
+  },
+  {
+    "id": "2hop_30",
+    "path": ["title", "starred_actors", "person_name", "has_genre", "genre"],
+    "question": "What genres are associated with actors from {title}?"
+  }
+]

@@ -1,0 +1,147 @@
+[
+  {
+    "id": "1hop_01",
+    "subject_type": "title",
+    "relation": "directed_by",
+    "object_type": "person_name",
+    "question": "Who directed {title}?"
+  },
+  {
+    "id": "1hop_02",
+    "subject_type": "title",
+    "relation": "written_by",
+    "object_type": "person_name",
+    "question": "Who wrote {title}?"
+  },
+  {
+    "id": "1hop_03",
+    "subject_type": "title",
+    "relation": "starred_actors",
+    "object_type": "person_name",
+    "question": "Which actors starred in {title}?"
+  },
+  {
+    "id": "1hop_04",
+    "subject_type": "title",
+    "relation": "has_genre",
+    "object_type": "genre",
+    "question": "What genre is {title}?"
+  },
+  {
+    "id": "1hop_05",
+    "subject_type": "title",
+    "relation": "release_year",
+    "object_type": "year",
+    "question": "In which year was {title} released?"
+  },
+  {
+    "id": "1hop_06",
+    "subject_type": "title",
+    "relation": "in_language",
+    "object_type": "language",
+    "question": "What language is {title} in?"
+  },
+  {
+    "id": "1hop_07",
+    "subject_type": "title",
+    "relation": "has_tags",
+    "object_type": "tag",
+    "question": "What tags are associated with {title}?"
+  },
+  {
+    "id": "1hop_08",
+    "subject_type": "title",
+    "relation": "has_imdb_rating",
+    "object_type": "tag",
+    "question": "What is the IMDb rating of {title}?"
+  },
+  {
+    "id": "1hop_09",
+    "subject_type": "title",
+    "relation": "has_imdb_votes",
+    "object_type": "tag",
+    "question": "How many IMDb votes does {title} have?"
+  },
+
+  {
+    "id": "1hop_10",
+    "subject_type": "unknown",
+    "relation": "directed_by",
+    "object_type": "person_name",
+    "question": "Who directed {entity}?"
+  },
+  {
+    "id": "1hop_11",
+    "subject_type": "unknown",
+    "relation": "written_by",
+    "object_type": "person_name",
+    "question": "Who wrote {entity}?"
+  },
+  {
+    "id": "1hop_12",
+    "subject_type": "unknown",
+    "relation": "starred_actors",
+    "object_type": "person_name",
+    "question": "Which actors starred in {entity}?"
+  },
+
+  {
+    "id": "1hop_13",
+    "subject_type": "genre",
+    "relation": "starred_actors",
+    "object_type": "person_name",
+    "question": "Which actors starred in {genre} movies?"
+  },
+  {
+    "id": "1hop_14",
+    "subject_type": "genre",
+    "relation": "directed_by",
+    "object_type": "person_name",
+    "question": "Which directors are associated with the {genre} genre?"
+  },
+
+  {
+    "id": "1hop_15",
+    "subject_type": "year",
+    "relation": "directed_by",
+    "object_type": "person_name",
+    "question": "Who directed movies released in {year}?"
+  },
+  {
+    "id": "1hop_16",
+    "subject_type": "year",
+    "relation": "written_by",
+    "object_type": "person_name",
+    "question": "Who wrote movies released in {year}?"
+  },
+
+  {
+    "id": "1hop_17",
+    "subject_type": "language",
+    "relation": "starred_actors",
+    "object_type": "person_name",
+    "question": "Which actors starred in movies in {language}?"
+  },
+  {
+    "id": "1hop_18",
+    "subject_type": "language",
+    "relation": "has_genre",
+    "object_type": "genre",
+    "question": "Which genres are associated with movies in {language}?"
+  },
+
+  {
+    "id": "1hop_19",
+    "subject_type": "tag",
+    "relation": "has_genre",
+    "object_type": "genre",
+    "question": "Which genre is linked to the tag {tag}?"
+  },
+  {
+    "id": "1hop_20",
+    "subject_type": "tag",
+    "relation": "release_year",
+    "object_type": "year",
+    "question": "What release year is associated with the tag {tag}?"
+  }
+]

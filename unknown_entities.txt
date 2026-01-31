@@ -1,0 +1,3591 @@
+Unknown Entities Analysis - For Parser Improvement
+================================================================================
+
+Total unknown entities: 203
+These entities were not classified and remain UNCHANGED in reorganization.
+
+Use this file to improve entity type detection rules.
+================================================================================
+
+
+Entity: 'Finnish'
+--------------------------------------------------------------------------------
+Frequency: 67 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (67 times):
+  Relationships: in_language
+  Examples:
+    The Unknown Soldier|in_language|Finnish
+    The Worthless|in_language|Finnish
+    Black on White|in_language|Finnish
+    ... and 64 more
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Danish'
+--------------------------------------------------------------------------------
+Frequency: 63 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (63 times):
+  Relationships: in_language
+  Examples:
+    Just Another Love Story|in_language|Danish
+    Dark Horse|in_language|Danish
+    The Salvation|in_language|Danish
+    ... and 60 more
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Norwegian'
+--------------------------------------------------------------------------------
+Frequency: 58 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (58 times):
+  Relationships: in_language
+  Examples:
+    North|in_language|Norwegian
+    Cold Prey 3|in_language|Norwegian
+    United|in_language|Norwegian
+    ... and 55 more
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Hungarian'
+--------------------------------------------------------------------------------
+Frequency: 24 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (24 times):
+  Relationships: in_language
+  Examples:
+    Kontroll|in_language|Hungarian
+    The Notebook|in_language|Hungarian
+    Hukkle|in_language|Hungarian
+    ... and 21 more
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Romanian'
+--------------------------------------------------------------------------------
+Frequency: 23 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (23 times):
+  Relationships: in_language
+  Examples:
+    Love Sick|in_language|Romanian
+    Beyond the Hills|in_language|Romanian
+    Michael the Brave|in_language|Romanian
+    ... and 20 more
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Zulu'
+--------------------------------------------------------------------------------
+Frequency: 22 occurrences
+Characteristics: Starts with capital
+
+Used as SUBJECT (19 times):
+  Relationships: directed_by, has_genre, has_tags, in_language, release_year, starred_actors, written_by
+  Examples:
+    Zulu|directed_by|Jérôme Salle
+    Zulu|written_by|Jérôme Salle
+    Zulu|release_year|2013
+    ... and 16 more
+
+Used as OBJECT (3 times):
+  Relationships: in_language
+  Examples:
+    Yesterday|in_language|Zulu
+    Zulu|in_language|Zulu
+    Zulu Dawn|in_language|Zulu
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: '48 Hrs.'
+--------------------------------------------------------------------------------
+Frequency: 18 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (18 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors, written_by
+  Examples:
+    48 Hrs.|directed_by|Walter Hill
+    48 Hrs.|written_by|Steven E. de Souza
+    48 Hrs.|written_by|Walter Hill
+    ... and 15 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '8 Women'
+--------------------------------------------------------------------------------
+Frequency: 17 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (17 times):
+  Relationships: directed_by, has_genre, has_tags, in_language, release_year, starred_actors, written_by
+  Examples:
+    8 Women|directed_by|François Ozon
+    8 Women|written_by|François Ozon
+    8 Women|written_by|Robert Thomas
+    ... and 14 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: 'Icelandic'
+--------------------------------------------------------------------------------
+Frequency: 16 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (16 times):
+  Relationships: in_language
+  Examples:
+    Metalhead|in_language|Icelandic
+    Angels of the Universe|in_language|Icelandic
+    The Seagull's Laughter|in_language|Icelandic
+    ... and 13 more
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Irish'
+--------------------------------------------------------------------------------
+Frequency: 16 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (16 times):
+  Relationships: in_language
+  Examples:
+    In America|in_language|Irish
+    Darby O'Gill and the Little People|in_language|Irish
+    The Guard|in_language|Irish
+    ... and 13 more
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: '3 Idiots'
+--------------------------------------------------------------------------------
+Frequency: 16 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (16 times):
+  Relationships: directed_by, has_genre, has_tags, in_language, release_year, starred_actors, written_by
+  Examples:
+    3 Idiots|directed_by|Rajkumar Hirani
+    3 Idiots|written_by|Abhijat Joshi
+    3 Idiots|written_by|Rajkumar Hirani
+    ... and 13 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: 'Czech'
+--------------------------------------------------------------------------------
+Frequency: 16 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (16 times):
+  Relationships: in_language
+  Examples:
+    The Country Teacher|in_language|Czech
+    The Idiot Returns|in_language|Czech
+    The Wild Bees|in_language|Czech
+    ... and 13 more
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: '¡Three Amigos!'
+--------------------------------------------------------------------------------
+Frequency: 15 occurrences
+Characteristics: Multi-word (2 words)
+
+Used as SUBJECT (15 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors, written_by
+  Examples:
+    ¡Three Amigos!|directed_by|John Landis
+    ¡Three Amigos!|written_by|Steve Martin
+    ¡Three Amigos!|written_by|Randy Newman
+    ... and 12 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '127 Hours'
+--------------------------------------------------------------------------------
+Frequency: 15 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (15 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors, written_by
+  Examples:
+    127 Hours|directed_by|Danny Boyle
+    127 Hours|written_by|Simon Beaufoy
+    127 Hours|written_by|Danny Boyle
+    ... and 12 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '50/50'
+--------------------------------------------------------------------------------
+Frequency: 15 occurrences
+Characteristics: Contains digits
+
+Used as SUBJECT (15 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors, written_by
+  Examples:
+    50/50|directed_by|Jonathan Levine
+    50/50|written_by|Will Reiser
+    50/50|starred_actors|Seth Rogen
+    ... and 12 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '47 Ronin'
+--------------------------------------------------------------------------------
+Frequency: 15 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (15 times):
+  Relationships: directed_by, has_genre, has_tags, in_language, release_year, starred_actors, written_by
+  Examples:
+    47 Ronin|directed_by|Kon Ichikawa
+    47 Ronin|written_by|Kon Ichikawa
+    47 Ronin|release_year|1994
+    ... and 12 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '8½'
+--------------------------------------------------------------------------------
+Frequency: 14 occurrences
+Characteristics: Contains digits
+
+Used as SUBJECT (14 times):
+  Relationships: directed_by, has_genre, has_imdb_votes, has_tags, in_language, release_year, starred_actors, written_by
+  Examples:
+    8½|directed_by|Federico Fellini
+    8½|written_by|Federico Fellini
+    8½|written_by|Ennio Flaiano
+    ... and 11 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '28 Days'
+--------------------------------------------------------------------------------
+Frequency: 14 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (14 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors
+  Examples:
+    28 Days|directed_by|Betty Thomas
+    28 Days|starred_actors|Sandra Bullock
+    28 Days|starred_actors|Viggo Mortensen
+    ... and 11 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '8 Mile'
+--------------------------------------------------------------------------------
+Frequency: 14 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (14 times):
+  Relationships: directed_by, has_tags, release_year, starred_actors, written_by
+  Examples:
+    8 Mile|directed_by|Curtis Hanson
+    8 Mile|written_by|Scott Silver
+    8 Mile|starred_actors|Kim Basinger
+    ... and 11 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '7 Days in Havana'
+--------------------------------------------------------------------------------
+Frequency: 13 occurrences
+Characteristics: Multi-word (4 words), Contains digits
+
+Used as SUBJECT (13 times):
+  Relationships: directed_by, in_language, release_year, written_by
+  Examples:
+    7 Days in Havana|directed_by|Gaspar Noé
+    7 Days in Havana|directed_by|Laurent Cantet
+    7 Days in Havana|directed_by|Pablo Trapero
+    ... and 10 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '30 Days of Night'
+--------------------------------------------------------------------------------
+Frequency: 13 occurrences
+Characteristics: Multi-word (4 words), Contains digits
+
+Used as SUBJECT (13 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors, written_by
+  Examples:
+    30 Days of Night|directed_by|David Slade
+    30 Days of Night|written_by|Steve Niles
+    30 Days of Night|starred_actors|Josh Hartnett
+    ... and 10 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '101 Dalmatians'
+--------------------------------------------------------------------------------
+Frequency: 13 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (13 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors, written_by
+  Examples:
+    101 Dalmatians|directed_by|Stephen Herek
+    101 Dalmatians|written_by|John Hughes
+    101 Dalmatians|written_by|Dodie Smith
+    ... and 10 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '12 Years a Slave'
+--------------------------------------------------------------------------------
+Frequency: 13 occurrences
+Characteristics: Multi-word (4 words), Contains digits
+
+Used as SUBJECT (13 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors, written_by
+  Examples:
+    12 Years a Slave|directed_by|Steve McQueen
+    12 Years a Slave|written_by|John Ridley
+    12 Years a Slave|written_by|Solomon Northup
+    ... and 10 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '21 Grams'
+--------------------------------------------------------------------------------
+Frequency: 12 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (12 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors, written_by
+  Examples:
+    21 Grams|directed_by|Alejandro González Iñárritu
+    21 Grams|written_by|Guillermo Arriaga
+    21 Grams|starred_actors|Sean Penn
+    ... and 9 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '17 Again'
+--------------------------------------------------------------------------------
+Frequency: 12 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (12 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors
+  Examples:
+    17 Again|directed_by|Burr Steers
+    17 Again|starred_actors|Leslie Mann
+    17 Again|starred_actors|Zac Efron
+    ... and 9 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '3 Days to Kill'
+--------------------------------------------------------------------------------
+Frequency: 12 occurrences
+Characteristics: Multi-word (4 words), Contains digits
+
+Used as SUBJECT (12 times):
+  Relationships: directed_by, has_genre, has_tags, in_language, release_year, starred_actors, written_by
+  Examples:
+    3 Days to Kill|directed_by|McG
+    3 Days to Kill|written_by|Luc Besson
+    3 Days to Kill|written_by|Adi Hasak
+    ... and 9 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '40 Days and 40 Nights'
+--------------------------------------------------------------------------------
+Frequency: 12 occurrences
+Characteristics: Multi-word (5 words), Contains digits
+
+Used as SUBJECT (12 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors, written_by
+  Examples:
+    40 Days and 40 Nights|directed_by|Michael Lehmann
+    40 Days and 40 Nights|written_by|Rob Perez
+    40 Days and 40 Nights|starred_actors|Josh Hartnett
+    ... and 9 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: 'Persian'
+--------------------------------------------------------------------------------
+Frequency: 12 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (12 times):
+  Relationships: in_language
+  Examples:
+    The Runner|in_language|Persian
+    Crash|in_language|Persian
+    The Color of Paradise|in_language|Persian
+    ... and 9 more
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: '10 Items or Less'
+--------------------------------------------------------------------------------
+Frequency: 12 occurrences
+Characteristics: Multi-word (4 words), Contains digits
+
+Used as SUBJECT (12 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors, written_by
+  Examples:
+    10 Items or Less|directed_by|Brad Silberling
+    10 Items or Less|written_by|Brad Silberling
+    10 Items or Less|starred_actors|Morgan Freeman
+    ... and 9 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '100 Rifles'
+--------------------------------------------------------------------------------
+Frequency: 12 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (12 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors, written_by
+  Examples:
+    100 Rifles|directed_by|Tom Gries
+    100 Rifles|written_by|Tom Gries
+    100 Rifles|written_by|Robert MacLeod
+    ... and 9 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '3 Women'
+--------------------------------------------------------------------------------
+Frequency: 11 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (11 times):
+  Relationships: directed_by, has_tags, release_year, starred_actors, written_by
+  Examples:
+    3 Women|directed_by|Robert Altman
+    3 Women|written_by|Robert Altman
+    3 Women|starred_actors|Shelley Duvall
+    ... and 8 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '2 Fast 2 Furious'
+--------------------------------------------------------------------------------
+Frequency: 11 occurrences
+Characteristics: Multi-word (4 words), Contains digits
+
+Used as SUBJECT (11 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors
+  Examples:
+    2 Fast 2 Furious|directed_by|John Singleton
+    2 Fast 2 Furious|starred_actors|Paul Walker
+    2 Fast 2 Furious|starred_actors|Tyrese Gibson
+    ... and 8 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: 'Filipino'
+--------------------------------------------------------------------------------
+Frequency: 11 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (11 times):
+  Relationships: in_language
+  Examples:
+    Independencia|in_language|Filipino
+    Thy Womb|in_language|Filipino
+    On the Job|in_language|Filipino
+    ... and 8 more
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: '4 for Texas'
+--------------------------------------------------------------------------------
+Frequency: 11 occurrences
+Characteristics: Multi-word (3 words), Contains digits
+
+Used as SUBJECT (11 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors, written_by
+  Examples:
+    4 for Texas|directed_by|Robert Aldrich
+    4 for Texas|written_by|Robert Aldrich
+    4 for Texas|written_by|Teddi Sherman
+    ... and 8 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '7 Women'
+--------------------------------------------------------------------------------
+Frequency: 10 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (10 times):
+  Relationships: directed_by, has_genre, release_year, starred_actors, written_by
+  Examples:
+    7 Women|directed_by|John Ford
+    7 Women|written_by|Janet Green
+    7 Women|written_by|John McCormick
+    ... and 7 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '13 Assassins'
+--------------------------------------------------------------------------------
+Frequency: 10 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (10 times):
+  Relationships: directed_by, has_genre, has_tags, in_language, release_year, starred_actors, written_by
+  Examples:
+    13 Assassins|directed_by|Takashi Miike
+    13 Assassins|written_by|Daisuke Tengan
+    13 Assassins|starred_actors|Takayuki Yamada
+    ... and 7 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '88 Minutes'
+--------------------------------------------------------------------------------
+Frequency: 10 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (10 times):
+  Relationships: directed_by, has_tags, release_year, starred_actors
+  Examples:
+    88 Minutes|directed_by|Jon Avnet
+    88 Minutes|starred_actors|Al Pacino
+    88 Minutes|starred_actors|Leelee Sobieski
+    ... and 7 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '30 Minutes or Less'
+--------------------------------------------------------------------------------
+Frequency: 10 occurrences
+Characteristics: Multi-word (4 words), Contains digits
+
+Used as SUBJECT (10 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors
+  Examples:
+    30 Minutes or Less|directed_by|Ruben Fleischer
+    30 Minutes or Less|starred_actors|Jesse Eisenberg
+    30 Minutes or Less|starred_actors|Danny McBride
+    ... and 7 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '42nd Street'
+--------------------------------------------------------------------------------
+Frequency: 10 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (10 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, written_by
+  Examples:
+    42nd Street|directed_by|Lloyd Bacon
+    42nd Street|written_by|James Seymour
+    42nd Street|written_by|Rian James
+    ... and 7 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '3000 Miles to Graceland'
+--------------------------------------------------------------------------------
+Frequency: 10 occurrences
+Characteristics: Multi-word (4 words), Contains digits
+
+Used as SUBJECT (10 times):
+  Relationships: has_genre, has_tags, release_year, starred_actors
+  Examples:
+    3000 Miles to Graceland|starred_actors|Kurt Russell
+    3000 Miles to Graceland|starred_actors|Kevin Costner
+    3000 Miles to Graceland|starred_actors|Christian Slater
+    ... and 7 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '5 Fingers'
+--------------------------------------------------------------------------------
+Frequency: 10 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (10 times):
+  Relationships: directed_by, has_tags, in_language, release_year, starred_actors, written_by
+  Examples:
+    5 Fingers|directed_by|Joseph L. Mankiewicz
+    5 Fingers|written_by|Michael Wilson
+    5 Fingers|written_by|L.C. Moyzisch
+    ... and 7 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '55 Days at Peking'
+--------------------------------------------------------------------------------
+Frequency: 10 occurrences
+Characteristics: Multi-word (4 words), Contains digits
+
+Used as SUBJECT (10 times):
+  Relationships: directed_by, has_tags, release_year, starred_actors, written_by
+  Examples:
+    55 Days at Peking|directed_by|Nicholas Ray
+    55 Days at Peking|directed_by|Guy Green
+    55 Days at Peking|written_by|Philip Yordan
+    ... and 7 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '7th Heaven'
+--------------------------------------------------------------------------------
+Frequency: 10 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (10 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors, written_by
+  Examples:
+    7th Heaven|directed_by|Frank Borzage
+    7th Heaven|written_by|Katherine Hilliker
+    7th Heaven|written_by|H.H. Caldwell
+    ... and 7 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '25th Hour'
+--------------------------------------------------------------------------------
+Frequency: 10 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (10 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors, written_by
+  Examples:
+    25th Hour|directed_by|Spike Lee
+    25th Hour|written_by|David Benioff
+    25th Hour|starred_actors|Edward Norton
+    ... and 7 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '4 Months, 3 Weeks and 2 Days'
+--------------------------------------------------------------------------------
+Frequency: 10 occurrences
+Characteristics: Multi-word (7 words), Contains digits
+
+Used as SUBJECT (10 times):
+  Relationships: directed_by, has_tags, in_language, release_year, written_by
+  Examples:
+    4 Months, 3 Weeks and 2 Days|directed_by|Cristian Mungiu
+    4 Months, 3 Weeks and 2 Days|written_by|Cristian Mungiu
+    4 Months, 3 Weeks and 2 Days|release_year|2007
+    ... and 7 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '25 Watts'
+--------------------------------------------------------------------------------
+Frequency: 10 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (10 times):
+  Relationships: directed_by, has_genre, release_year, starred_actors, written_by
+  Examples:
+    25 Watts|directed_by|Pablo Stoll
+    25 Watts|directed_by|Juan Pablo Rebella
+    25 Watts|written_by|Pablo Stoll
+    ... and 7 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: 'Serbian'
+--------------------------------------------------------------------------------
+Frequency: 9 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (9 times):
+  Relationships: in_language
+  Examples:
+    Underground|in_language|Serbian
+    Here and There|in_language|Serbian
+    Promise Me This|in_language|Serbian
+    ... and 6 more
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: '10 to Midnight'
+--------------------------------------------------------------------------------
+Frequency: 9 occurrences
+Characteristics: Multi-word (3 words), Contains digits
+
+Used as SUBJECT (9 times):
+  Relationships: directed_by, has_genre, release_year, starred_actors, written_by
+  Examples:
+    10 to Midnight|directed_by|J. Lee Thompson
+    10 to Midnight|written_by|William Roberts
+    10 to Midnight|starred_actors|Charles Bronson
+    ... and 6 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '11 Harrowhouse'
+--------------------------------------------------------------------------------
+Frequency: 9 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (9 times):
+  Relationships: directed_by, release_year, starred_actors, written_by
+  Examples:
+    11 Harrowhouse|directed_by|Aram Avakian
+    11 Harrowhouse|written_by|Jeffrey Bloom
+    11 Harrowhouse|written_by|Gerald A. Browne
+    ... and 6 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '36 Hours'
+--------------------------------------------------------------------------------
+Frequency: 9 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (9 times):
+  Relationships: directed_by, has_genre, has_tags, in_language, starred_actors, written_by
+  Examples:
+    36 Hours|directed_by|George Seaton
+    36 Hours|written_by|Roald Dahl
+    36 Hours|written_by|George Seaton
+    ... and 6 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '$'
+--------------------------------------------------------------------------------
+Frequency: 9 occurrences
+
+Used as SUBJECT (9 times):
+  Relationships: directed_by, has_tags, in_language, release_year, starred_actors, written_by
+  Examples:
+    $|directed_by|Richard Brooks
+    $|written_by|Richard Brooks
+    $|starred_actors|Goldie Hawn
+    ... and 6 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '16 to Life'
+--------------------------------------------------------------------------------
+Frequency: 9 occurrences
+Characteristics: Multi-word (3 words), Contains digits
+
+Used as SUBJECT (9 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors, written_by
+  Examples:
+    16 to Life|directed_by|Becky Smith
+    16 to Life|written_by|Becky Smith
+    16 to Life|starred_actors|Shiloh Fernandez
+    ... and 6 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: 'Georgian'
+--------------------------------------------------------------------------------
+Frequency: 9 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (9 times):
+  Relationships: in_language
+  Examples:
+    A Chef in Love|in_language|Georgian
+    The Loneliest Planet|in_language|Georgian
+    Late Marriage|in_language|Georgian
+    ... and 6 more
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: '100 Feet'
+--------------------------------------------------------------------------------
+Frequency: 8 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (8 times):
+  Relationships: directed_by, has_genre, release_year, starred_actors, written_by
+  Examples:
+    100 Feet|directed_by|Eric Red
+    100 Feet|written_by|Eric Red
+    100 Feet|starred_actors|Famke Janssen
+    ... and 5 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '9/11'
+--------------------------------------------------------------------------------
+Frequency: 8 occurrences
+Characteristics: Contains digits
+
+Used as SUBJECT (4 times):
+  Relationships: directed_by, has_genre, has_tags, release_year
+  Examples:
+    9/11|directed_by|James Hanlon
+    9/11|release_year|2002
+    9/11|has_genre|Documentary
+    ... and 1 more
+
+Used as OBJECT (4 times):
+  Relationships: has_tags
+  Examples:
+    World Trade Center|has_tags|9/11
+    9/11|has_tags|9/11
+    The Visitor|has_tags|9/11
+    ... and 1 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+  [MEDIUM CONFIDENCE]
+    → TAG: appears as tag value
+
+
+Entity: '$9.99'
+--------------------------------------------------------------------------------
+Frequency: 8 occurrences
+Characteristics: Contains digits
+
+Used as SUBJECT (8 times):
+  Relationships: directed_by, has_tags, release_year, starred_actors, written_by
+  Examples:
+    $9.99|directed_by|Tatia Rosenthal
+    $9.99|written_by|Etgar Keret
+    $9.99|written_by|Tatia Rosenthal
+    ... and 5 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '27 Dresses'
+--------------------------------------------------------------------------------
+Frequency: 8 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (8 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, written_by
+  Examples:
+    27 Dresses|directed_by|Anne Fletcher
+    27 Dresses|written_by|Aline Brosh McKenna
+    27 Dresses|release_year|2008
+    ... and 5 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '99 Homes'
+--------------------------------------------------------------------------------
+Frequency: 8 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (8 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors, written_by
+  Examples:
+    99 Homes|directed_by|Ramin Bahrani
+    99 Homes|written_by|Ramin Bahrani
+    99 Homes|starred_actors|Laura Dern
+    ... and 5 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: 'Kurdish'
+--------------------------------------------------------------------------------
+Frequency: 8 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (8 times):
+  Relationships: in_language
+  Examples:
+    Marooned in Iraq|in_language|Kurdish
+    Vodka Lemon|in_language|Kurdish
+    Turtles Can Fly|in_language|Kurdish
+    ... and 5 more
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: '2001 Maniacs'
+--------------------------------------------------------------------------------
+Frequency: 8 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (8 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors, written_by
+  Examples:
+    2001 Maniacs|directed_by|Tim Sullivan
+    2001 Maniacs|written_by|Tim Sullivan
+    2001 Maniacs|starred_actors|Robert Englund
+    ... and 5 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '13 Going on 30'
+--------------------------------------------------------------------------------
+Frequency: 8 occurrences
+Characteristics: Multi-word (4 words), Contains digits
+
+Used as SUBJECT (8 times):
+  Relationships: has_genre, has_tags, release_year, starred_actors
+  Examples:
+    13 Going on 30|starred_actors|Mark Ruffalo
+    13 Going on 30|starred_actors|Jennifer Garner
+    13 Going on 30|release_year|2004
+    ... and 5 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '200 Cigarettes'
+--------------------------------------------------------------------------------
+Frequency: 8 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (8 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors, written_by
+  Examples:
+    200 Cigarettes|directed_by|Risa Bramon Garcia
+    200 Cigarettes|written_by|Shana Larsen
+    200 Cigarettes|starred_actors|Ben Affleck
+    ... and 5 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '13 Sins'
+--------------------------------------------------------------------------------
+Frequency: 8 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (8 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors, written_by
+  Examples:
+    13 Sins|directed_by|Daniel Stamm
+    13 Sins|written_by|Daniel Stamm
+    13 Sins|starred_actors|Mark Webber
+    ... and 5 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '50 Cent'
+--------------------------------------------------------------------------------
+Frequency: 8 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as OBJECT (8 times):
+  Relationships: directed_by, starred_actors, written_by
+  Examples:
+    Setup|starred_actors|50 Cent
+    Streets of Blood|starred_actors|50 Cent
+    How to Make Money Selling Drugs|starred_actors|50 Cent
+    ... and 5 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → PERSON_NAME: appears as director
+
+
+Entity: '48 Shades'
+--------------------------------------------------------------------------------
+Frequency: 8 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (8 times):
+  Relationships: directed_by, has_genre, release_year, starred_actors, written_by
+  Examples:
+    48 Shades|directed_by|Daniel Lapaine
+    48 Shades|written_by|Daniel Lapaine
+    48 Shades|written_by|Nick Earls
+    ... and 5 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '10 Years'
+--------------------------------------------------------------------------------
+Frequency: 8 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (8 times):
+  Relationships: directed_by, has_genre, release_year, starred_actors, written_by
+  Examples:
+    10 Years|directed_by|Jamie Linden
+    10 Years|written_by|Jamie Linden
+    10 Years|starred_actors|Channing Tatum
+    ... and 5 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '3 Godfathers'
+--------------------------------------------------------------------------------
+Frequency: 8 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (8 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors, written_by
+  Examples:
+    3 Godfathers|directed_by|John Ford
+    3 Godfathers|written_by|Frank S. Nugent
+    3 Godfathers|written_by|Laurence Stallings
+    ... and 5 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '16 Years of Alcohol'
+--------------------------------------------------------------------------------
+Frequency: 8 occurrences
+Characteristics: Multi-word (4 words), Contains digits
+
+Used as SUBJECT (8 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors, written_by
+  Examples:
+    16 Years of Alcohol|directed_by|Richard Jobson
+    16 Years of Alcohol|written_by|Richard Jobson
+    16 Years of Alcohol|starred_actors|Kevin McKidd
+    ... and 5 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '247°F'
+--------------------------------------------------------------------------------
+Frequency: 8 occurrences
+Characteristics: All uppercase, Contains digits
+
+Used as SUBJECT (8 times):
+  Relationships: directed_by, has_genre, release_year, starred_actors, written_by
+  Examples:
+    247°F|directed_by|Beqa Jguburia
+    247°F|directed_by|Levan Bakhia
+    247°F|written_by|Levan Bakhia
+    ... and 5 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '12 Rounds'
+--------------------------------------------------------------------------------
+Frequency: 8 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (8 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors
+  Examples:
+    12 Rounds|directed_by|Renny Harlin
+    12 Rounds|starred_actors|Steve Harris
+    12 Rounds|starred_actors|Aidan Gillen
+    ... and 5 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: 'Bengali'
+--------------------------------------------------------------------------------
+Frequency: 8 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (8 times):
+  Relationships: in_language
+  Examples:
+    Ashani Sanket|in_language|Bengali
+    Ajantrik|in_language|Bengali
+    Gunday|in_language|Bengali
+    ... and 5 more
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Mandarin'
+--------------------------------------------------------------------------------
+Frequency: 8 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (8 times):
+  Relationships: in_language
+  Examples:
+    Cape No. 7|in_language|Mandarin
+    The Inn of the Sixth Happiness|in_language|Mandarin
+    Mr. Wu|in_language|Mandarin
+    ... and 5 more
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: '20,000 Days on Earth'
+--------------------------------------------------------------------------------
+Frequency: 8 occurrences
+Characteristics: Multi-word (4 words), Contains digits
+
+Used as SUBJECT (8 times):
+  Relationships: directed_by, has_genre, release_year, starred_actors, written_by
+  Examples:
+    20,000 Days on Earth|directed_by|Jane Pollard
+    20,000 Days on Earth|directed_by|Iain Forsyth
+    20,000 Days on Earth|written_by|Nick Cave
+    ... and 5 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '61*'
+--------------------------------------------------------------------------------
+Frequency: 8 occurrences
+Characteristics: Contains digits
+
+Used as SUBJECT (8 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors, written_by
+  Examples:
+    61*|directed_by|Billy Crystal
+    61*|written_by|Hank Steinberg
+    61*|starred_actors|Barry Pepper
+    ... and 5 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '3 Ninjas'
+--------------------------------------------------------------------------------
+Frequency: 8 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (8 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors
+  Examples:
+    3 Ninjas|directed_by|Jon Turteltaub
+    3 Ninjas|starred_actors|Victor Wong
+    3 Ninjas|starred_actors|Max Elliott Slade
+    ... and 5 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '10,000 BC'
+--------------------------------------------------------------------------------
+Frequency: 8 occurrences
+Characteristics: Multi-word (2 words), All uppercase, Contains digits
+
+Used as SUBJECT (8 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors, written_by
+  Examples:
+    10,000 BC|directed_by|Roland Emmerich
+    10,000 BC|written_by|Roland Emmerich
+    10,000 BC|starred_actors|Camilla Belle
+    ... and 5 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '(Untitled)'
+--------------------------------------------------------------------------------
+Frequency: 8 occurrences
+
+Used as SUBJECT (8 times):
+  Relationships: directed_by, has_genre, release_year, starred_actors, written_by
+  Examples:
+    (Untitled)|directed_by|Jonathan Parker
+    (Untitled)|written_by|Catherine DiNapoli
+    (Untitled)|written_by|Jonathan Parker
+    ... and 5 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '2 Days in Paris'
+--------------------------------------------------------------------------------
+Frequency: 8 occurrences
+Characteristics: Multi-word (4 words), Contains digits
+
+Used as SUBJECT (8 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors, written_by
+  Examples:
+    2 Days in Paris|directed_by|Julie Delpy
+    2 Days in Paris|written_by|Julie Delpy
+    2 Days in Paris|starred_actors|Julie Delpy
+    ... and 5 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '29th Street'
+--------------------------------------------------------------------------------
+Frequency: 8 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (8 times):
+  Relationships: directed_by, has_genre, release_year, starred_actors, written_by
+  Examples:
+    29th Street|directed_by|George Gallo
+    29th Street|written_by|George Gallo
+    29th Street|written_by|James Franciscus
+    ... and 5 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '...All the Marbles'
+--------------------------------------------------------------------------------
+Frequency: 7 occurrences
+Characteristics: Multi-word (3 words)
+
+Used as SUBJECT (7 times):
+  Relationships: directed_by, has_genre, release_year, starred_actors
+  Examples:
+    ...All the Marbles|directed_by|Robert Aldrich
+    ...All the Marbles|starred_actors|Peter Falk
+    ...All the Marbles|starred_actors|Laurene Landon
+    ... and 4 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '3 Strikes'
+--------------------------------------------------------------------------------
+Frequency: 7 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (7 times):
+  Relationships: directed_by, has_genre, release_year, starred_actors, written_by
+  Examples:
+    3 Strikes|directed_by|DJ Pooh
+    3 Strikes|written_by|DJ Pooh
+    3 Strikes|starred_actors|N'Bushe Wright
+    ... and 4 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: 'Kinyarwanda'
+--------------------------------------------------------------------------------
+Frequency: 7 occurrences
+Characteristics: Starts with capital
+
+Used as SUBJECT (5 times):
+  Relationships: directed_by, has_genre, in_language, release_year, written_by
+  Examples:
+    Kinyarwanda|directed_by|Alrick Brown
+    Kinyarwanda|written_by|Alrick Brown
+    Kinyarwanda|release_year|2011
+    ... and 2 more
+
+Used as OBJECT (2 times):
+  Relationships: in_language
+  Examples:
+    Munyurangabo|in_language|Kinyarwanda
+    Kinyarwanda|in_language|Kinyarwanda
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: '15 Minutes'
+--------------------------------------------------------------------------------
+Frequency: 7 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (7 times):
+  Relationships: has_genre, has_imdb_votes, release_year, starred_actors
+  Examples:
+    15 Minutes|starred_actors|Robert De Niro
+    15 Minutes|starred_actors|Edward Burns
+    15 Minutes|starred_actors|Kelsey Grammer
+    ... and 4 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '633 Squadron'
+--------------------------------------------------------------------------------
+Frequency: 7 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (7 times):
+  Relationships: directed_by, has_genre, release_year, starred_actors, written_by
+  Examples:
+    633 Squadron|directed_by|Walter Grauman
+    633 Squadron|written_by|Frederick E. Smith
+    633 Squadron|starred_actors|Cliff Robertson
+    ... and 4 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '102 Dalmatians'
+--------------------------------------------------------------------------------
+Frequency: 7 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (7 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors
+  Examples:
+    102 Dalmatians|directed_by|Kevin Lima
+    102 Dalmatians|starred_actors|Glenn Close
+    102 Dalmatians|release_year|2000
+    ... and 4 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '96 Minutes'
+--------------------------------------------------------------------------------
+Frequency: 7 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (7 times):
+  Relationships: has_genre, release_year, starred_actors
+  Examples:
+    96 Minutes|starred_actors|Brittany Snow
+    96 Minutes|starred_actors|David Oyelowo
+    96 Minutes|starred_actors|Evan Ross
+    ... and 4 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: 'Indonesian'
+--------------------------------------------------------------------------------
+Frequency: 7 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (7 times):
+  Relationships: in_language
+  Examples:
+    The Raid 2|in_language|Indonesian
+    V/H/S/2|in_language|Indonesian
+    Killers|in_language|Indonesian
+    ... and 4 more
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: '16 Blocks'
+--------------------------------------------------------------------------------
+Frequency: 7 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (7 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors
+  Examples:
+    16 Blocks|directed_by|Richard Donner
+    16 Blocks|starred_actors|Bruce Willis
+    16 Blocks|starred_actors|David Morse
+    ... and 4 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: 'Tibetan'
+--------------------------------------------------------------------------------
+Frequency: 7 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (7 times):
+  Relationships: in_language
+  Examples:
+    Wheel of Time|in_language|Tibetan
+    The Cup|in_language|Tibetan
+    Unmistaken Child|in_language|Tibetan
+    ... and 4 more
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: '101 Reykjavík'
+--------------------------------------------------------------------------------
+Frequency: 7 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (7 times):
+  Relationships: directed_by, has_tags, release_year, starred_actors, written_by
+  Examples:
+    101 Reykjavík|directed_by|Baltasar Kormákur
+    101 Reykjavík|written_by|Baltasar Kormákur
+    101 Reykjavík|written_by|Hallgrímur Helgason
+    ... and 4 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: 'Latin'
+--------------------------------------------------------------------------------
+Frequency: 7 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (7 times):
+  Relationships: in_language
+  Examples:
+    The Passion of the Christ|in_language|Latin
+    We Have a Pope|in_language|Latin
+    Sebastiane|in_language|Latin
+    ... and 4 more
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: '10 Minutes'
+--------------------------------------------------------------------------------
+Frequency: 6 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (6 times):
+  Relationships: directed_by, has_genre, in_language, release_year
+  Examples:
+    10 Minutes|directed_by|Ahmed Imamovic
+    10 Minutes|release_year|2002
+    10 Minutes|in_language|Bosnian
+    ... and 3 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: ''Neath the Arizona Skies'
+--------------------------------------------------------------------------------
+Frequency: 6 occurrences
+Characteristics: Multi-word (4 words)
+
+Used as SUBJECT (6 times):
+  Relationships: directed_by, has_genre, release_year, starred_actors
+  Examples:
+    'Neath the Arizona Skies|directed_by|Harry L. Fraser
+    'Neath the Arizona Skies|starred_actors|John Wayne
+    'Neath the Arizona Skies|starred_actors|Sheila Terry
+    ... and 3 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: 'Welsh'
+--------------------------------------------------------------------------------
+Frequency: 6 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (6 times):
+  Relationships: in_language
+  Examples:
+    King Arthur|in_language|Welsh
+    Hedd Wyn|in_language|Welsh
+    The Edge of Love|in_language|Welsh
+    ... and 3 more
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: '30 Beats'
+--------------------------------------------------------------------------------
+Frequency: 6 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (6 times):
+  Relationships: directed_by, has_genre, release_year, starred_actors, written_by
+  Examples:
+    30 Beats|directed_by|Alexis Lloyd
+    30 Beats|written_by|Alexis Lloyd
+    30 Beats|starred_actors|Jason Day
+    ... and 3 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '29 Palms'
+--------------------------------------------------------------------------------
+Frequency: 6 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (6 times):
+  Relationships: directed_by, release_year, starred_actors
+  Examples:
+    29 Palms|directed_by|Leonardo Ricagni
+    29 Palms|starred_actors|Jeremy Davies
+    29 Palms|starred_actors|Michael Lerner
+    ... and 3 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: 'Cantonese'
+--------------------------------------------------------------------------------
+Frequency: 6 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (6 times):
+  Relationships: in_language
+  Examples:
+    Game of Death|in_language|Cantonese
+    Rumble in the Bronx|in_language|Cantonese
+    Re-cycle|in_language|Cantonese
+    ... and 3 more
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: '06/05'
+--------------------------------------------------------------------------------
+Frequency: 6 occurrences
+Characteristics: Contains digits
+
+Used as SUBJECT (6 times):
+  Relationships: directed_by, in_language, release_year, written_by
+  Examples:
+    06/05|directed_by|Theo van Gogh
+    06/05|written_by|Theo van Gogh
+    06/05|written_by|Tomas Ross
+    ... and 3 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: ''night, Mother'
+--------------------------------------------------------------------------------
+Frequency: 6 occurrences
+Characteristics: Multi-word (2 words)
+
+Used as SUBJECT (6 times):
+  Relationships: directed_by, has_genre, release_year, starred_actors, written_by
+  Examples:
+    'night, Mother|directed_by|Tom Moore
+    'night, Mother|written_by|Marsha Norman
+    'night, Mother|starred_actors|Anne Bancroft
+    ... and 3 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '8 Heads in a Duffel Bag'
+--------------------------------------------------------------------------------
+Frequency: 6 occurrences
+Characteristics: Multi-word (6 words), Contains digits
+
+Used as SUBJECT (6 times):
+  Relationships: directed_by, has_genre, release_year, starred_actors, written_by
+  Examples:
+    8 Heads in a Duffel Bag|directed_by|Tom Schulman
+    8 Heads in a Duffel Bag|written_by|Tom Schulman
+    8 Heads in a Duffel Bag|starred_actors|Joe Pesci
+    ... and 3 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: ''71'
+--------------------------------------------------------------------------------
+Frequency: 6 occurrences
+Characteristics: Contains digits
+
+Used as SUBJECT (6 times):
+  Relationships: directed_by, release_year, starred_actors, written_by
+  Examples:
+    '71|directed_by|Yann Demange
+    '71|written_by|Gregory Burke
+    '71|starred_actors|Jack O'Connell
+    ... and 3 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '3 Needles'
+--------------------------------------------------------------------------------
+Frequency: 6 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (6 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors, written_by
+  Examples:
+    3 Needles|directed_by|Thom Fitzgerald
+    3 Needles|written_by|Thom Fitzgerald
+    3 Needles|starred_actors|Shawn Ashmore
+    ... and 3 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: 'Tamil'
+--------------------------------------------------------------------------------
+Frequency: 6 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (6 times):
+  Relationships: in_language
+  Examples:
+    Hey Ram|in_language|Tamil
+    Raanjhanaa|in_language|Tamil
+    Enthiran|in_language|Tamil
+    ... and 3 more
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: '30 Years to Life'
+--------------------------------------------------------------------------------
+Frequency: 6 occurrences
+Characteristics: Multi-word (4 words), Contains digits
+
+Used as SUBJECT (6 times):
+  Relationships: directed_by, has_genre, release_year, starred_actors, written_by
+  Examples:
+    30 Years to Life|directed_by|Vanessa Middleton
+    30 Years to Life|written_by|Vanessa Middleton
+    30 Years to Life|starred_actors|Tracy Morgan
+    ... and 3 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '10 Questions for the Dalai Lama'
+--------------------------------------------------------------------------------
+Frequency: 6 occurrences
+Characteristics: Multi-word (6 words), Contains digits
+
+Used as SUBJECT (6 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, starred_actors, written_by
+  Examples:
+    10 Questions for the Dalai Lama|directed_by|Rick Ray
+    10 Questions for the Dalai Lama|written_by|Rick Ray
+    10 Questions for the Dalai Lama|starred_actors|The Dalai Lama
+    ... and 3 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '7th Cavalry'
+--------------------------------------------------------------------------------
+Frequency: 6 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (6 times):
+  Relationships: directed_by, has_genre, release_year, starred_actors, written_by
+  Examples:
+    7th Cavalry|directed_by|Joseph H. Lewis
+    7th Cavalry|written_by|Glendon Swarthout
+    7th Cavalry|starred_actors|Randolph Scott
+    ... and 3 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '9500 Liberty'
+--------------------------------------------------------------------------------
+Frequency: 6 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (6 times):
+  Relationships: directed_by, has_genre, release_year, written_by
+  Examples:
+    9500 Liberty|directed_by|Eric Byler
+    9500 Liberty|directed_by|Annabel Park
+    9500 Liberty|written_by|Eric Byler
+    ... and 3 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '2LDK'
+--------------------------------------------------------------------------------
+Frequency: 6 occurrences
+Characteristics: All uppercase, Contains digits
+
+Used as SUBJECT (6 times):
+  Relationships: directed_by, in_language, release_year, starred_actors, written_by
+  Examples:
+    2LDK|directed_by|Yukihiko Tsutsumi
+    2LDK|written_by|Yukihiko Tsutsumi
+    2LDK|starred_actors|Eiko Koike
+    ... and 3 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '71 Fragments of a Chronology of Chance'
+--------------------------------------------------------------------------------
+Frequency: 6 occurrences
+Characteristics: Multi-word (7 words), Contains digits
+
+Used as SUBJECT (6 times):
+  Relationships: directed_by, has_genre, has_tags, in_language, release_year, written_by
+  Examples:
+    71 Fragments of a Chronology of Chance|directed_by|Michael Haneke
+    71 Fragments of a Chronology of Chance|written_by|Michael Haneke
+    71 Fragments of a Chronology of Chance|release_year|1994
+    ... and 3 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '31 North 62 East'
+--------------------------------------------------------------------------------
+Frequency: 6 occurrences
+Characteristics: Multi-word (4 words), Contains digits
+
+Used as SUBJECT (6 times):
+  Relationships: directed_by, has_genre, release_year, starred_actors, written_by
+  Examples:
+    31 North 62 East|directed_by|Tristan Loraine
+    31 North 62 East|written_by|Leofwine Loraine
+    31 North 62 East|written_by|Tristan Loraine
+    ... and 3 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '5 Against the House'
+--------------------------------------------------------------------------------
+Frequency: 6 occurrences
+Characteristics: Multi-word (4 words), Contains digits
+
+Used as SUBJECT (6 times):
+  Relationships: directed_by, release_year, starred_actors, written_by
+  Examples:
+    5 Against the House|directed_by|Phil Karlson
+    5 Against the House|written_by|Jack Finney
+    5 Against the House|starred_actors|Kim Novak
+    ... and 3 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '9 Songs'
+--------------------------------------------------------------------------------
+Frequency: 6 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (6 times):
+  Relationships: directed_by, has_genre, has_tags, release_year, written_by
+  Examples:
+    9 Songs|directed_by|Michael Winterbottom
+    9 Songs|written_by|Michael Winterbottom
+    9 Songs|release_year|2004
+    ... and 3 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '13 Tzameti'
+--------------------------------------------------------------------------------
+Frequency: 6 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (6 times):
+  Relationships: directed_by, has_genre, has_tags, in_language, release_year, written_by
+  Examples:
+    13 Tzameti|directed_by|Géla Babluani
+    13 Tzameti|written_by|Géla Babluani
+    13 Tzameti|release_year|2005
+    ... and 3 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '800 Bullets'
+--------------------------------------------------------------------------------
+Frequency: 6 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (6 times):
+  Relationships: directed_by, has_tags, in_language, release_year, written_by
+  Examples:
+    800 Bullets|directed_by|Álex de la Iglesia
+    800 Bullets|written_by|Álex de la Iglesia
+    800 Bullets|release_year|2002
+    ... and 3 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '2 Guns'
+--------------------------------------------------------------------------------
+Frequency: 6 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (6 times):
+  Relationships: directed_by, has_genre, release_year, starred_actors
+  Examples:
+    2 Guns|directed_by|Baltasar Kormákur
+    2 Guns|starred_actors|Mark Wahlberg
+    2 Guns|starred_actors|Denzel Washington
+    ... and 3 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '200 Motels'
+--------------------------------------------------------------------------------
+Frequency: 6 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (6 times):
+  Relationships: directed_by, has_genre, release_year, written_by
+  Examples:
+    200 Motels|directed_by|Tony Palmer
+    200 Motels|directed_by|Frank Zappa
+    200 Motels|written_by|Tony Palmer
+    ... and 3 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: 'Estonian'
+--------------------------------------------------------------------------------
+Frequency: 6 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (6 times):
+  Relationships: in_language
+  Examples:
+    Mushrooming|in_language|Estonian
+    Autumn Ball|in_language|Estonian
+    The Class|in_language|Estonian
+    ... and 3 more
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: '14 Blades'
+--------------------------------------------------------------------------------
+Frequency: 5 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (5 times):
+  Relationships: directed_by, release_year, starred_actors, written_by
+  Examples:
+    14 Blades|directed_by|Daniel Lee
+    14 Blades|written_by|Daniel Lee
+    14 Blades|starred_actors|Donnie Yen
+    ... and 2 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '3 A.M.'
+--------------------------------------------------------------------------------
+Frequency: 5 occurrences
+Characteristics: Multi-word (2 words), All uppercase, Contains digits
+
+Used as SUBJECT (5 times):
+  Relationships: directed_by, release_year, starred_actors, written_by
+  Examples:
+    3 A.M.|directed_by|Lee Davis
+    3 A.M.|written_by|Lee Davis
+    3 A.M.|starred_actors|Michelle Rodriguez
+    ... and 2 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '100 Girls'
+--------------------------------------------------------------------------------
+Frequency: 5 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (5 times):
+  Relationships: directed_by, has_genre, release_year, starred_actors, written_by
+  Examples:
+    100 Girls|directed_by|Michael Davis
+    100 Girls|written_by|Michael Davis
+    100 Girls|starred_actors|Jonathan Tucker
+    ... and 2 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '35 Shots of Rum'
+--------------------------------------------------------------------------------
+Frequency: 5 occurrences
+Characteristics: Multi-word (4 words), Contains digits
+
+Used as SUBJECT (5 times):
+  Relationships: directed_by, has_tags, in_language, release_year, written_by
+  Examples:
+    35 Shots of Rum|directed_by|Claire Denis
+    35 Shots of Rum|written_by|Claire Denis
+    35 Shots of Rum|release_year|2008
+    ... and 2 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: 'Bulgarian'
+--------------------------------------------------------------------------------
+Frequency: 5 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (5 times):
+  Relationships: in_language
+  Examples:
+    Zift|in_language|Bulgarian
+    Eastern Plays|in_language|Bulgarian
+    Black Cat, White Cat|in_language|Bulgarian
+    ... and 2 more
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: '7 Seconds'
+--------------------------------------------------------------------------------
+Frequency: 5 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (5 times):
+  Relationships: directed_by, has_genre, release_year, starred_actors
+  Examples:
+    7 Seconds|directed_by|Simon Fellows
+    7 Seconds|starred_actors|Wesley Snipes
+    7 Seconds|starred_actors|Tamzin Outhwaite
+    ... and 2 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '13 Ghosts'
+--------------------------------------------------------------------------------
+Frequency: 5 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (5 times):
+  Relationships: directed_by, has_genre, release_year, starred_actors, written_by
+  Examples:
+    13 Ghosts|directed_by|William Castle
+    13 Ghosts|written_by|Robb White
+    13 Ghosts|starred_actors|Charles Herbert
+    ... and 2 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '7 Boxes'
+--------------------------------------------------------------------------------
+Frequency: 5 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (5 times):
+  Relationships: directed_by, has_genre, in_language, release_year, written_by
+  Examples:
+    7 Boxes|directed_by|Juan Carlos Maneglia
+    7 Boxes|written_by|Juan Carlos Maneglia
+    7 Boxes|release_year|2012
+    ... and 2 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: ''R Xmas'
+--------------------------------------------------------------------------------
+Frequency: 4 occurrences
+Characteristics: Multi-word (2 words)
+
+Used as SUBJECT (4 times):
+  Relationships: directed_by, has_genre, release_year, written_by
+  Examples:
+    'R Xmas|directed_by|Abel Ferrara
+    'R Xmas|written_by|Abel Ferrara
+    'R Xmas|release_year|2001
+    ... and 1 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '33 Scenes from Life'
+--------------------------------------------------------------------------------
+Frequency: 4 occurrences
+Characteristics: Multi-word (4 words), Contains digits
+
+Used as SUBJECT (4 times):
+  Relationships: directed_by, in_language, release_year, written_by
+  Examples:
+    33 Scenes from Life|directed_by|Malgorzata Szumowska
+    33 Scenes from Life|written_by|Malgorzata Szumowska
+    33 Scenes from Life|release_year|2008
+    ... and 1 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '300 Miles to Heaven'
+--------------------------------------------------------------------------------
+Frequency: 4 occurrences
+Characteristics: Multi-word (4 words), Contains digits
+
+Used as SUBJECT (4 times):
+  Relationships: directed_by, has_genre, in_language, release_year
+  Examples:
+    300 Miles to Heaven|directed_by|Maciej Dejczer
+    300 Miles to Heaven|release_year|1989
+    300 Miles to Heaven|in_language|Polish
+    ... and 1 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '8 Seconds'
+--------------------------------------------------------------------------------
+Frequency: 4 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (4 times):
+  Relationships: directed_by, has_genre, has_tags, release_year
+  Examples:
+    8 Seconds|directed_by|John G. Avildsen
+    8 Seconds|release_year|1994
+    8 Seconds|has_genre|Drama
+    ... and 1 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '99 and 44/100% Dead'
+--------------------------------------------------------------------------------
+Frequency: 4 occurrences
+Characteristics: Multi-word (4 words), Contains digits
+
+Used as SUBJECT (4 times):
+  Relationships: directed_by, has_genre, release_year, starred_actors
+  Examples:
+    99 and 44/100% Dead|directed_by|John Frankenheimer
+    99 and 44/100% Dead|starred_actors|Richard Harris
+    99 and 44/100% Dead|release_year|1974
+    ... and 1 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '5 Days of War'
+--------------------------------------------------------------------------------
+Frequency: 4 occurrences
+Characteristics: Multi-word (4 words), Contains digits
+
+Used as SUBJECT (4 times):
+  Relationships: directed_by, has_genre, release_year
+  Examples:
+    5 Days of War|directed_by|Renny Harlin
+    5 Days of War|release_year|2011
+    5 Days of War|has_genre|Action
+    ... and 1 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '52 Tuesdays'
+--------------------------------------------------------------------------------
+Frequency: 4 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (4 times):
+  Relationships: directed_by, has_genre, release_year, written_by
+  Examples:
+    52 Tuesdays|directed_by|Sophie Hyde
+    52 Tuesdays|written_by|Sophie Hyde
+    52 Tuesdays|release_year|2013
+    ... and 1 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '49th Parallel'
+--------------------------------------------------------------------------------
+Frequency: 4 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (4 times):
+  Relationships: directed_by, has_genre, has_tags, written_by
+  Examples:
+    49th Parallel|directed_by|Michael Powell
+    49th Parallel|written_by|Emeric Pressburger
+    49th Parallel|has_genre|War
+    ... and 1 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '7 Days'
+--------------------------------------------------------------------------------
+Frequency: 4 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (4 times):
+  Relationships: directed_by, release_year, starred_actors, written_by
+  Examples:
+    7 Days|directed_by|Daniel Grou
+    7 Days|written_by|Patrick Senécal
+    7 Days|starred_actors|Claude Legault
+    ... and 1 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '18 Again!'
+--------------------------------------------------------------------------------
+Frequency: 4 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (4 times):
+  Relationships: has_genre, release_year, starred_actors
+  Examples:
+    18 Again!|starred_actors|George Burns
+    18 Again!|starred_actors|Charlie Schlatter
+    18 Again!|release_year|1988
+    ... and 1 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '12 Days of Terror'
+--------------------------------------------------------------------------------
+Frequency: 4 occurrences
+Characteristics: Multi-word (4 words), Contains digits
+
+Used as SUBJECT (4 times):
+  Relationships: directed_by, starred_actors
+  Examples:
+    12 Days of Terror|directed_by|Jack Sholder
+    12 Days of Terror|starred_actors|Colin Egglesfield
+    12 Days of Terror|starred_actors|Jenna Harrison
+    ... and 1 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '10 MPH'
+--------------------------------------------------------------------------------
+Frequency: 4 occurrences
+Characteristics: Multi-word (2 words), All uppercase, Contains digits
+
+Used as SUBJECT (4 times):
+  Relationships: directed_by, has_genre, starred_actors, written_by
+  Examples:
+    10 MPH|directed_by|Hunter Weeks
+    10 MPH|written_by|Hunter Weeks
+    10 MPH|starred_actors|Josh Caldwell
+    ... and 1 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '20 Dates'
+--------------------------------------------------------------------------------
+Frequency: 4 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (4 times):
+  Relationships: directed_by, release_year, starred_actors, written_by
+  Examples:
+    20 Dates|directed_by|Myles Berkowitz
+    20 Dates|written_by|Myles Berkowitz
+    20 Dates|starred_actors|Myles Berkowitz
+    ... and 1 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '12 Storeys'
+--------------------------------------------------------------------------------
+Frequency: 4 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (4 times):
+  Relationships: directed_by, has_genre, release_year, written_by
+  Examples:
+    12 Storeys|directed_by|Eric Khoo
+    12 Storeys|written_by|Eric Khoo
+    12 Storeys|release_year|1997
+    ... and 1 more
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '21 Hours at Munich'
+--------------------------------------------------------------------------------
+Frequency: 3 occurrences
+Characteristics: Multi-word (4 words), Contains digits
+
+Used as SUBJECT (3 times):
+  Relationships: directed_by, release_year, written_by
+  Examples:
+    21 Hours at Munich|directed_by|William A. Graham
+    21 Hours at Munich|written_by|Serge Groussard
+    21 Hours at Munich|release_year|1976
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: 'Slovak'
+--------------------------------------------------------------------------------
+Frequency: 3 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (3 times):
+  Relationships: in_language
+  Examples:
+    Import/Export|in_language|Slovak
+    The Shop on Main Street|in_language|Slovak
+    360|in_language|Slovak
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'ruben Östlund'
+--------------------------------------------------------------------------------
+Frequency: 3 occurrences
+Characteristics: Multi-word (2 words)
+
+Used as OBJECT (3 times):
+  Relationships: has_tags
+  Examples:
+    Involuntary|has_tags|ruben Östlund
+    Force Majeure|has_tags|ruben Östlund
+    Play|has_tags|ruben Östlund
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → TAG: appears as tag value
+
+
+Entity: '2 Days in the Valley'
+--------------------------------------------------------------------------------
+Frequency: 3 occurrences
+Characteristics: Multi-word (5 words), Contains digits
+
+Used as SUBJECT (3 times):
+  Relationships: directed_by, release_year, written_by
+  Examples:
+    2 Days in the Valley|directed_by|John Herzfeld
+    2 Days in the Valley|written_by|John Herzfeld
+    2 Days in the Valley|release_year|1996
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '22 Bullets'
+--------------------------------------------------------------------------------
+Frequency: 3 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (3 times):
+  Relationships: directed_by, in_language, written_by
+  Examples:
+    22 Bullets|directed_by|Richard Berry
+    22 Bullets|written_by|Richard Berry
+    22 Bullets|in_language|French
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: 'Flemish'
+--------------------------------------------------------------------------------
+Frequency: 3 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (3 times):
+  Relationships: in_language
+  Examples:
+    Ex Drummer|in_language|Flemish
+    Loft|in_language|Flemish
+    Bullhead|in_language|Flemish
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: '12 Dates of Christmas'
+--------------------------------------------------------------------------------
+Frequency: 3 occurrences
+Characteristics: Multi-word (4 words), Contains digits
+
+Used as SUBJECT (3 times):
+  Relationships: directed_by, release_year, starred_actors
+  Examples:
+    12 Dates of Christmas|directed_by|James Hayman
+    12 Dates of Christmas|starred_actors|Amy Smart
+    12 Dates of Christmas|release_year|2011
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '18 Fingers of Death!'
+--------------------------------------------------------------------------------
+Frequency: 3 occurrences
+Characteristics: Multi-word (4 words), Contains digits
+
+Used as SUBJECT (3 times):
+  Relationships: directed_by, release_year, written_by
+  Examples:
+    18 Fingers of Death!|directed_by|James Lew
+    18 Fingers of Death!|written_by|James Lew
+    18 Fingers of Death!|release_year|2006
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '3 Backyards'
+--------------------------------------------------------------------------------
+Frequency: 3 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (3 times):
+  Relationships: directed_by, release_year, written_by
+  Examples:
+    3 Backyards|directed_by|Eric Mendelsohn
+    3 Backyards|written_by|Eric Mendelsohn
+    3 Backyards|release_year|2010
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: 'Bosnian'
+--------------------------------------------------------------------------------
+Frequency: 3 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (3 times):
+  Relationships: in_language
+  Examples:
+    In the Land of Blood and Honey|in_language|Bosnian
+    The Perfect Circle|in_language|Bosnian
+    10 Minutes|in_language|Bosnian
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: '12 and Holding'
+--------------------------------------------------------------------------------
+Frequency: 3 occurrences
+Characteristics: Multi-word (3 words), Contains digits
+
+Used as SUBJECT (3 times):
+  Relationships: directed_by, has_genre, release_year
+  Examples:
+    12 and Holding|directed_by|Michael Cuesta
+    12 and Holding|release_year|2005
+    12 and Holding|has_genre|Drama
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '33 Postcards'
+--------------------------------------------------------------------------------
+Frequency: 3 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (3 times):
+  Relationships: directed_by, starred_actors, written_by
+  Examples:
+    33 Postcards|directed_by|Pauline Chan
+    33 Postcards|written_by|Pauline Chan
+    33 Postcards|starred_actors|Guy Pearce
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: '700 Sundays'
+--------------------------------------------------------------------------------
+Frequency: 3 occurrences
+Characteristics: Multi-word (2 words), Contains digits
+
+Used as SUBJECT (3 times):
+  Relationships: has_genre, starred_actors, written_by
+  Examples:
+    700 Sundays|written_by|Billy Crystal
+    700 Sundays|starred_actors|Billy Crystal
+    700 Sundays|has_genre|Biography
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: 'friðrik Þór friðriksson'
+--------------------------------------------------------------------------------
+Frequency: 3 occurrences
+Characteristics: Multi-word (3 words)
+
+Used as OBJECT (3 times):
+  Relationships: has_tags
+  Examples:
+    Angels of the Universe|has_tags|friðrik Þór friðriksson
+    Children of Nature|has_tags|friðrik Þór friðriksson
+    Cold Fever|has_tags|friðrik Þór friðriksson
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → TAG: appears as tag value
+
+
+Entity: 'Urdu'
+--------------------------------------------------------------------------------
+Frequency: 3 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (3 times):
+  Relationships: in_language
+  Examples:
+    The Reluctant Fundamentalist|in_language|Urdu
+    Zanjeer|in_language|Urdu
+    Kabul Express|in_language|Urdu
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Lao'
+--------------------------------------------------------------------------------
+Frequency: 2 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (2 times):
+  Relationships: in_language
+  Examples:
+    Rescue Dawn|in_language|Lao
+    Air America|in_language|Lao
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Latvian'
+--------------------------------------------------------------------------------
+Frequency: 2 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (2 times):
+  Relationships: in_language
+  Examples:
+    Defenders of Riga|in_language|Latvian
+    Dream Team 1935|in_language|Latvian
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Neapolitan'
+--------------------------------------------------------------------------------
+Frequency: 2 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (2 times):
+  Relationships: in_language
+  Examples:
+    Gomorrah|in_language|Neapolitan
+    Reality|in_language|Neapolitan
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Lithuanian'
+--------------------------------------------------------------------------------
+Frequency: 2 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (2 times):
+  Relationships: in_language
+  Examples:
+    Redirected|in_language|Lithuanian
+    Forest of the Gods|in_language|Lithuanian
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Malayalam'
+--------------------------------------------------------------------------------
+Frequency: 2 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (2 times):
+  Relationships: in_language
+  Examples:
+    Amen|in_language|Malayalam
+    Drishyam|in_language|Malayalam
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Sioux'
+--------------------------------------------------------------------------------
+Frequency: 2 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (2 times):
+  Relationships: in_language
+  Examples:
+    Thunderheart|in_language|Sioux
+    A Man Called Horse|in_language|Sioux
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Yiddish'
+--------------------------------------------------------------------------------
+Frequency: 2 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (2 times):
+  Relationships: in_language
+  Examples:
+    Blazing Saddles|in_language|Yiddish
+    Shoah|in_language|Yiddish
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: '40 Pounds of Trouble'
+--------------------------------------------------------------------------------
+Frequency: 2 occurrences
+Characteristics: Multi-word (4 words), Contains digits
+
+Used as SUBJECT (2 times):
+  Relationships: directed_by, release_year
+  Examples:
+    40 Pounds of Trouble|directed_by|Norman Jewison
+    40 Pounds of Trouble|release_year|1962
+
+Suggested Classification Hints:
+  [HIGH CONFIDENCE]
+    → TITLE: appears as subject with movie-related relationships
+
+
+Entity: 'Aboriginal'
+--------------------------------------------------------------------------------
+Frequency: 2 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (2 times):
+  Relationships: in_language
+  Examples:
+    Ten Canoes|in_language|Aboriginal
+    Rabbit-Proof Fence|in_language|Aboriginal
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Somali'
+--------------------------------------------------------------------------------
+Frequency: 2 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (2 times):
+  Relationships: in_language
+  Examples:
+    Captain Phillips|in_language|Somali
+    Desert Flower|in_language|Somali
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Marathi'
+--------------------------------------------------------------------------------
+Frequency: 2 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (2 times):
+  Relationships: in_language
+  Examples:
+    Harishchandrachi Factory|in_language|Marathi
+    Fandry|in_language|Marathi
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Macedonian'
+--------------------------------------------------------------------------------
+Frequency: 2 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (2 times):
+  Relationships: in_language
+  Examples:
+    Before the Rain|in_language|Macedonian
+    Dust|in_language|Macedonian
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Chechen'
+--------------------------------------------------------------------------------
+Frequency: 2 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (2 times):
+  Relationships: in_language
+  Examples:
+    House of Fools|in_language|Chechen
+    Prisoner of the Mountains|in_language|Chechen
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Quechua'
+--------------------------------------------------------------------------------
+Frequency: 2 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (2 times):
+  Relationships: in_language
+  Examples:
+    Madeinusa|in_language|Quechua
+    Kukuli|in_language|Quechua
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Telugu'
+--------------------------------------------------------------------------------
+Frequency: 2 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (2 times):
+  Relationships: in_language
+  Examples:
+    English Vinglish|in_language|Telugu
+    Magadheera|in_language|Telugu
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Corsican'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    A Prophet|in_language|Corsican
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Catalan'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    Black Bread|in_language|Catalan
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Ukrainian'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    Shadows of Forgotten Ancestors|in_language|Ukrainian
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Azerbaijani'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    Ashik Kerib|in_language|Azerbaijani
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Gujarati'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    Bey Yaar|in_language|Gujarati
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Burmese'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    Rambo|in_language|Burmese
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Mongolian'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    The Cave of the Yellow Dog|in_language|Mongolian
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Fur'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    Darfur Now|in_language|Fur
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Maya'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    Apocalypto|in_language|Maya
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Tajik'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    Luna Papa|in_language|Tajik
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Hmong'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    Gran Torino|in_language|Hmong
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Maori'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    Whale Rider|in_language|Maori
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Armenian'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    Ararat|in_language|Armenian
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Scots'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    Neds|in_language|Scots
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Swahili'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    Hatari!|in_language|Swahili
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Mende'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    Amistad|in_language|Mende
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Slovenian'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    Dancing in the Rain|in_language|Slovenian
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Wolof'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    Touki Bouki|in_language|Wolof
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Tupi'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    How Tasty Was My Little Frenchman|in_language|Tupi
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Esperanto'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    Incubus|in_language|Esperanto
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Cree'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    Black Robe|in_language|Cree
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Panjabi'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    Bend It Like Beckham|in_language|Panjabi
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Klingon'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    Star Trek Into Darkness|in_language|Klingon
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Albanian'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    The Forgiveness of Blood|in_language|Albanian
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Malay'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    I Don't Want to Sleep Alone|in_language|Malay
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Hopi'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    Powaqqatsi|in_language|Hopi
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Kannada'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    Lucia|in_language|Kannada
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Aramaic'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    The Passion of the Christ|in_language|Aramaic
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Cornish'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    Legends of the Fall|in_language|Cornish
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Hawaiian'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    Hawaii|in_language|Hawaiian
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Dari'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    The Kite Runner|in_language|Dari
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'pierre Étaix'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Multi-word (2 words)
+
+Used as OBJECT (1 times):
+  Relationships: has_tags
+  Examples:
+    The Suitor|has_tags|pierre Étaix
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → TAG: appears as tag value
+
+
+Entity: 'Crow'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    Jeremiah Johnson|in_language|Crow
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+Entity: 'Tonga'
+--------------------------------------------------------------------------------
+Frequency: 1 occurrences
+Characteristics: Starts with capital
+
+Used as OBJECT (1 times):
+  Relationships: in_language
+  Examples:
+    The Other Side of Heaven|in_language|Tonga
+
+Suggested Classification Hints:
+  [MEDIUM CONFIDENCE]
+    → LANGUAGE: appears as language value
+
+
+================================================================================
+SUMMARY FOR PARSER IMPROVEMENT
+================================================================================
+
+
+Likely TITLES (125):
+  - $
+  - $9.99
+  - '71
+  - 'Neath the Arizona Skies
+  - 'R Xmas
+  - 'night, Mother
+  - (Untitled)
+  - ...All the Marbles
+  - 06/05
+  - 10 Items or Less
+  ... and 115 more
+
+Likely PERSON_NAMES (1):
+  - 50 Cent
+
+Likely TAGS (3):
+  - friðrik Þór friðriksson
+  - pierre Étaix
+  - ruben Östlund
+
+UNCLEAR (74):
+  - Aboriginal
+  - Albanian
+  - Aramaic
+  - Armenian
+  - Azerbaijani
+  - Bengali
+  - Bosnian
+  - Bulgarian
+  - Burmese
+  - Cantonese
+  ... and 64 more
+
+================================================================================
+RECOMMENDATIONS:
+================================================================================
+
+1. Review entities listed as 'Likely TITLES' and update title detection rules
+2. Review entities listed as 'Likely PERSON_NAMES' and update name detection
+3. Add specific entity names to detection dictionaries if needed
+4. Consider relationship context for better classification
+5. Check for patterns in multi-word entities
+
