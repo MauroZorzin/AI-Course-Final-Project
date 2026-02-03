@@ -1,0 +1,25 @@
+{
+  "input_kb": "MetaQA/kb.txt",
+  "delimiter": "|",
+  "seed": 42,
+  "num_triples": 134741,
+  "num_entities": 43234,
+  "num_relations": 9,
+  "rename_relations": false,
+  "counterfactual": {
+    "mode": "swap_tails_within_relation",
+    "requested_ratio": 1.0,
+    "changed": 134741,
+    "changed_ratio": 1.0,
+    "attempted": 138340,
+    "duplicates_avoided": 0
+  },
+  "outputs": {
+    "natural": "sources/graphs\\natural.kb",
+    "abstract": "sources/graphs\\abstract.kb",
+    "counterfactual": "sources/graphs\\counterfactual.kb",
+    "entity_map": "sources/graphs\\abstract_entity_map.json",
+    "relation_map": null,
+    "counterfactual_edits": "sources/graphs\\counterfactual_edits.jsonl"
+  }
+}

@@ -1,9 +1,0 @@
-NODE_TYPE|FREQUENCY
-title|134263
-person_name|69151
-tag|26304
-genre|17975
-year|16818
-language|3279
-unknown|1450
-number|242
