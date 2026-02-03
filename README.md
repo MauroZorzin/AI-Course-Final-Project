@@ -1,6 +1,9 @@
 # SPARK: Synthetic Probes for Assessing Reasoning on Knowledge-graphs (Multi-Hop QA)
 
-## Focus
+
+## Project details
+
+### Focus
 
 * **Hop length**: 1 to 3;  
 * **Prompting strategies**:  
@@ -24,7 +27,7 @@
   * Total tokens;  
   * Cost per query.
 
-## Constraints:
+### Constraints:
 
 * Same parameters for all models;  
 * Same inputs and data for all models;  
@@ -32,7 +35,7 @@
 * Standardized query templates across prompting strategies;  
 * Same system-prompts (if any).
 
-## Metrics
+### Metrics
 
 * EM / F1;  
 * Accuracy by hop;  
@@ -40,3 +43,29 @@
 * Path precision / recall;  
 * Path EM;  
 * Tokens / latency / costs.
+
+## Commands
+
+```shell
+mamba create -n ai-proj python=3.12
+
+mamba activate ai-proj
+
+python .\build_graph_variants.py --kb_path MetaQA/kb.txt --out_dir sources/graphs
+
+python .\sripts\make_templates.py --graph_path .\sources\graphs\natural.kb --out_path sources/queries/natural_templates
+
+python .\scripts\instantiate_queries.py --graphs_dir .\sources\graphs --templates_path .\sources\queries\natural_templates.jsonl --single_answer_only --pair_natural_counterfactual --out_path sources/queries/instances
+
+python .\scripts\extract_subgraphs.py --graph_path .\sources\graphs\natural.kb --queries_path .\sources\queries\instances.jsonl --out_path .\sources\queries\queries_natural.jsonl
+
+python .\scripts\extract_subgraphs.py --graph_path .\sources\graphs\abstract.kb --queries_path .\sources\queries\instances.jsonl --out_path .\sources\queries\queries_abstract.jsonl
+
+python .\scripts\extract_subgraphs.py --graph_path .\sources\graphs\counterfactual.kb --queries_path .\sources\queries\instances.jsonl --out_path .\sources\queries\queries_counterfactual.jsonl
+
+python .\scripts\render_prompts.py --queries_path .\sources\queries\queries_natural.jsonl --out_path sources/prompts/prompts_natural.jsonl --max_evidence_triples 12 --allow_unknown
+
+python .\scripts\render_prompts.py --queries_path .\sources\queries\queries_abstract.jsonl --out_path sources/prompts/prompts_abstract.jsonl --max_evidence_triples 12 --allow_unknown
+
+python .\scripts\render_prompts.py --queries_path .\sources\queries\queries_counterfactual.jsonl --out_path sources/prompts/prompts_counterfactual.jsonl --max_evidence_triples 12 --allow_unknown
+```
