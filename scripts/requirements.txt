@@ -1,0 +1,4 @@
+google-cloud-aiplatform>=1.42.0
+vertexai>=1.42.0
+protobuf>=4.23.0
+tqdm>=4.66.0
