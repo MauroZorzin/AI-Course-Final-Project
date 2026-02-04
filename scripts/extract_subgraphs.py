@@ -229,7 +229,7 @@ def main() -> None:
     ap.add_argument("--delimiter", default=None, help="Delimiter for KB file. If omitted, auto-detect.")
     ap.add_argument("--seed", type=int, default=42, help="Seed for distractor sampling.")
     ap.add_argument("--distractors_per_hop", type=int, default=2, help="Local distractors per gold hop.")
-    ap.add_argument("--max_triples", type=int, default=12, help="Max evidence triples per query (keeps gold).")
+    ap.add_argument("--max_triples", type=int, default=33, help="Max evidence triples per query (keeps gold).")
     ap.add_argument("--require_gold_path", action="store_true",
                     help="If set, fail when gold_path is missing (no BFS fallback).")
     args = ap.parse_args()
