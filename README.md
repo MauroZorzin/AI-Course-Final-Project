@@ -50,19 +50,37 @@
 mamba create -n ai-proj python=3.12
 
 mamba activate ai-proj
+```
 
+```shell
 python .\build_graph_variants.py --kb_path MetaQA/kb.txt --out_dir sources/graphs
+```
 
-python .\sripts\make_templates.py --graph_path .\sources\graphs\natural.kb --out_path sources/queries/natural_templates
+```shell
+python .\scripts\make_templates.py --graph_path .\sources\graphs\natural.kb --out_path sources/queries/templates/natural
 
-python .\scripts\instantiate_queries.py --graphs_dir .\sources\graphs --templates_path .\sources\queries\natural_templates.jsonl --single_answer_only --pair_natural_counterfactual --out_path sources/queries/instances
+python .\scripts\make_templates.py --graph_path .\sources\graphs\abstract.kb --out_path sources/queries/templates/abstract
 
+python .\scripts\make_templates.py --graph_path .\sources\graphs\counterfactual.kb --out_path sources/queries/templates/counterfactual
+```
+
+```shell
+python .\scripts\instantiate_queries.py --graph_path .\sources\graphs --graph_variant_name natural --templates_path .\sources\queries\natural_templates.jsonl --single_answer_only --out_path sources/queries/instances/natural.jsonl
+
+python .\scripts\instantiate_queries.py --graph_path .\sources\graphs --graph_variant_name abstract --templates_path .\sources\queries\abstract_templates.jsonl --single_answer_only --out_path sources/queries/instances/abstract.jsonl
+
+python .\scripts\instantiate_queries.py --graph_path .\sources\graphs --graph_variant_name counterfactual --templates_path .\sources\queries\counterfactual_templates.jsonl --single_answer_only --out_path sources/queries/instances/counterfactual.jsonl
+```
+
+```shell
 python .\scripts\extract_subgraphs.py --graph_path .\sources\graphs\natural.kb --queries_path .\sources\queries\instances.jsonl --out_path .\sources\queries\queries_natural.jsonl
 
 python .\scripts\extract_subgraphs.py --graph_path .\sources\graphs\abstract.kb --queries_path .\sources\queries\instances.jsonl --out_path .\sources\queries\queries_abstract.jsonl
 
 python .\scripts\extract_subgraphs.py --graph_path .\sources\graphs\counterfactual.kb --queries_path .\sources\queries\instances.jsonl --out_path .\sources\queries\queries_counterfactual.jsonl
+```
 
+```shell
 python .\scripts\render_prompts.py --queries_path .\sources\queries\queries_natural.jsonl --out_path sources/prompts/prompts_natural.jsonl --max_evidence_triples 12 --allow_unknown
 
 python .\scripts\render_prompts.py --queries_path .\sources\queries\queries_abstract.jsonl --out_path sources/prompts/prompts_abstract.jsonl --max_evidence_triples 12 --allow_unknown

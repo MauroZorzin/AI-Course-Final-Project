@@ -65,7 +65,6 @@ def build_system_message() -> str:
     return (
         "You are a question-answering system. "
         "Follow the user's instructions exactly. "
-        "Only use the provided Knowledge Base facts to answer the question. "
         "Do not output any text outside the requested JSON format."
     )
 
