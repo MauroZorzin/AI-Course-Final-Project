@@ -81,9 +81,9 @@ python .\scripts\extract_subgraphs.py --graph_path .\sources\graphs\counterfactu
 ```
 
 ```shell
-python .\scripts\render_prompts.py --queries_path .\sources\queries\queries_natural.jsonl --out_path sources/prompts/prompts_natural.jsonl --max_evidence_triples 12 --allow_unknown
+python .\scripts\render_prompts.py --queries_path .\sources\queries\queries_natural.jsonl --out_path sources/prompts/prompts_natural.jsonl --allow_unknown
 
-python .\scripts\render_prompts.py --queries_path .\sources\queries\queries_abstract.jsonl --out_path sources/prompts/prompts_abstract.jsonl --max_evidence_triples 12 --allow_unknown
+python .\scripts\render_prompts.py --queries_path .\sources\queries\queries_abstract.jsonl --out_path sources/prompts/prompts_abstract.jsonl --allow_unknown
 
-python .\scripts\render_prompts.py --queries_path .\sources\queries\queries_counterfactual.jsonl --out_path sources/prompts/prompts_counterfactual.jsonl --max_evidence_triples 12 --allow_unknown
+python .\scripts\render_prompts.py --queries_path .\sources\queries\queries_counterfactual.jsonl --out_path sources/prompts/prompts_counterfactual.jsonl --allow_unknown
 ```
