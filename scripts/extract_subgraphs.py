@@ -16,11 +16,11 @@ OR
 
 Output: JSONL, same objects plus:
   - evidence_triples: list of triples as [head, relation, tail]
-  - evidence_stats: {num_evidence, num_gold, num_distractors}
+  - evidence_stats: {num_evidence, num_gold, num_distractors, additional_triples}
 
-Distractor policy (default):
-  - For each gold triple (h, r, t), add K distractors from the same head h and same relation r
-    but with different tails. This creates "local" ambiguity without inflating context size.
+Distractor policy (modified):
+  - For each gold triple (h, r, t), add K distractors of form (h', r, t') where (h', r, t') != (h, r, t).
+  - If strategy distractors are insufficient to fill max_triples, add random triples from the KB.
 
 Example:
   python extract_subgraphs.py \
@@ -78,17 +78,20 @@ def read_triples(path: str, delimiter: Optional[str] = None) -> Tuple[List[Tripl
     return triples, delim
 
 
-def build_index(triples: Sequence[Triple]) -> Tuple[Dict[str, List[Tuple[str, str]]], Dict[Tuple[str, str], List[str]]]:
+def build_index(triples: Sequence[Triple]) -> Tuple[Dict[str, List[Tuple[str, str]]], Dict[Tuple[str, str], List[str]], Dict[str, List[Triple]]]:
     """
     adjacency: head -> list of (relation, tail)
     hr_to_tails: (head, relation) -> list of tails
+    r_to_triples: relation -> list of triples
     """
     adjacency: Dict[str, List[Tuple[str, str]]] = defaultdict(list)
     hr_to_tails: Dict[Tuple[str, str], List[str]] = defaultdict(list)
+    r_to_triples: Dict[str, List[Triple]] = defaultdict(list)
     for h, r, t in triples:
         adjacency[h].append((r, t))
         hr_to_tails[(h, r)].append(t)
-    return adjacency, hr_to_tails
+        r_to_triples[r].append((h, r, t))
+    return adjacency, hr_to_tails, r_to_triples
 
 
 def parse_gold_path(obj: Dict[str, Any]) -> Optional[List[Triple]]:
@@ -160,65 +163,89 @@ def bfs_find_path(
     return None
 
 
-def sample_distractors_same_head_relation(
-    h: str,
+def sample_distractors_by_relation(
     r: str,
-    true_t: str,
-    hr_to_tails: Dict[Tuple[str, str], List[str]],
+    gold_triple: Triple,
+    r_to_triples: Dict[str, List[Triple]],
     rng: random.Random,
     k: int,
 ) -> List[Triple]:
-    tails = [t for t in hr_to_tails.get((h, r), []) if t != true_t]
-    if not tails or k <= 0:
+    candidates = r_to_triples.get(r, [])
+    # Filter out the gold triple itself
+    valid = [c for c in candidates if c != gold_triple]
+    if not valid or k <= 0:
         return []
-    if len(tails) <= k:
-        chosen = tails
-    else:
-        chosen = rng.sample(tails, k)
-    return [(h, r, t) for t in chosen]
+    if len(valid) <= k:
+        return valid
+    return rng.sample(valid, k)
 
 
 def build_evidence_for_query(
     gold_path: List[Triple],
-    hr_to_tails: Dict[Tuple[str, str], List[str]],
+    r_to_triples: Dict[str, List[Triple]],
+    all_triples: List[Triple],
     rng: random.Random,
     distractors_per_hop: int,
     max_triples: int,
 ) -> Tuple[List[Triple], Dict[str, int]]:
     """
-    Evidence = gold path triples + local distractors from same (head, relation).
-    Truncate distractors to satisfy max_triples, always keeping gold.
+    Evidence = gold path triples + distractors.
+    Strategy:
+      1. Gold path (always included).
+      2. Relation-based distractors: For each gold triple (h, r, t), find k triples (h', r, t') != (h, r, t).
+      3. Additional random triples: If budget permits, fill with random facts from KB.
     """
-    evidence: List[Triple] = list(gold_path)
-    distractors: List[Triple] = []
-
-    for h, r, t in gold_path:
-        distractors.extend(
-            sample_distractors_same_head_relation(
-                h=h, r=r, true_t=t, hr_to_tails=hr_to_tails, rng=rng, k=distractors_per_hop
-            )
+    evidence_list: List[Triple] = list(gold_path)
+    evidence_set: Set[Triple] = set(gold_path)
+    
+    # 1. Relation-based distractors
+    rel_distractors: List[Triple] = []
+    for (h, r, t) in gold_path:
+        sample = sample_distractors_by_relation(
+            r=r,
+            gold_triple=(h, r, t),
+            r_to_triples=r_to_triples,
+            rng=rng,
+            k=distractors_per_hop,
         )
+        rel_distractors.extend(sample)
 
-    # Deduplicate while preserving order
-    seen: Set[Triple] = set(evidence)
-    uniq_distractors: List[Triple] = []
-    for tri in distractors:
-        if tri in seen:
-            continue
-        seen.add(tri)
-        uniq_distractors.append(tri)
+    # Add unique relation distractors, adhering to max_triples
+    count_rel_distractors = 0
+    for tri in rel_distractors:
+        if len(evidence_list) >= max_triples:
+            break
+        if tri not in evidence_set:
+            evidence_set.add(tri)
+            evidence_list.append(tri)
+            count_rel_distractors += 1
 
-    # Enforce max_triples (always keep gold_path)
-    room = max(0, max_triples - len(evidence))
-    if room > 0:
-        evidence.extend(uniq_distractors[:room])
+    # 2. Additional random triples
+    # Fill remaining spots with random triples from KB
+    count_additional = 0
+    needed = max_triples - len(evidence_list)
+    
+    if needed > 0 and all_triples:
+        # Try to sample efficiently. 
+        # If needed is small relative to len(all_triples), rejection sampling is fine.
+        # Limit attempts to avoid infinite loops if graph is small/saturated.
+        attempts = 0
+        max_attempts = needed * 5 + 100
+        while len(evidence_list) < max_triples and attempts < max_attempts:
+            attempts += 1
+            cand = rng.choice(all_triples)
+            if cand not in evidence_set:
+                evidence_set.add(cand)
+                evidence_list.append(cand)
+                count_additional += 1
 
     stats = {
-        "num_evidence": len(evidence),
+        "num_evidence": len(evidence_list),
         "num_gold": len(gold_path),
-        "num_distractors": max(0, len(evidence) - len(gold_path)),
+        "num_distractors": count_rel_distractors,
+        "additional_triples": count_additional
     }
-    return evidence, stats
+    return evidence_list, stats
 
 
 def main() -> None:
@@ -228,16 +255,16 @@ def main() -> None:
     ap.add_argument("--out_path", required=True, help="Output JSONL with evidence_triples added.")
     ap.add_argument("--delimiter", default=None, help="Delimiter for KB file. If omitted, auto-detect.")
     ap.add_argument("--seed", type=int, default=42, help="Seed for distractor sampling.")
-    ap.add_argument("--distractors_per_hop", type=int, default=2, help="Local distractors per gold hop.")
-    ap.add_argument("--max_triples", type=int, default=33, help="Max evidence triples per query (keeps gold).")
-    ap.add_argument("--require_gold_path", action="store_true",
-                    help="If set, fail when gold_path is missing (no BFS fallback).")
+    ap.add_argument("--distractors_per_hop", type=int, default=3, help="Local distractors per gold hop.")
+    ap.add_argument("--max_triples", type=int, default=24, help="Max evidence triples per query (keeps gold).")
+    ap.add_argument("--require_gold_path", action="store_true", help="If set, fail when gold_path is missing (no BFS fallback).")
     args = ap.parse_args()
 
     rng = random.Random(args.seed)
 
     triples, _delim = read_triples(args.graph_path, args.delimiter)
-    adjacency, hr_to_tails = build_index(triples)
+    # Build updated index
+    adjacency, hr_to_tails, r_to_triples = build_index(triples)
 
     num_in = 0
     num_out = 0
@@ -266,14 +293,15 @@ def main() -> None:
                     raise ValueError(f"Missing gold_path for query id={obj.get('id')}")
                 # Still emit with empty evidence to keep alignment, but mark it.
                 obj["evidence_triples"] = []
-                obj["evidence_stats"] = {"num_evidence": 0, "num_gold": 0, "num_distractors": 0, "missing_gold_path": 1}
+                obj["evidence_stats"] = {"num_evidence": 0, "num_gold": 0, "num_distractors": 0, "additional_triples": 0, "missing_gold_path": 1}
                 fout.write(json.dumps(obj, ensure_ascii=False) + "\n")
                 num_out += 1
                 continue
 
             evidence, estats = build_evidence_for_query(
                 gold_path=gold_path,
-                hr_to_tails=hr_to_tails,
+                r_to_triples=r_to_triples,
+                all_triples=triples,
                 rng=rng,
                 distractors_per_hop=args.distractors_per_hop,
                 max_triples=args.max_triples,
@@ -298,6 +326,7 @@ def main() -> None:
         "num_out": num_out,
         "num_missing_gold_path": num_missing_path,
     }, indent=2))
+
 
 
 if __name__ == "__main__":

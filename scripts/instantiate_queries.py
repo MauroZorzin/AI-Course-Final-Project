@@ -234,6 +234,7 @@ def instantiate_for_graph(
     delimiter: Optional[str],
     single_answer_only: bool,
     max_attempts_per_template: int = 500000,
+    template_counts: Optional[Dict[str, int]] = None,
 ) -> List[Dict[str, Any]]:
     triples, _delim = read_triples(graph_path, delimiter)
     hr_to_tails, rt_to_heads, nodes = build_indexes(triples)
@@ -241,12 +242,17 @@ def instantiate_for_graph(
     rng = random.Random(seed + (abs(hash(graph_variant)) % 10_000))
 
     out: List[Dict[str, Any]] = []
+    seen_gold_paths = set()
 
     for tmpl in templates:
         hop = int(tmpl["hop"])
         rel_chain = list(tmpl["rel_chain"])
         question_template = str(tmpl["question_template"])
         template_id = str(tmpl["template_id"])
+
+        target_count = instances_per_template
+        if template_counts is not None:
+            target_count = template_counts.get(template_id, 0)
 
         # Compute valid starts to avoid heavy rejection sampling
         valid_suffix = compute_valid_suffix_sets(rel_chain, rt_to_heads, hr_to_tails)
@@ -264,7 +270,7 @@ def instantiate_for_graph(
         idx = 0
         attempts = 0
 
-        while produced < instances_per_template and attempts < max_attempts_per_template:
+        while produced < target_count and attempts < max_attempts_per_template:
             attempts += 1
             if idx >= len(start_candidates):
                 # wrap around (with replacement)
@@ -284,6 +290,16 @@ def instantiate_for_graph(
             gold_path = pick_one_canonical_path(start, rel_chain, hr_to_tails, valid_suffix=valid_suffix)
             if gold_path is None:
                 continue
+
+            # No self-loops
+            if any(h == t for h, r, t in gold_path):
+                continue
+            
+            # Unique gold paths
+            path_key = tuple(gold_path)
+            if path_key in seen_gold_paths:
+                continue
+            seen_gold_paths.add(path_key)
 
             intent_key = sha1_id(template_id, start, "|".join(rel_chain), prefix="intent")
             qid = sha1_id(graph_variant, intent_key, prefix="q")
@@ -311,8 +327,8 @@ def instantiate_for_graph(
             out.append(obj)
             produced += 1
 
-        if produced < instances_per_template:
-            print(f"[WARN] graph={graph_variant} template={template_id}: produced {produced}/{instances_per_template} after {attempts} attempts.")
+        if produced < target_count:
+            print(f"[WARN] graph={graph_variant} template={template_id}: produced {produced}/{target_count} after {attempts} attempts.")
 
     return out
 
@@ -338,6 +354,8 @@ def main() -> None:
     ap.add_argument("--delimiter", default=None, help="Delimiter for KB; auto-detect if omitted.")
     ap.add_argument("--seed", type=int, default=42, help="Seed for sampling.")
     ap.add_argument("--instances_per_template", type=int, default=20, help="How many instances per template per graph.")
+    ap.add_argument("--instances_per_hop", type=int, default=None,
+                    help="Target instances per hop (total). Overrides --instances_per_template.")
     ap.add_argument("--graph_variants", nargs="*", default=["natural", "abstract", "counterfactual"],
                     help="Graph variants to instantiate (requires --graphs_dir).")
     ap.add_argument("--single_answer_only", action="store_true",
@@ -347,6 +365,22 @@ def main() -> None:
     args = ap.parse_args()
 
     templates = load_templates(args.templates_path)
+
+    template_counts: Optional[Dict[str, int]] = None
+    if args.instances_per_hop is not None:
+        template_counts = {}
+        by_hop = defaultdict(list)
+        for t in templates:
+            by_hop[int(t["hop"])].append(str(t["template_id"]))
+
+        for hop_val, tids in by_hop.items():
+            count = len(tids)
+            if count > 0:
+                base = args.instances_per_hop // count
+                rem = args.instances_per_hop % count
+                for i, tid in enumerate(tids):
+                    c = base + (1 if i < rem else 0)
+                    template_counts[tid] = c
 
     all_instances: List[Dict[str, Any]] = []
 
@@ -359,6 +393,7 @@ def main() -> None:
             seed=args.seed,
             delimiter=args.delimiter,
             single_answer_only=args.single_answer_only,
+            template_counts=template_counts,
         )
         all_instances.extend(instances)
 
@@ -380,6 +415,7 @@ def main() -> None:
                 seed=args.seed,
                 delimiter=args.delimiter,
                 single_answer_only=args.single_answer_only,
+                template_counts=template_counts,
             )
             # index by intent_key
             natural_by_intent = {q["intent_key"]: q for q in natural_instances}
@@ -392,6 +428,7 @@ def main() -> None:
             hr_to_tails, rt_to_heads, _nodes = build_indexes(cf_triples)
 
             kept_cf = 0
+            seen_cf_paths = set()
             for intent_key, nq in natural_by_intent.items():
                 start = nq["start_entity"]
                 rel_chain = nq["rel_chain"]
@@ -418,6 +455,16 @@ def main() -> None:
                 gold_path = pick_one_canonical_path(start, rel_chain, hr_to_tails, valid_suffix=valid_suffix)
                 if gold_path is None:
                     continue
+
+                # No self-loops
+                if any(h == t for h, r, t in gold_path):
+                    continue
+
+                # Unique gold paths
+                path_key = tuple(gold_path)
+                if path_key in seen_cf_paths:
+                    continue
+                seen_cf_paths.add(path_key)
 
                 qid = sha1_id("counterfactual", intent_key, prefix="q")
                 qtext = qtmpl.replace("{subj}", start)
@@ -458,6 +505,7 @@ def main() -> None:
                     seed=args.seed,
                     delimiter=args.delimiter,
                     single_answer_only=args.single_answer_only,
+                    template_counts=template_counts,
                 )
                 all_instances.extend(instances)
 
@@ -474,6 +522,7 @@ def main() -> None:
                     seed=args.seed,
                     delimiter=args.delimiter,
                     single_answer_only=args.single_answer_only,
+                    template_counts=template_counts,
                 )
                 all_instances.extend(instances)
 

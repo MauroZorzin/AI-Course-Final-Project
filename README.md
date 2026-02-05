@@ -65,19 +65,19 @@ python .\scripts\make_templates.py --graph_path .\sources\graphs\counterfactual.
 ```
 
 ```shell
-python .\scripts\instantiate_queries.py --graph_path .\sources\graphs --graph_variant_name natural --templates_path .\sources\queries\natural_templates.jsonl --single_answer_only --out_path sources/queries/instances/natural.jsonl
+python .\scripts\instantiate_queries.py --graph_path .\sources\graphs\natural.kb --graph_variant_name natural --templates_path .\sources\queries\templates\natural.jsonl --out_path sources/queries/instances/natural.jsonl --instances_per_hop 400
 
-python .\scripts\instantiate_queries.py --graph_path .\sources\graphs --graph_variant_name abstract --templates_path .\sources\queries\abstract_templates.jsonl --single_answer_only --out_path sources/queries/instances/abstract.jsonl
+python .\scripts\instantiate_queries.py --graph_path .\sources\graphs\abstract.kb --graph_variant_name abstract --templates_path .\sources\queries\templates\abstract.jsonl --out_path sources/queries/instances/abstract.jsonl --instances_per_hop 400
 
-python .\scripts\instantiate_queries.py --graph_path .\sources\graphs --graph_variant_name counterfactual --templates_path .\sources\queries\counterfactual_templates.jsonl --single_answer_only --out_path sources/queries/instances/counterfactual.jsonl
+python .\scripts\instantiate_queries.py --graph_path .\sources\graphs\counterfactual.kb --graph_variant_name counterfactual --templates_path .\sources\queries\templates\counterfactual.jsonl --out_path sources/queries/instances/counterfactual.jsonl --instances_per_hop 400
 ```
 
 ```shell
-python .\scripts\extract_subgraphs.py --graph_path .\sources\graphs\natural.kb --queries_path .\sources\queries\instances.jsonl --out_path .\sources\queries\queries_natural.jsonl
+python .\scripts\extract_subgraphs.py --graph_path .\sources\graphs\natural.kb --queries_path .\sources\queries\instances\natural.jsonl --out_path .\sources\queries\natural.jsonl
 
-python .\scripts\extract_subgraphs.py --graph_path .\sources\graphs\abstract.kb --queries_path .\sources\queries\instances.jsonl --out_path .\sources\queries\queries_abstract.jsonl
+python .\scripts\extract_subgraphs.py --graph_path .\sources\graphs\abstract.kb --queries_path .\sources\queries\instances\abstract.jsonl --out_path .\sources\queries\abstract.jsonl
 
-python .\scripts\extract_subgraphs.py --graph_path .\sources\graphs\counterfactual.kb --queries_path .\sources\queries\instances.jsonl --out_path .\sources\queries\queries_counterfactual.jsonl
+python .\scripts\extract_subgraphs.py --graph_path .\sources\graphs\counterfactual.kb --queries_path .\sources\queries\instances\counterfactual.jsonl --out_path .\sources\queries\counterfactual.jsonl
 ```
 
 ```shell
