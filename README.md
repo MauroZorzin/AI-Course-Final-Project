@@ -1,6 +1,5 @@
 # SPARK: Synthetic Probes for Assessing Reasoning on Knowledge-graphs (Multi-Hop QA)
 
-
 ## Project details
 
 ### Focus
@@ -50,6 +49,8 @@
 mamba create -n ai-proj python=3.12
 
 mamba activate ai-proj
+
+mamba install google-genai # TODO
 ```
 
 ```shell
@@ -86,4 +87,16 @@ python .\scripts\render_prompts.py --queries_path .\sources\queries\natural.json
 python .\scripts\render_prompts.py --queries_path .\sources\queries\abstract.jsonl --out_path sources/prompts/abstract.jsonl --allow_unknown
 
 python .\scripts\render_prompts.py --queries_path .\sources\queries\counterfactual.jsonl --out_path sources/prompts/counterfactual.jsonl --allow_unknown
+```
+
+```shell
+python .\scripts\run_sweep_gcp.py --config .\config\config_test.json --parallel
+```
+
+```shell
+python scripts/evaluate.py --queries sources/queries/instances --responses out --config config/config_test.json --natural_queries sources/queries/instances/natural.jsonl --out_dir eval
+```
+
+```shell
+python scripts/analysis.py --eval eval --out_dir analysis --make_plots
 ```
