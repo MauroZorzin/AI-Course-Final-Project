@@ -101,8 +101,8 @@ def to_cli_args(cfg: JSONObj, run: JSONObj, runner: str) -> List[str]:
     if run.get("decoding") == "self_consistency":
         if run.get("sc_samples") is not None:
             args += ["--sc_samples", str(int(run["sc_samples"]))]
-        if run.get("sc_prefer_non_unknown") is not None:
-            args += ["--sc_prefer_non_unknown", str(bool(run["sc_prefer_non_unknown"]))]
+        if run.get("sc_prefer_non_unknown"):
+            args.append("--sc_prefer_non_unknown")
 
     # Vertex/auth
     if vertex.get("use_vertexai", False):

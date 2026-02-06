@@ -90,11 +90,11 @@ python .\scripts\render_prompts.py --queries_path .\sources\queries\counterfactu
 ```
 
 ```shell
-python .\scripts\run_sweep_gcp.py --config .\config\config_test.json --parallel
+python .\scripts\run_sweep_gcp.py --config .\config\config.json --parallel
 ```
 
 ```shell
-python scripts/evaluate.py --queries sources/queries/instances --responses out --config config/config_test.json --natural_queries sources/queries/instances/natural.jsonl --out_dir eval
+python scripts/evaluate.py --queries sources/queries/instances --responses out --config config/config.json --natural_queries sources/queries/instances/natural.jsonl --out_dir eval
 ```
 
 ```shell
