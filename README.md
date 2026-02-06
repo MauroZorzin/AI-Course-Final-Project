@@ -50,7 +50,7 @@ mamba create -n ai-proj python=3.12
 
 mamba activate ai-proj
 
-mamba install google-genai # TODO
+mamba install google-genai, seaborn, tabulate
 ```
 
 ```shell

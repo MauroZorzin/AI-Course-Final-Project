@@ -1,0 +1,54 @@
+query_id,model,decoding,prompting_strategy,graph_variant,hop,template_id,prediction,gold,natural_gold,em,f1,outcome,parse_error,parametric_leakage,total_tokens,latency_ms
+q_fe653c6f148ad44e,deepseek-ai/deepseek-v3.2-maas,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,429,1088
+q_fe653c6f148ad44e,deepseek-ai/deepseek-v3.2-maas,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,574,1235
+q_ad75fbc3a04f8cdf,deepseek-ai/deepseek-v3.2-maas,greedy,direct,natural,2,H2_T0020,UNKNOWN,Nikolai Cherkasov,,0,0.0,missed_answer,0,0,423,780
+q_ad75fbc3a04f8cdf,deepseek-ai/deepseek-v3.2-maas,greedy,scot,natural,2,H2_T0020,"{
+  ""reasoning"": [""Step 1: From the Knowledge Base, 'Magic Man | starred_actors | Alexander Nevsky' indicates that Alexander Nevsky is a starred_actor of Magic Man."", ""Step 2: From the Knowledge Base, 'Alexander Nevsky | starred_actors | Nikolai Cherkasov' indicates that Nikolai Cherkasov is a starred_actor of Alexander Nevsky."", ""Step 3: The question asks for the starred_actors of the starred_actors of Magic Man. Since Alexander Nevsky is the starred_actor of Magic Man, and Nikolai Cherkasov is the starred",Nikolai Cherkasov,,0,0.06153846153846154,parse_error,1,0,595,1452
+q_dfef0d937e4949d8,deepseek-ai/deepseek-v3.2-maas,greedy,direct,natural,3,H3_T0001,Philip G. Atwell,Philip G. Atwell,,1,1.0,correct,0,0,417,789
+q_dfef0d937e4949d8,deepseek-ai/deepseek-v3.2-maas,greedy,scot,natural,3,H3_T0001,Philip G. Atwell,Philip G. Atwell,,1,1.0,correct,0,0,575,1283
+q_57bf554a6372802a,deepseek-ai/deepseek-v3.2-maas,greedy,direct,counterfactual,1,H1_T0001,michael stuhlbarg,michael stuhlbarg,,1,1.0,correct,0,0,447,773
+q_57bf554a6372802a,deepseek-ai/deepseek-v3.2-maas,greedy,scot,counterfactual,1,H1_T0001,michael stuhlbarg,michael stuhlbarg,,1,1.0,correct,0,0,597,1239
+q_b5d5ef33f3ed1c86,deepseek-ai/deepseek-v3.2-maas,greedy,direct,counterfactual,2,H2_T0008,UNKNOWN,Charles Walters,,0,0.0,missed_answer,0,0,425,741
+q_b5d5ef33f3ed1c86,deepseek-ai/deepseek-v3.2-maas,greedy,scot,counterfactual,2,H2_T0008,Charles Walters,Charles Walters,,1,1.0,correct,0,0,591,1607
+q_d485184a5c6d41b2,deepseek-ai/deepseek-v3.2-maas,greedy,direct,counterfactual,3,H3_T0020,clive owen,clive owen,,1,1.0,correct,0,0,437,785
+q_d485184a5c6d41b2,deepseek-ai/deepseek-v3.2-maas,greedy,scot,counterfactual,3,H3_T0020,"{
+  ""reasoning"": [""Step 1: Find the release_year of 'Surviving the Game' from the knowledge base. Fact: 'Surviving the Game | release_year | Unforgiven'. So release_year is 'Unforgiven'."", ""Step 2: Find the has_genre of 'Unforgiven'. Fact: 'Unforgiven | has_genre | Romance'. So has_genre is 'Romance'."", ""Step 3: Find the has_tags of 'Romance'. Fact: 'Romance | has_tags | clive owen'. So has_tags is 'clive",clive owen,,0,0.07843137254901959,parse_error,1,0,604,1798
+q_f743606ada8779e7,deepseek-ai/deepseek-v3.2-maas,greedy,direct,abstract,1,H1_T0001,E0025658,E0025658,,1,1.0,correct,0,0,480,822
+q_f743606ada8779e7,deepseek-ai/deepseek-v3.2-maas,greedy,scot,abstract,1,H1_T0001,E0025658,E0025658,,1,1.0,correct,0,0,617,1286
+q_15e3194363c6d653,deepseek-ai/deepseek-v3.2-maas,greedy,direct,abstract,2,H2_T0002,E0014408,E0014408,,1,1.0,correct,0,0,463,793
+q_15e3194363c6d653,deepseek-ai/deepseek-v3.2-maas,greedy,scot,abstract,2,H2_T0002,"{
+  ""reasoning"": [
+    ""step 1: From the knowledge base, find the triple for E0009178: 'E0009178 | release_year | E0005620'."",
+    ""step 2: The release_year of E0009178 is E0005620."",
+    ""step 3: Now, find the written_by for E0005620: 'E0005620 | written_by | E0014408'."",
+    ""step 4: Therefore, the written_by of the release_year of E0009178 is E0014408.""
+  ],
+  ""final_answer"":",E0014408,,0,0.047619047619047616,parse_error,1,0,633,1527
+q_95a168437b513c7c,deepseek-ai/deepseek-v3.2-maas,greedy,direct,abstract,3,H3_T0015,E0017358,E0017358,,1,1.0,correct,0,0,472,769
+q_95a168437b513c7c,deepseek-ai/deepseek-v3.2-maas,greedy,scot,abstract,3,H3_T0015,"{
+  ""reasoning"": [
+    ""Step 1: From the Knowledge Base, find the triple for E0029627: 'E0029627 | release_year | E0027278'. So, the release_year of E0029627 is E0027278."",
+    ""Step 2: Next, find the triple for E0027278: 'E0027278 | has_genre | E0040772'. So, the has_genre of E0027278 is E0040772."",
+    ""Step 3: Then, find the triple for E0040772: 'E0040772",E0017358,,0,0.0,parse_error,1,0,639,2028
+q_fe653c6f148ad44e,gemini-2.5-flash,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,504,3240
+q_fe653c6f148ad44e,gemini-2.5-flash,greedy,scot,natural,1,H1_T0001,"{
+  ""reasoning"": [
+    ""The question asks",famous,,0,0.0,parse_error,1,0,579,5047
+q_ad75fbc3a04f8cdf,gemini-2.5-flash,greedy,direct,natural,2,H2_T0020,"Here is the JSON requested:
+",Nikolai Cherkasov,,0,0.0,parse_error,1,0,523,2878
+q_ad75fbc3a04f8cdf,gemini-2.5-flash,greedy,scot,natural,2,H2_T0020,Here is the JSON requested,Nikolai Cherkasov,,0,0.0,parse_error,1,0,580,7277
+q_dfef0d937e4949d8,gemini-2.5-flash,greedy,direct,natural,3,H3_T0001,Here is the JSON requested:,Philip G. Atwell,,0,0.0,parse_error,1,0,540,2922
+q_dfef0d937e4949d8,gemini-2.5-flash,greedy,scot,natural,3,H3_T0001,Here is the,Philip G. Atwell,,0,0.0,parse_error,1,0,593,1060
+q_57bf554a6372802a,gemini-2.5-flash,greedy,direct,counterfactual,1,H1_T0001,michael stuhlbarg,michael stuhlbarg,,1,1.0,correct,0,0,490,2339
+q_57bf554a6372802a,gemini-2.5-flash,greedy,scot,counterfactual,1,H1_T0001,Here is the JSON requested,michael stuhlbarg,,0,0.0,parse_error,1,0,596,2774
+q_b5d5ef33f3ed1c86,gemini-2.5-flash,greedy,direct,counterfactual,2,H2_T0008,Here is the,Charles Walters,,0,0.0,parse_error,1,0,553,2177
+q_b5d5ef33f3ed1c86,gemini-2.5-flash,greedy,scot,counterfactual,2,H2_T0008,Here is the JSON requested:,Charles Walters,,0,0.0,parse_error,1,0,608,2408
+q_d485184a5c6d41b2,gemini-2.5-flash,greedy,direct,counterfactual,3,H3_T0020,Here is,clive owen,,0,0.0,parse_error,1,0,552,2242
+q_d485184a5c6d41b2,gemini-2.5-flash,greedy,scot,counterfactual,3,H3_T0020,Here is,clive owen,,0,0.0,parse_error,1,0,605,923
+q_f743606ada8779e7,gemini-2.5-flash,greedy,direct,abstract,1,H1_T0001,"{
+  ""final_answer"": """,E0025658,,0,0.0,parse_error,1,0,764,2606
+q_f743606ada8779e7,gemini-2.5-flash,greedy,scot,abstract,1,H1_T0001,Here is the JSON requested,E0025658,,0,0.0,parse_error,1,0,831,2743
+q_15e3194363c6d653,gemini-2.5-flash,greedy,direct,abstract,2,H2_T0002,Here is the JSON requested,E0014408,,0,0.0,parse_error,1,0,773,2645
+q_15e3194363c6d653,gemini-2.5-flash,greedy,scot,abstract,2,H2_T0002,Here is the JSON requested:,E0014408,,0,0.0,parse_error,1,0,826,1894
+q_95a168437b513c7c,gemini-2.5-flash,greedy,direct,abstract,3,H3_T0015,Here is,E0017358,,0,0.0,parse_error,1,0,776,1016
+q_95a168437b513c7c,gemini-2.5-flash,greedy,scot,abstract,3,H3_T0015,Here,E0017358,,0,0.0,parse_error,1,0,831,849
