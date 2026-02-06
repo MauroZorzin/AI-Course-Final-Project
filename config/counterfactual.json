@@ -1,0 +1,131 @@
+{
+  "project": {
+    "name": "SPARK",
+    "description": "Synthetic Probes for Assessing Reasoning on Knowledge-graphs (Multi-Hop QA)",
+    "focus": {
+      "hop_lengths": [
+        1,
+        2,
+        3
+      ],
+      "prompting_strategies": [
+        "direct",
+        "scot"
+      ],
+      "decoding_strategies": [
+        "greedy",
+        "self_consistency"
+      ],
+      "graph_variants": [
+        "natural",
+        "abstract",
+        "counterfactual"
+      ]
+    }
+  },
+  "vertex": {
+    "use_vertexai": true,
+    "project": "ai-course-485614",
+    "location": "global",
+    "service_account_json": "./key.json",
+    "api_version": "v1"
+  },
+  "io": {
+    "prompts_path": "sources/prompts/counterfactual.jsonl",
+    "out_dir": "out/counterfactual",
+    "resume": true
+  },
+  "filters": {
+    "prompting_strategy": [
+      "direct",
+      "scot"
+    ],
+    "graph_variant": [
+      "natural",
+      "abstract",
+      "counterfactual"
+    ],
+    "hop": [
+      1,
+      2,
+      3
+    ]
+  },
+  "common": {
+    "json_mode": true,
+    "temperature": 0.0,
+    "top_p": 0.95,
+    "top_k": 40,
+    "max_output_tokens": 512,
+    "max_retries": 6,
+    "seed": 42,
+    "stop_sequences": []
+  },
+  "runs": [
+    {
+      "model": "google/gemini-3-pro-preview",
+      "decoding": "greedy"
+    },
+    {
+      "model": "google/gemini-3-pro-preview",
+      "decoding": "self_consistency",
+      "temperature": 0.7,
+      "sc_samples": 5,
+      "sc_prefer_non_unknown": true
+    },
+    {
+      "model": "deepseek-ai/deepseek-v3.2-maas",
+      "decoding": "greedy"
+    },
+    {
+      "model": "deepseek-ai/deepseek-v3.2-maas",
+      "decoding": "self_consistency",
+      "temperature": 0.7,
+      "sc_samples": 5,
+      "sc_prefer_non_unknown": true
+    },
+    {
+      "model": "openai/gpt-oss-120b-maas",
+      "decoding": "self_consistency",
+      "temperature": 0.7,
+      "sc_samples": 5,
+      "sc_prefer_non_unknown": true
+    },
+    {
+      "model": "openai/gpt-oss-120b-maas",
+      "decoding": "greedy"
+    }
+  ],
+  "pricing": {
+    "google/gemini-3-pro-preview": {
+      "input_per_mtok": 2.0,
+      "output_per_mtok": 12.0,
+      "long_context_threshold": 200000,
+      "input_per_mtok_long": 4.0,
+      "output_per_mtok_long": 18.0
+    },
+    "deepseek-ai/deepseek-v3.2-maas": {
+      "input_per_mtok": 0.56,
+      "output_per_mtok": 1.68
+    },
+    "anthropic/claude-opus-4-6": {
+      "input_per_mtok": 5.0,
+      "output_per_mtok": 25.0,
+      "long_context_threshold": 200000,
+      "input_per_mtok_long": 10.0,
+      "output_per_mtok_long": 37.50
+    },
+    "meta/llama-4-maverick-17b-128e-instruct-maas": {
+      "input_per_mtok": 0.35,
+      "output_per_mtok": 1.15
+    },
+    "openai/gpt-oss-120b-maas": {
+      "input_per_mtok": 0.09,
+      "output_per_mtok": 0.36
+    },
+    "openai/gpt-oss-20b-maas": {
+      "input_per_mtok": 0.07,
+      "output_per_mtok": 0.25
+    }
+  }
+}
