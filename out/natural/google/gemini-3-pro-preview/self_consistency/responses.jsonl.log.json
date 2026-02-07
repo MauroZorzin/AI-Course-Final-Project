@@ -1,12 +1,12 @@
 {
   "prompts_path": "C:\\Users\\ricca\\Desktop\\AI\\AI-Course-Final-Project\\sources\\prompts\\natural.jsonl",
-  "out_path": "C:\\Users\\ricca\\Desktop\\AI\\AI-Course-Final-Project\\out\\natural\\google\\gemini-3-pro-preview\\greedy\\responses.jsonl",
+  "out_path": "C:\\Users\\ricca\\Desktop\\AI\\AI-Course-Final-Project\\out\\natural\\google\\gemini-3-pro-preview\\self_consistency\\responses.jsonl",
   "model": "google/gemini-3-pro-preview",
-  "decoding": "greedy",
-  "total_to_process": 4,
-  "skipped_total": 2034,
-  "processed": 4,
-  "errors": 4,
+  "decoding": "self_consistency",
+  "total_to_process": 673,
+  "skipped_total": 1365,
+  "processed": 673,
+  "errors": 556,
   "resume": true,
   "auth_client_email": "ai-service@ai-course-485614.iam.gserviceaccount.com",
   "auth_project_id_in_key": "ai-course-485614"
