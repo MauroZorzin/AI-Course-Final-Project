@@ -128,8 +128,7 @@ def plot_failure_modes(df, out_dir):
     g.set_axis_labels("Graph Variant", "Proportion of Queries")
     g.fig.suptitle("Failure Mode Distribution", y=1.02)
     
-    # Custom annotation for stacked bars is tricky in seaborn catplot, 
-    # skipping annotate_bars here to avoid clutter or wrong placement.
+    annotate_bars(g, fmt='.2f')
     
     out_path = os.path.join(out_dir, "failure_modes_distribution.png")
     plt.savefig(out_path, bbox_inches='tight')
