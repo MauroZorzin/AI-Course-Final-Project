@@ -7307,6 +7307,17 @@ q_b111ad7b00146d49,google/gemini-3-pro-preview,self_consistency,direct,abstract,
 q_b111ad7b00146d49,google/gemini-3-pro-preview,self_consistency,scot,abstract,2,H2_T0010,None,E0005682,,0,0.0,missed_answer,0,0,6376,71262,0.016824
 q_adda65fe595bbde0,google/gemini-3-pro-preview,self_consistency,direct,abstract,2,H2_T0010,None,E0005682,,0,0.0,missed_answer,0,0,5810,62394,0.007594
 q_adda65fe595bbde0,google/gemini-3-pro-preview,self_consistency,scot,abstract,2,H2_T0010,None,E0005682,,0,0.0,missed_answer,0,0,6388,40921,0.016596
+q_0d17a5748af29129,google/gemini-3-pro-preview,self_consistency,direct,abstract,2,H2_T0010,None,E0005682,,0,0.0,missed_answer,0,0,5414,63904,0.00763
+q_0d17a5748af29129,google/gemini-3-pro-preview,self_consistency,scot,abstract,2,H2_T0010,None,E0005682,,0,0.0,missed_answer,0,0,5751,36862,0.015924
+q_023caa8e27d520dd,google/gemini-3-pro-preview,self_consistency,direct,abstract,2,H2_T0010,None,E0005682,,0,0.0,missed_answer,0,0,5794,39814,0.007642
+q_023caa8e27d520dd,google/gemini-3-pro-preview,self_consistency,scot,abstract,2,H2_T0010,None,E0005682,,0,0.0,missed_answer,0,0,6340,53116,0.017388
+q_ed07d7857b786f3b,google/gemini-3-pro-preview,self_consistency,direct,abstract,2,H2_T0010,None,E0005682,,0,0.0,missed_answer,0,0,5645,34046,0.00763
+q_ed07d7857b786f3b,google/gemini-3-pro-preview,self_consistency,scot,abstract,2,H2_T0010,None,E0005682,,0,0.0,missed_answer,0,0,6348,35609,0.0174
+q_247500a111facb02,google/gemini-3-pro-preview,self_consistency,direct,abstract,2,H2_T0010,None,E0005682,,0,0.0,missed_answer,0,0,5537,32034,0.00763
+q_247500a111facb02,google/gemini-3-pro-preview,self_consistency,scot,abstract,2,H2_T0010,None,E0005682,,0,0.0,missed_answer,0,0,6204,37913,0.017231999999999997
+q_1f5bab05d29a6fdd,google/gemini-3-pro-preview,self_consistency,direct,abstract,2,H2_T0010,None,E0005682,,0,0.0,missed_answer,0,0,5414,32097,0.007594
+q_1f5bab05d29a6fdd,google/gemini-3-pro-preview,self_consistency,scot,abstract,2,H2_T0010,None,E0005682,,0,0.0,missed_answer,0,0,5982,39843,0.016884000000000003
+q_2d936c64a464d77c,google/gemini-3-pro-preview,self_consistency,direct,abstract,2,H2_T0010,None,E0005682,,0,0.0,missed_answer,0,0,5540,59274,0.007582
 q_f743606ada8779e7,meta/llama-4-maverick-17b-128e-instruct-maas,greedy,direct,abstract,1,H1_T0001,E0025658,E0025658,,1,1.0,correct,0,0,459,1366,0.00016945
 q_f743606ada8779e7,meta/llama-4-maverick-17b-128e-instruct-maas,greedy,scot,abstract,1,H1_T0001,E0025658,E0025658,,1,1.0,correct,0,0,557,690,0.00024295
 q_2e36fc403254079b,meta/llama-4-maverick-17b-128e-instruct-maas,greedy,direct,abstract,1,H1_T0001,"{"" I see that E0005930 is related to E0025658 through the "" 
@@ -24055,6 +24066,15 @@ q_ad924d44fdb5224e,google/gemini-3-pro-preview,self_consistency,scot,counterfact
 q_4a3ddf375ea34c91,google/gemini-3-pro-preview,self_consistency,direct,counterfactual,2,H2_T0012,None,1991,,0,0.0,missed_answer,0,0,3772,33805,0.0050799999999999994
 q_4a3ddf375ea34c91,google/gemini-3-pro-preview,self_consistency,scot,counterfactual,2,H2_T0012,None,1991,,0,0.0,missed_answer,0,0,4247,63139,0.011046
 q_9328906427cca886,google/gemini-3-pro-preview,self_consistency,direct,counterfactual,2,H2_T0012,None,1984,,0,0.0,missed_answer,0,0,3810,40622,0.004912
+q_9328906427cca886,google/gemini-3-pro-preview,self_consistency,scot,counterfactual,2,H2_T0012,None,1984,,0,0.0,missed_answer,0,0,4968,79338,0.010434
+q_5a43ce0a58ccf7d4,google/gemini-3-pro-preview,self_consistency,direct,counterfactual,2,H2_T0012,None,2002,,0,0.0,missed_answer,0,0,3602,34909,0.005042
+q_5a43ce0a58ccf7d4,google/gemini-3-pro-preview,self_consistency,scot,counterfactual,2,H2_T0012,None,2002,,0,0.0,missed_answer,0,0,4327,47769,0.010960000000000001
+q_78ed1b2a51159637,google/gemini-3-pro-preview,self_consistency,direct,counterfactual,2,H2_T0012,None,2011,,0,0.0,missed_answer,0,0,3791,30858,0.004922
+q_78ed1b2a51159637,google/gemini-3-pro-preview,self_consistency,scot,counterfactual,2,H2_T0012,None,2011,,0,0.0,missed_answer,0,0,4886,52734,0.011572
+q_78baab9287dccb45,google/gemini-3-pro-preview,self_consistency,direct,counterfactual,2,H2_T0012,None,1987,,0,0.0,missed_answer,0,0,3896,50541,0.0049499999999999995
+q_78baab9287dccb45,google/gemini-3-pro-preview,self_consistency,scot,counterfactual,2,H2_T0012,None,1987,,0,0.0,missed_answer,0,0,5502,40506,0.011768
+q_4c0392ed8f606215,google/gemini-3-pro-preview,self_consistency,direct,counterfactual,2,H2_T0012,None,2011,,0,0.0,missed_answer,0,0,4027,43620,0.00513
+q_4c0392ed8f606215,google/gemini-3-pro-preview,self_consistency,scot,counterfactual,2,H2_T0012,None,2011,,0,0.0,missed_answer,0,0,4257,46540,0.01118
 q_57bf554a6372802a,meta/llama-4-maverick-17b-128e-instruct-maas,greedy,direct,counterfactual,1,H1_T0001,michael stuhlbarg,michael stuhlbarg,,1,1.0,correct,0,0,426,1334,0.00015949999999999997
 q_57bf554a6372802a,meta/llama-4-maverick-17b-128e-instruct-maas,greedy,scot,counterfactual,1,H1_T0001,michael stuhlbarg,michael stuhlbarg,,1,1.0,correct,0,0,519,686,0.00022725
 q_88e4503a69fe486d,meta/llama-4-maverick-17b-128e-instruct-maas,greedy,direct,counterfactual,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,411,490,0.00015105
@@ -38042,75 +38062,75 @@ q_85a372b765073a27,deepseek-ai/deepseek-v3.2-maas,self_consistency,direct,natura
 q_85a372b765073a27,deepseek-ai/deepseek-v3.2-maas,self_consistency,scot,natural,1,H1_T0008,None,David Koepp,,0,0.0,missed_answer,0,0,2676,10610,0.00193648
 q_5723ff86502b9b15,deepseek-ai/deepseek-v3.2-maas,self_consistency,direct,natural,1,H1_T0008,None,Jeff Pollack,,0,0.0,missed_answer,0,0,2116,5803,0.0012476800000000004
 q_5723ff86502b9b15,deepseek-ai/deepseek-v3.2-maas,self_consistency,scot,natural,1,H1_T0008,None,Jeff Pollack,,0,0.0,missed_answer,0,0,2680,10384,0.0018984
-q_fe653c6f148ad44e,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,768,6313,0.0
-q_fe653c6f148ad44e,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,715,4347,0.0
-q_bf5b60f622b9b643,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,unknown,unknown,,1,1.0,correct,0,0,715,6085,0.0
-q_b6ab29e353e7e115,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,650,5969,0.0
-q_b6ab29e353e7e115,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,734,4474,0.0
-q_4ed4d9576478ad42,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,681,4620,0.0
-q_ebf4480c77b43506,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,725,4568,0.0
-q_ebf4480c77b43506,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,733,4429,0.0
-q_154a08d31097fede,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,717,4957,0.0
-q_154a08d31097fede,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,697,4661,0.0
-q_07d1f90f639e6e3b,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,709,9253,0.0
-q_07d1f90f639e6e3b,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,702,4246,0.0
-q_fa12ee00e7b012ad,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,743,4752,0.0
-q_fa12ee00e7b012ad,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,718,4300,0.0
-q_b5abe786b93b4be1,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,793,6513,0.0
-q_b5abe786b93b4be1,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,774,5031,0.0
-q_7dcf2027bbd298bd,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,684,4407,0.0
-q_7dcf2027bbd298bd,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,740,7104,0.0
-q_49a96f159ce6db6a,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,718,5150,0.0
-q_49a96f159ce6db6a,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,886,5712,0.0
-q_10eb8927c7e1aaac,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,693,4670,0.0
-q_10eb8927c7e1aaac,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,750,7247,0.0
-q_526858a1293c876c,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,631,4206,0.0
-q_526858a1293c876c,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,679,4346,0.0
-q_2bb2f97801bc194e,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,well known,well known,,1,1.0,correct,0,0,725,4456,0.0
-q_2bb2f97801bc194e,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,well known,well known,,1,1.0,correct,0,0,720,4431,0.0
-q_202c373c33cb5b67,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,778,5634,0.0
-q_202c373c33cb5b67,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,740,4948,0.0
-q_24d07bddf800511f,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,672,4845,0.0
-q_24d07bddf800511f,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,727,4550,0.0
-q_49448ce3c9811267,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,664,5398,0.0
-q_49448ce3c9811267,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,701,4298,0.0
-q_945be2f8d4492092,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,722,5714,0.0
-q_945be2f8d4492092,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,677,4243,0.0
-q_9d10950944b824d1,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,672,4437,0.0
-q_9d10950944b824d1,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,752,6073,0.0
-q_652efd4e1a932827,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,650,4539,0.0
-q_9044eb31eb2e10cc,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,well known,well known,,1,1.0,correct,0,0,709,4340,0.0
-q_9044eb31eb2e10cc,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,well known,well known,,1,1.0,correct,0,0,768,5299,0.0
-q_8453e5b807887b08,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,unknown,unknown,,1,1.0,correct,0,0,689,5512,0.0
-q_6c029023afce26f9,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,unknown,unknown,,1,1.0,correct,0,0,701,4927,0.0
-q_a93920098d8ff5a5,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,764,5790,0.0
-q_a93920098d8ff5a5,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,704,4636,0.0
-q_031fb7126d3adcc7,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,656,4716,0.0
-q_031fb7126d3adcc7,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,689,6470,0.0
-q_60f1c8e76e1f2fb4,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,714,6555,0.0
-q_4b5376dbb949ff12,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,673,4870,0.0
-q_4b5376dbb949ff12,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,677,4647,0.0
-q_d1169df500c5b9b0,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,673,4434,0.0
-q_d1169df500c5b9b0,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,700,4494,0.0
-q_5f4e860a79a93426,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,655,8271,0.0
-q_748c957a05437799,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,682,4385,0.0
-q_748c957a05437799,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,722,4280,0.0
-q_c46d2f679414c785,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,681,4726,0.0
-q_0b04462def15d893,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,681,4492,0.0
-q_0b04462def15d893,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,690,5441,0.0
-q_a59268e4352cc730,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,689,4499,0.0
-q_a59268e4352cc730,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,735,4511,0.0
-q_ffce3ce3379be809,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,741,5145,0.0
-q_ffce3ce3379be809,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,708,4191,0.0
-q_44cb91ad562afc40,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,well known,well known,,1,1.0,correct,0,0,704,4556,0.0
-q_44cb91ad562afc40,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,well known,well known,,1,1.0,correct,0,0,724,4699,0.0
-q_df49f2bd5852e79b,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,660,4588,0.0
-q_df49f2bd5852e79b,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,701,4078,0.0
-q_c73aad1f01e54679,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,691,5257,0.0
-q_c73aad1f01e54679,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,727,4604,0.0
-q_44fc576546fbb512,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,692,5898,0.0
-q_44fc576546fbb512,gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,752,4662,0.0
-q_6b9fc93697b91117,gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,740,4833,0.0
+q_fe653c6f148ad44e,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,768,6313,0.000968
+q_fe653c6f148ad44e,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,715,4347,0.0022500000000000003
+q_bf5b60f622b9b643,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,unknown,unknown,,1,1.0,correct,0,0,715,6085,0.000974
+q_b6ab29e353e7e115,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,650,5969,0.000954
+q_b6ab29e353e7e115,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,734,4474,0.002092
+q_4ed4d9576478ad42,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,681,4620,0.000946
+q_ebf4480c77b43506,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,725,4568,0.000964
+q_ebf4480c77b43506,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,733,4429,0.002378
+q_154a08d31097fede,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,717,4957,0.000956
+q_154a08d31097fede,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,697,4661,0.002214
+q_07d1f90f639e6e3b,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,709,9253,0.00095
+q_07d1f90f639e6e3b,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,702,4246,0.002304
+q_fa12ee00e7b012ad,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,743,4752,0.000956
+q_fa12ee00e7b012ad,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,718,4300,0.00201
+q_b5abe786b93b4be1,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,793,6513,0.000936
+q_b5abe786b93b4be1,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,774,5031,0.002254
+q_7dcf2027bbd298bd,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,684,4407,0.000976
+q_7dcf2027bbd298bd,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,740,7104,0.0019820000000000003
+q_49a96f159ce6db6a,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,718,5150,0.000946
+q_49a96f159ce6db6a,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,886,5712,0.001808
+q_10eb8927c7e1aaac,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,693,4670,0.000992
+q_10eb8927c7e1aaac,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,750,7247,0.001986
+q_526858a1293c876c,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,631,4206,0.000912
+q_526858a1293c876c,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,679,4346,0.002242
+q_2bb2f97801bc194e,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,well known,well known,,1,1.0,correct,0,0,725,4456,0.000972
+q_2bb2f97801bc194e,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,well known,well known,,1,1.0,correct,0,0,720,4431,0.002002
+q_202c373c33cb5b67,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,778,5634,0.00098
+q_202c373c33cb5b67,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,740,4948,0.002382
+q_24d07bddf800511f,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,672,4845,0.000968
+q_24d07bddf800511f,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,727,4550,0.001974
+q_49448ce3c9811267,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,664,5398,0.0009620000000000001
+q_49448ce3c9811267,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,701,4298,0.002292
+q_945be2f8d4492092,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,722,5714,0.000938
+q_945be2f8d4492092,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,677,4243,0.002136
+q_9d10950944b824d1,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,672,4437,0.0009480000000000001
+q_9d10950944b824d1,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,752,6073,0.00241
+q_652efd4e1a932827,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,650,4539,0.00093
+q_9044eb31eb2e10cc,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,well known,well known,,1,1.0,correct,0,0,709,4340,0.001042
+q_9044eb31eb2e10cc,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,well known,well known,,1,1.0,correct,0,0,768,5299,0.0023
+q_8453e5b807887b08,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,unknown,unknown,,1,1.0,correct,0,0,689,5512,0.0009660000000000001
+q_6c029023afce26f9,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,unknown,unknown,,1,1.0,correct,0,0,701,4927,0.000952
+q_a93920098d8ff5a5,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,764,5790,0.000964
+q_a93920098d8ff5a5,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,704,4636,0.00221
+q_031fb7126d3adcc7,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,656,4716,0.0009440000000000001
+q_031fb7126d3adcc7,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,689,6470,0.002274
+q_60f1c8e76e1f2fb4,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,714,6555,0.000954
+q_4b5376dbb949ff12,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,673,4870,0.000938
+q_4b5376dbb949ff12,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,677,4647,0.0017879999999999999
+q_d1169df500c5b9b0,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,673,4434,0.0009620000000000001
+q_d1169df500c5b9b0,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,700,4494,0.002256
+q_5f4e860a79a93426,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,655,8271,0.0009400000000000001
+q_748c957a05437799,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,682,4385,0.000988
+q_748c957a05437799,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,722,4280,0.002366
+q_c46d2f679414c785,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,681,4726,0.000964
+q_0b04462def15d893,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,681,4492,0.0009620000000000001
+q_0b04462def15d893,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,690,5441,0.002184
+q_a59268e4352cc730,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,689,4499,0.000972
+q_a59268e4352cc730,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,735,4511,0.002146
+q_ffce3ce3379be809,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,741,5145,0.000956
+q_ffce3ce3379be809,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,708,4191,0.002334
+q_44cb91ad562afc40,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,well known,well known,,1,1.0,correct,0,0,704,4556,0.00099
+q_44cb91ad562afc40,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,well known,well known,,1,1.0,correct,0,0,724,4699,0.002308
+q_df49f2bd5852e79b,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,660,4588,0.00096
+q_df49f2bd5852e79b,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,701,4078,0.002278
+q_c73aad1f01e54679,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,691,5257,0.000928
+q_c73aad1f01e54679,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,727,4604,0.00209
+q_44fc576546fbb512,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,692,5898,0.000998
+q_44fc576546fbb512,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,752,4662,0.002412
+q_6b9fc93697b91117,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,740,4833,0.001006
 q_6b9fc93697b91117,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,820,7218,0.0021680000000000002
 q_dbcfcf742f926942,google/gemini-3-pro-preview,greedy,direct,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,718,4782,0.0009660000000000001
 q_dbcfcf742f926942,google/gemini-3-pro-preview,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,706,4418,0.002248
@@ -40090,19 +40110,19 @@ q_49c3146d4a62af8f,google/gemini-3-pro-preview,greedy,direct,natural,3,H3_T0015,
 q_3b4576ca996c3147,google/gemini-3-pro-preview,greedy,direct,natural,3,H3_T0015,2007,2007,,1,1.0,correct,0,0,952,63474,0.0010479999999999999
 q_4c3ec6003ee012cd,google/gemini-3-pro-preview,greedy,direct,natural,3,H3_T0015,None,2007,,0,0.0,missed_answer,0,0,0,6507,0.0
 q_f66967061bbbcd26,google/gemini-3-pro-preview,greedy,direct,natural,3,H3_T0015,2007,2007,,1,1.0,correct,0,0,929,10333,0.00102
-q_fe653c6f148ad44e,gemini-3-pro-preview,self_consistency,direct,natural,1,H1_T0001,None,famous,,0,0.0,missed_answer,0,0,3467,25120,0.0
-q_fe653c6f148ad44e,gemini-3-pro-preview,self_consistency,scot,natural,1,H1_T0001,None,famous,,0,0.0,missed_answer,0,0,4081,28834,0.0
-q_bf5b60f622b9b643,gemini-3-pro-preview,self_consistency,direct,natural,1,H1_T0001,None,unknown,,0,0.0,wrong_answer,0,0,3480,23461,0.0
-q_bf5b60f622b9b643,gemini-3-pro-preview,self_consistency,scot,natural,1,H1_T0001,None,unknown,,0,0.0,wrong_answer,0,0,4861,34135,0.0
-q_b6ab29e353e7e115,gemini-3-pro-preview,self_consistency,direct,natural,1,H1_T0001,None,famous,,0,0.0,missed_answer,0,0,3369,22308,0.0
-q_b6ab29e353e7e115,gemini-3-pro-preview,self_consistency,scot,natural,1,H1_T0001,None,famous,,0,0.0,missed_answer,0,0,3999,27892,0.0
-q_4ed4d9576478ad42,gemini-3-pro-preview,self_consistency,direct,natural,1,H1_T0001,None,famous,,0,0.0,missed_answer,0,0,3418,24569,0.0
-q_4ed4d9576478ad42,gemini-3-pro-preview,self_consistency,scot,natural,1,H1_T0001,None,famous,,0,0.0,missed_answer,0,0,4544,35383,0.0
-q_ebf4480c77b43506,gemini-3-pro-preview,self_consistency,direct,natural,1,H1_T0001,None,famous,,0,0.0,missed_answer,0,0,3531,24491,0.0
-q_ebf4480c77b43506,gemini-3-pro-preview,self_consistency,scot,natural,1,H1_T0001,None,famous,,0,0.0,missed_answer,0,0,4083,26522,0.0
-q_154a08d31097fede,gemini-3-pro-preview,self_consistency,direct,natural,1,H1_T0001,None,famous,,0,0.0,missed_answer,0,0,3561,32225,0.0
-q_154a08d31097fede,gemini-3-pro-preview,self_consistency,scot,natural,1,H1_T0001,None,famous,,0,0.0,missed_answer,0,0,3834,40145,0.0
-q_07d1f90f639e6e3b,gemini-3-pro-preview,self_consistency,direct,natural,1,H1_T0001,None,famous,,0,0.0,missed_answer,0,0,3406,25774,0.0
+q_fe653c6f148ad44e,google/gemini-3-pro-preview,self_consistency,direct,natural,1,H1_T0001,None,famous,,0,0.0,missed_answer,0,0,3467,25120,0.0048400000000000006
+q_fe653c6f148ad44e,google/gemini-3-pro-preview,self_consistency,scot,natural,1,H1_T0001,None,famous,,0,0.0,missed_answer,0,0,4081,28834,0.009738
+q_bf5b60f622b9b643,google/gemini-3-pro-preview,self_consistency,direct,natural,1,H1_T0001,None,unknown,,0,0.0,wrong_answer,0,0,3480,23461,0.004882
+q_bf5b60f622b9b643,google/gemini-3-pro-preview,self_consistency,scot,natural,1,H1_T0001,None,unknown,,0,0.0,wrong_answer,0,0,4861,34135,0.0054
+q_b6ab29e353e7e115,google/gemini-3-pro-preview,self_consistency,direct,natural,1,H1_T0001,None,famous,,0,0.0,missed_answer,0,0,3369,22308,0.00477
+q_b6ab29e353e7e115,google/gemini-3-pro-preview,self_consistency,scot,natural,1,H1_T0001,None,famous,,0,0.0,missed_answer,0,0,3999,27892,0.00884
+q_4ed4d9576478ad42,google/gemini-3-pro-preview,self_consistency,direct,natural,1,H1_T0001,None,famous,,0,0.0,missed_answer,0,0,3418,24569,0.00473
+q_4ed4d9576478ad42,google/gemini-3-pro-preview,self_consistency,scot,natural,1,H1_T0001,None,famous,,0,0.0,missed_answer,0,0,4544,35383,0.007587999999999999
+q_ebf4480c77b43506,google/gemini-3-pro-preview,self_consistency,direct,natural,1,H1_T0001,None,famous,,0,0.0,missed_answer,0,0,3531,24491,0.004844
+q_ebf4480c77b43506,google/gemini-3-pro-preview,self_consistency,scot,natural,1,H1_T0001,None,famous,,0,0.0,missed_answer,0,0,4083,26522,0.009742
+q_154a08d31097fede,google/gemini-3-pro-preview,self_consistency,direct,natural,1,H1_T0001,None,famous,,0,0.0,missed_answer,0,0,3561,32225,0.00478
+q_154a08d31097fede,google/gemini-3-pro-preview,self_consistency,scot,natural,1,H1_T0001,None,famous,,0,0.0,missed_answer,0,0,3834,40145,0.009174000000000002
+q_07d1f90f639e6e3b,google/gemini-3-pro-preview,self_consistency,direct,natural,1,H1_T0001,None,famous,,0,0.0,missed_answer,0,0,3406,25774,0.00475
 q_07d1f90f639e6e3b,google/gemini-3-pro-preview,self_consistency,scot,natural,1,H1_T0001,None,famous,,0,0.0,missed_answer,0,0,3797,28563,0.009852
 q_fa12ee00e7b012ad,google/gemini-3-pro-preview,self_consistency,direct,natural,1,H1_T0001,None,famous,,0,0.0,missed_answer,0,0,3375,23555,0.00478
 q_fa12ee00e7b012ad,google/gemini-3-pro-preview,self_consistency,scot,natural,1,H1_T0001,None,famous,,0,0.0,missed_answer,0,0,4054,29950,0.010026
@@ -41441,6 +41461,10 @@ q_b63d27e0c13c1002,google/gemini-3-pro-preview,self_consistency,scot,natural,2,H
 q_90ddabf3e1decbb8,google/gemini-3-pro-preview,self_consistency,direct,natural,2,H2_T0014,None,1974,,0,0.0,missed_answer,0,0,4330,47306,0.00518
 q_90ddabf3e1decbb8,google/gemini-3-pro-preview,self_consistency,scot,natural,2,H2_T0014,None,1974,,0,0.0,missed_answer,0,0,5045,62050,0.011266
 q_ff98171a7924faf6,google/gemini-3-pro-preview,self_consistency,direct,natural,2,H2_T0014,None,1935,,0,0.0,missed_answer,0,0,4699,64362,0.0050420000000000005
+q_ff98171a7924faf6,google/gemini-3-pro-preview,self_consistency,scot,natural,2,H2_T0014,None,1935,,0,0.0,missed_answer,0,0,5165,69918,0.010936000000000001
+q_9b5fe7feea217e0c,google/gemini-3-pro-preview,self_consistency,direct,natural,2,H2_T0014,None,2012,,0,0.0,missed_answer,0,0,4530,82360,0.0051199999999999996
+q_9b5fe7feea217e0c,google/gemini-3-pro-preview,self_consistency,scot,natural,2,H2_T0014,None,2012,,0,0.0,missed_answer,0,0,5007,263849,0.010354
+q_4e9481829410af34,google/gemini-3-pro-preview,self_consistency,direct,natural,2,H2_T0015,None,Catherine Breillat,,0,0.0,missed_answer,0,0,3823,30766,0.00481
 q_fe653c6f148ad44e,meta/llama-4-maverick-17b-128e-instruct-maas,greedy,scot,natural,1,H1_T0001,famous,famous,,1,1.0,correct,0,0,496,1438,0.0002096
 q_bf5b60f622b9b643,meta/llama-4-maverick-17b-128e-instruct-maas,greedy,direct,natural,1,H1_T0001,unknown,unknown,,1,1.0,correct,0,0,410,893,0.0001499
 q_bf5b60f622b9b643,meta/llama-4-maverick-17b-128e-instruct-maas,greedy,scot,natural,1,H1_T0001,unknown,unknown,,1,1.0,correct,0,0,532,717,0.000251

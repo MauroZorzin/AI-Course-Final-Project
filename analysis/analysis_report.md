@@ -1,9 +1,9 @@
 # Experiment Analysis Report
 
 ## Best Performing Model
-| model                |       em |
-|:---------------------|---------:|
-| gemini-3-pro-preview | 0.841463 |
+| model                       |       em |
+|:----------------------------|---------:|
+| google/gemini-3-pro-preview | 0.622383 |
 
 ## Detailed Outcome Breakdown
 |                                                                    |   correct |   missed_answer |   parse_error |   wrong_answer |   Total |
@@ -11,10 +11,9 @@
 | ('deepseek-ai/deepseek-v3.2-maas', 'abstract')                     |     48.95 |           51.05 |          0    |           0    |     100 |
 | ('deepseek-ai/deepseek-v3.2-maas', 'counterfactual')               |     45.99 |           53.92 |          0    |           0.09 |     100 |
 | ('deepseek-ai/deepseek-v3.2-maas', 'natural')                      |     45.8  |           54    |          0    |           0.2  |     100 |
-| ('gemini-3-pro-preview', 'natural')                                |     84.15 |           13.41 |          0    |           2.44 |     100 |
-| ('google/gemini-3-pro-preview', 'abstract')                        |     62.69 |           37.06 |          0.25 |           0    |     100 |
-| ('google/gemini-3-pro-preview', 'counterfactual')                  |     64.83 |           35.03 |          0.03 |           0.11 |     100 |
-| ('google/gemini-3-pro-preview', 'natural')                         |     58.88 |           40.79 |          0.15 |           0.18 |     100 |
+| ('google/gemini-3-pro-preview', 'abstract')                        |     62.48 |           37.27 |          0.25 |           0    |     100 |
+| ('google/gemini-3-pro-preview', 'counterfactual')                  |     64.67 |           35.19 |          0.03 |           0.11 |     100 |
+| ('google/gemini-3-pro-preview', 'natural')                         |     59.42 |           40.2  |          0.15 |           0.24 |     100 |
 | ('meta/llama-4-maverick-17b-128e-instruct-maas', 'abstract')       |     45.56 |           54.15 |          0.05 |           0.25 |     100 |
 | ('meta/llama-4-maverick-17b-128e-instruct-maas', 'counterfactual') |     44.59 |           55.24 |          0.02 |           0.15 |     100 |
 | ('meta/llama-4-maverick-17b-128e-instruct-maas', 'natural')        |     44.58 |           55.15 |          0    |           0.27 |     100 |
@@ -31,14 +30,12 @@
 | deepseek-ai/deepseek-v3.2-maas               | counterfactual  | scot                 | 0.498721 | 0.498721 |     10971.4  | 0.00136897  |
 | deepseek-ai/deepseek-v3.2-maas               | natural         | direct               | 0.417566 | 0.417566 |      4653.22 | 0.000750508 |
 | deepseek-ai/deepseek-v3.2-maas               | natural         | scot                 | 0.498528 | 0.498528 |     11047.6  | 0.00132812  |
-| gemini-3-pro-preview                         | natural         | direct               | 0.847826 | 0.847826 |      8309.3  | 0           |
-| gemini-3-pro-preview                         | natural         | scot                 | 0.833333 | 0.833333 |      9426.75 | 0           |
-| google/gemini-3-pro-preview                  | abstract        | direct               | 0.626949 | 0.626949 |     17321.2  | 0.003678    |
-| google/gemini-3-pro-preview                  | abstract        | scot                 | 0.626949 | 0.627006 |     19845.4  | 0.00712912  |
-| google/gemini-3-pro-preview                  | counterfactual  | direct               | 0.645949 | 0.645949 |     15551.2  | 0.00235546  |
-| google/gemini-3-pro-preview                  | counterfactual  | scot                 | 0.65075  | 0.65075  |     16627.8  | 0.00502887  |
-| google/gemini-3-pro-preview                  | natural         | direct               | 0.58581  | 0.58581  |     17013.2  | 0.00254279  |
-| google/gemini-3-pro-preview                  | natural         | scot                 | 0.591677 | 0.591736 |     18344    | 0.00532609  |
+| google/gemini-3-pro-preview                  | abstract        | direct               | 0.624612 | 0.624612 |     17418.9  | 0.00369269  |
+| google/gemini-3-pro-preview                  | abstract        | scot                 | 0.625    | 0.625057 |     19910.2  | 0.00715971  |
+| google/gemini-3-pro-preview                  | counterfactual  | direct               | 0.644518 | 0.644518 |     15605.3  | 0.00236134  |
+| google/gemini-3-pro-preview                  | counterfactual  | scot                 | 0.648948 | 0.648948 |     16729.6  | 0.0050459   |
+| google/gemini-3-pro-preview                  | natural         | direct               | 0.592222 | 0.592222 |     16823.9  | 0.00251862  |
+| google/gemini-3-pro-preview                  | natural         | scot                 | 0.596108 | 0.596166 |     18329.9  | 0.00528779  |
 | meta/llama-4-maverick-17b-128e-instruct-maas | abstract        | direct               | 0.452895 | 0.453004 |      2007.74 | 0.000464388 |
 | meta/llama-4-maverick-17b-128e-instruct-maas | abstract        | scot                 | 0.458292 | 0.458292 |      2914.52 | 0.000749281 |
 | meta/llama-4-maverick-17b-128e-instruct-maas | counterfactual  | direct               | 0.430094 | 0.430105 |      1969.95 | 0.000425859 |
