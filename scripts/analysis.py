@@ -120,6 +120,34 @@ def plot_efficiency(df, out_dir):
     plt.close()
     print(f"Saved {out_path}")
 
+def plot_cost_analysis(df, out_dir):
+    """
+    Bar chart of Average Cost per Query by Model/Strategy.
+    """
+    if "cost" not in df.columns or df["cost"].sum() == 0:
+        print("No cost data available to plot.")
+        return
+
+    plt.figure()
+    
+    # Calculate average cost (multiplying by 1000 for cleaner numbers if costs are tiny, e.g. cost per 1k queries)
+    # But usually "cost per query" is fine, or we check magnitude.
+    # Let's plot raw cost but ensure y-axis is labeled clearly.
+    
+    g = sns.catplot(
+        data=df, kind="bar",
+        x="model", y="cost", hue="prompting_strategy",
+        errorbar=None, palette="coolwarm", alpha=.9, height=5, aspect=1.5
+    )
+    g.set_axis_labels("Model", "Avg Cost per Query ($)")
+    g.fig.suptitle("Cost Analysis", y=1.02)
+    plt.xticks(rotation=45)
+    
+    out_path = os.path.join(out_dir, "cost_analysis.png")
+    plt.savefig(out_path, bbox_inches='tight')
+    plt.close()
+    print(f"Saved {out_path}")
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--eval", required=True, help="Directory containing evaluation_results.csv or path to csv.")
@@ -153,6 +181,7 @@ def main():
         plot_graph_variant_comparison(df, plots_dir)
         plot_failure_modes(df, plots_dir)
         plot_efficiency(df, plots_dir)
+        plot_cost_analysis(df, plots_dir)
     
     # Textual Analysis Report
     report_path = os.path.join(args.out_dir, "analysis_report.md")
@@ -181,11 +210,15 @@ def main():
 
         # Breakdown
         f.write("## Metric Summary\n")
-        summary = df.groupby(["model", "graph_variant", "prompting_strategy"]).agg({
+        agg_cols = {
             "em": "mean",
             "f1": "mean",
             "latency_ms": "mean"
-        }).reset_index()
+        }
+        if "cost" in df.columns:
+            agg_cols["cost"] = "mean"
+            
+        summary = df.groupby(["model", "graph_variant", "prompting_strategy"]).agg(agg_cols).reset_index()
         f.write(summary.to_markdown(index=False))
         
     print(f"Analysis report saved to {report_path}")

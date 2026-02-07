@@ -103,10 +103,6 @@ python scripts/clean_responses.py
 
 ```shell
 python scripts/evaluate.py --queries sources/queries/instances --responses out --config config/natural.json --natural_queries sources/queries/instances/natural.jsonl --out_dir eval
-
-python scripts/evaluate.py --queries sources/queries/instances --responses out --config config/abstract.json --natural_queries sources/queries/instances/natural.jsonl --out_dir eval
-
-python scripts/evaluate.py --queries sources/queries/instances --responses out --config config/counterfactual.json --natural_queries sources/queries/instances/natural.jsonl --out_dir eval
 ```
 
 ```shell

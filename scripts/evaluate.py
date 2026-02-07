@@ -122,6 +122,33 @@ def load_responses(response_dir: str) -> List[Dict[str, Any]]:
     print(f"Loaded {len(responses)} total response records.")
     return responses
 
+def calculate_cost(model: str, usage: Dict[str, int], pricing: Dict[str, Any]) -> float:
+    """
+    Calculates cost for a single request based on usage and pricing config.
+    Pricing keys: input_per_mtok, output_per_mtok, input_per_mtok_long, output_per_mtok_long, long_context_threshold
+    Usage keys: prompt_token_count, candidates_token_count (or completion_tokens/prompt_tokens variants)
+    """
+    if not pricing or model not in pricing:
+        return 0.0
+
+    model_price = pricing[model]
+    
+    # Normalize usage keys
+    prompt_tokens = usage.get("prompt_token_count") or usage.get("prompt_tokens") or 0
+    output_tokens = usage.get("candidates_token_count") or usage.get("completion_tokens") or 0
+    
+    # Long context logic
+    threshold = model_price.get("long_context_threshold", float("inf"))
+    is_long = prompt_tokens > threshold
+    
+    in_price = model_price.get("input_per_mtok_long" if is_long else "input_per_mtok", 0.0)
+    out_price = model_price.get("output_per_mtok_long" if is_long else "output_per_mtok", 0.0)
+    
+    input_cost = (prompt_tokens / 1_000_000) * in_price
+    output_cost = (output_tokens / 1_000_000) * out_price
+    
+    return input_cost + output_cost
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--queries", required=True, help="Directory containing query instance JSONL files (ground truth).")
@@ -133,6 +160,17 @@ def main():
     args = parser.parse_args()
     
     os.makedirs(args.out_dir, exist_ok=True)
+
+    # 0. Load Config & Pricing
+    pricing = {}
+    if args.config and os.path.exists(args.config):
+        try:
+            with open(args.config, "r", encoding="utf-8") as f:
+                cfg = json.load(f)
+                pricing = cfg.get("pricing", {})
+            print(f"Loaded pricing for models: {list(pricing.keys())}")
+        except Exception as e:
+            print(f"Warning: Failed to load config/pricing: {e}")
     
     # 1. Load Ground Truth
     queries = load_queries(args.queries)
@@ -229,6 +267,7 @@ def main():
         usage = resp.get("usage_total_across_samples", {})
         total_tokens = usage.get("total_token_count", 0)
         latency = resp.get("latency_ms", 0)
+        cost = calculate_cost(resp.get("model"), usage, pricing)
         
         # Append result
         res_record = {
@@ -248,7 +287,8 @@ def main():
             "parse_error": parse_error,
             "parametric_leakage": 1 if is_parametric_leakage else 0,
             "total_tokens": total_tokens,
-            "latency_ms": latency
+            "latency_ms": latency,
+            "cost": cost
         }
         results.append(res_record)
         
@@ -266,7 +306,8 @@ def main():
             "parametric_leakage": "mean",
             "parse_error": "mean",
             "total_tokens": "mean",
-            "latency_ms": "mean"
+            "latency_ms": "mean",
+            "cost": "mean"
         }).reset_index()
         
         # Detailed failure counts
