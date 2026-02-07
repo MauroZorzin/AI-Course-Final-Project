@@ -50,7 +50,7 @@ mamba create -n ai-proj python=3.12
 
 mamba activate ai-proj
 
-mamba install google-genai, seaborn, tabulate
+mamba install google-genai, google-api-core, google-cloud-aiplatform, seaborn, tabulate
 ```
 
 ```shell
@@ -95,6 +95,10 @@ python .\scripts\run_sweep_gcp.py --config .\config\natural.json --parallel
 python .\scripts\run_sweep_gcp.py --config .\config\abstract.json --parallel
 
 python .\scripts\run_sweep_gcp.py --config .\config\counterfactual.json --parallel
+```
+
+```shell
+python scripts/clean_responses.py
 ```
 
 ```shell
