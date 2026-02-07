@@ -1,7 +1,0 @@
-model,decoding,hop,n,em_mean,em_stderr,em_ci_95_low,em_ci_95_high,f1_mean,f1_stderr
-deepseek-ai/deepseek-v3.2-maas,greedy,1,6,0.0,0.0,0.0,0.0,0.0,0.0
-deepseek-ai/deepseek-v3.2-maas,greedy,2,6,0.0,0.0,0.0,0.0,0.0,0.0
-deepseek-ai/deepseek-v3.2-maas,greedy,3,6,0.0,0.0,0.0,0.0,0.0,0.0
-gemini-2.5-flash,greedy,1,6,0.0,0.0,0.0,0.0,0.0,0.0
-gemini-2.5-flash,greedy,2,6,0.0,0.0,0.0,0.0,0.0,0.0
-gemini-2.5-flash,greedy,3,6,0.0,0.0,0.0,0.0,0.0,0.0

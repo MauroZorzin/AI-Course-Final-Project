@@ -1,7 +1,0 @@
-model,decoding,graph_variant,n,em_mean,em_stderr,f1_mean,override_rate,adherence_rate
-deepseek-ai/deepseek-v3.2-maas,greedy,abstract,6,0.0,0.0,0.0,,
-deepseek-ai/deepseek-v3.2-maas,greedy,counterfactual,6,0.0,0.0,0.0,,
-deepseek-ai/deepseek-v3.2-maas,greedy,natural,6,0.0,0.0,0.0,,
-gemini-2.5-flash,greedy,abstract,6,0.0,0.0,0.0,,
-gemini-2.5-flash,greedy,counterfactual,6,0.0,0.0,0.0,,
-gemini-2.5-flash,greedy,natural,6,0.0,0.0,0.0,,

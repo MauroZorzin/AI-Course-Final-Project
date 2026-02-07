@@ -1,5 +1,0 @@
-model,decoding,prompting_strategy,n,em_mean,em_stderr,f1_mean,f1_stderr
-deepseek-ai/deepseek-v3.2-maas,greedy,direct,9,0.0,0.0,0.0,0.0
-deepseek-ai/deepseek-v3.2-maas,greedy,scot,9,0.0,0.0,0.0,0.0
-gemini-2.5-flash,greedy,direct,9,0.0,0.0,0.0,0.0
-gemini-2.5-flash,greedy,scot,9,0.0,0.0,0.0,0.0

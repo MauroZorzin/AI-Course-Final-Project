@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 """
-evaluate.py - Enhanced version
+evaluate.py - SPARK Benchmark Evaluation
 
-Compute SPARK benchmark metrics with improved:
-- Error handling and validation
-- Statistical confidence intervals
-- Detailed failure analysis
-- Token efficiency metrics
-- Better logging and progress tracking
+Evaluates model responses against gold answers with comprehensive metrics.
+
+Usage:
+    python evaluate.py --queries sources/queries --responses out/natural --out_dir eval/natural --config config.json
 """
 
 from __future__ import annotations
@@ -24,7 +22,7 @@ import sys
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple
 
 JSON = Dict[str, Any]
 
@@ -99,7 +97,7 @@ def coerce_answer(x: Any) -> List[str]:
                 dedup.append(s)
         return dedup
     if isinstance(x, dict):
-        for k in ("final_answer", "answer", "name", "value", "text", "result"):
+        for k in ("final_answer", "answer", "gold_answer", "name", "value", "text", "result"):
             if k in x:
                 return coerce_answer(x.get(k))
     return []
@@ -181,7 +179,7 @@ def coerce_path(x: Any) -> List[str]:
                 out.append(nt)
         return out
     if isinstance(x, dict):
-        for k in ("path", "predicted_path", "reasoning_path", "supporting_triples", "reasoning"):
+        for k in ("path", "gold_path", "predicted_path", "reasoning_path", "supporting_triples", "reasoning"):
             if k in x:
                 return coerce_path(x.get(k))
     return []
@@ -281,7 +279,6 @@ def confidence_interval_95(xs: List[float]) -> Optional[Tuple[float, float]]:
     stderr_val = safe_stderr(xs)
     if mean_val is None or stderr_val is None:
         return None
-    # Approximation using 1.96 * SE for 95% CI
     margin = 1.96 * stderr_val
     return (mean_val - margin, mean_val + margin)
 
@@ -303,28 +300,56 @@ def iter_jsonl(path: str):
                 print(f"Warning: Failed to parse JSON at {path}:{line_no}: {e}", file=sys.stderr)
 
 
-def find_files(path_or_glob: str, filename: str) -> List[str]:
-    """Find files matching pattern."""
-    if os.path.isfile(path_or_glob):
-        return [path_or_glob]
+def find_query_files(queries_path: str) -> List[str]:
+    """Find query JSONL files."""
+    files = []
     
-    if os.path.isdir(path_or_glob):
-        direct = os.path.join(path_or_glob, filename)
-        if os.path.isfile(direct):
-            return [direct]
-        # Search recursively
-        return sorted(glob.glob(os.path.join(path_or_glob, "**", filename), recursive=True))
+    # Direct file
+    if os.path.isfile(queries_path) and queries_path.endswith(".jsonl"):
+        return [queries_path]
+    
+    # Directory
+    if os.path.isdir(queries_path):
+        # Check for instances directory
+        instances_dir = os.path.join(queries_path, "instances")
+        if os.path.isdir(instances_dir):
+            files.extend(glob.glob(os.path.join(instances_dir, "*.jsonl")))
+        
+        # Check for direct jsonl files
+        files.extend(glob.glob(os.path.join(queries_path, "*.jsonl")))
+        
+        return sorted(set(files))
     
     # Glob pattern
-    if any(ch in path_or_glob for ch in ["*", "?", "["]):
-        return sorted(glob.glob(path_or_glob, recursive=True))
+    if any(ch in queries_path for ch in ["*", "?", "["]):
+        return sorted(glob.glob(queries_path, recursive=True))
+    
+    return []
+
+
+def find_response_files(responses_path: str) -> List[str]:
+    """Find response JSONL files."""
+    files = []
+    
+    # Direct file
+    if os.path.isfile(responses_path) and responses_path.endswith(".jsonl"):
+        return [responses_path]
+    
+    # Directory - search recursively for responses.jsonl
+    if os.path.isdir(responses_path):
+        files = glob.glob(os.path.join(responses_path, "**", "responses.jsonl"), recursive=True)
+        return sorted(files)
+    
+    # Glob pattern
+    if any(ch in responses_path for ch in ["*", "?", "["]):
+        return sorted(glob.glob(responses_path, recursive=True))
     
     return []
 
 
 def get_gold_answer(query: JSON) -> List[str]:
     """Extract gold answer from query."""
-    for key in ("gold_answer", "answer", "expected_answer", "final_answer"):
+    for key in ("gold_answers", "gold_answer", "answer", "expected_answer"):
         if key in query:
             return coerce_answer(query[key])
     return []
@@ -346,7 +371,6 @@ def extract_usage(resp: JSON) -> Tuple[Optional[int], Optional[int], Optional[in
         output_tokens = usage.get("completion_tokens") or usage.get("output_tokens")
         total_tokens = usage.get("total_tokens")
         
-        # Calculate total if not provided
         if total_tokens is None and prompt_tokens is not None and output_tokens is not None:
             total_tokens = prompt_tokens + output_tokens
         
@@ -361,6 +385,37 @@ def extract_usage(resp: JSON) -> Tuple[Optional[int], Optional[int], Optional[in
         total_tokens = prompt_tokens + output_tokens
     
     return prompt_tokens, output_tokens, total_tokens
+
+
+def infer_metadata_from_path(filepath: str) -> Dict[str, str]:
+    """Infer model, decoding, graph_variant from file path."""
+    parts = Path(filepath).parts
+    metadata = {}
+    
+    # Try to find graph variant (natural, abstract, counterfactual)
+    for part in parts:
+        if part in ["natural", "abstract", "counterfactual"]:
+            metadata["graph_variant"] = part
+            break
+    
+    # Try to find decoding strategy
+    for part in parts:
+        if part in ["greedy", "self_consistency"]:
+            metadata["decoding"] = part
+            break
+    
+    # Try to find model name (usually after graph variant and before decoding)
+    # Structure: out/{graph}/{provider}/{model}/{decoding}/responses.jsonl
+    if "graph_variant" in metadata:
+        try:
+            idx = parts.index(metadata["graph_variant"])
+            if idx + 2 < len(parts):
+                # parts[idx+1] is provider, parts[idx+2] is model
+                metadata["model"] = parts[idx + 2]
+        except ValueError:
+            pass
+    
+    return metadata
 
 
 # ============================================================================
@@ -419,8 +474,7 @@ class Bucket:
         # Efficiency metrics
         if self.latency_ms:
             result["latency_ms_mean"] = safe_mean(self.latency_ms)
-            result["latency_ms_p50"] = statistics.median(self.latency_ms) if self.latency_ms else None
-            result["latency_ms_p95"] = statistics.quantiles(self.latency_ms, n=20)[18] if len(self.latency_ms) >= 20 else None
+            result["latency_ms_median"] = statistics.median(self.latency_ms)
         
         if self.total_tokens:
             result["total_tokens_mean"] = safe_mean(self.total_tokens)
@@ -436,7 +490,7 @@ class Bucket:
             result["estimated_cost_usd_mean"] = safe_mean(self.estimated_cost_usd)
             result["estimated_cost_usd_total"] = sum(self.estimated_cost_usd)
         
-        # Token efficiency: EM per 1000 tokens
+        # Token efficiency
         if self.em and self.total_tokens:
             total_correct = sum(self.em)
             total_tokens_sum = sum(self.total_tokens)
@@ -471,10 +525,10 @@ def group_key(resp: JSON) -> Tuple[str, str, str, str, int]:
 
 def main() -> None:
     ap = argparse.ArgumentParser(
-        description="Evaluate SPARK benchmark results with comprehensive metrics"
+        description="Evaluate SPARK benchmark results"
     )
-    ap.add_argument("--queries", required=True, help="Path to queries JSONL or directory")
-    ap.add_argument("--responses", required=True, help="Path to responses JSONL or directory")
+    ap.add_argument("--queries", required=True, help="Path to queries directory or JSONL file")
+    ap.add_argument("--responses", required=True, help="Path to responses directory or JSONL file")
     ap.add_argument("--out_dir", required=True, help="Output directory")
     ap.add_argument("--config", help="Config JSON with pricing info")
     ap.add_argument("--verbose", action="store_true", help="Verbose output")
@@ -491,13 +545,8 @@ def main() -> None:
         print(f"Loaded pricing for: {', '.join(sorted(pricing.keys()))}")
     
     # Find files
-    query_files = find_files(args.queries, "queries.jsonl")
-    if not query_files:
-        query_files = find_files(args.queries, "*.jsonl")
-    
-    resp_files = find_files(args.responses, "responses.jsonl")
-    if not resp_files:
-        resp_files = find_files(args.responses, "*.jsonl")
+    query_files = find_query_files(args.queries)
+    resp_files = find_response_files(args.responses)
     
     if not query_files:
         raise SystemExit(f"No query files found in: {args.queries}")
@@ -507,6 +556,10 @@ def main() -> None:
     if args.verbose:
         print(f"Found {len(query_files)} query file(s)")
         print(f"Found {len(resp_files)} response file(s)")
+        for f in query_files:
+            print(f"  Query: {f}")
+        for f in resp_files:
+            print(f"  Response: {f}")
     
     # Load queries
     query_by_id = {}
@@ -514,7 +567,7 @@ def main() -> None:
     
     for qf in query_files:
         for query in iter_jsonl(qf):
-            qid = str(query.get("query_id", ""))
+            qid = str(query.get("id", ""))
             if qid:
                 query_by_id[qid] = query
                 
@@ -536,14 +589,14 @@ def main() -> None:
     
     # CSV header
     csv_columns = [
-        "prompt_id", "query_id", "intent_key", "model", "decoding",
+        "query_id", "intent_key", "model", "decoding",
         "prompting_strategy", "graph_variant", "hop", "template_id",
         "gold_answer", "pred_answer", "exact_match", "f1",
         "override", "adherence", "path_precision", "path_recall", "path_em",
         "prior_knowledge_answer", "prior_knowledge_em",
         "finish_reason", "is_empty_response",
         "latency_ms", "prompt_tokens", "output_tokens", "total_tokens",
-        "estimated_cost_usd", "parse_error", "error_type"
+        "estimated_cost_usd", "parse_error", "error_type", "response_file"
     ]
     
     # Process responses
@@ -553,21 +606,47 @@ def main() -> None:
         w.writeheader()
         
         for rf in resp_files:
+            if args.verbose:
+                print(f"Processing {rf}...")
+            
+            # Infer metadata from path
+            path_metadata = infer_metadata_from_path(rf)
+            
             for resp in iter_jsonl(rf):
-                qid = str(resp.get("query_id") or "")
+                # Get query ID
+                qid = str(resp.get("id") or resp.get("query_id") or "")
                 q = query_by_id.get(qid, {})
+                
+                # Merge metadata
+                for key, value in path_metadata.items():
+                    if key not in resp or not resp.get(key):
+                        resp[key] = value
+                
                 golds = get_gold_answer(q)
                 pred = coerce_answer(resp.get("final_answer"))
                 
                 # Fallback
                 if not pred:
                     pred = coerce_answer(resp.get("parsed_json"))
+                if not pred:
+                    pred = coerce_answer(resp.get("answer"))
                 
                 em, f1 = best_em_f1(pred, golds)
                 
-                # Counterfactual metrics
-                graph_variant = str(resp.get("graph_variant") or "").lower()
+                # Get metadata
+                graph_variant = str(resp.get("graph_variant") or q.get("graph_variant") or "").lower()
                 intent_key = str(resp.get("intent_key") or q.get("intent_key") or "")
+                hop = int(resp.get("hop") or q.get("hop") or 0)
+                prompting_strategy = str(resp.get("prompting_strategy") or "")
+                
+                # Infer prompting strategy from prompt_id if not present
+                if not prompting_strategy:
+                    prompt_id = resp.get("prompt_id", "")
+                    if "::direct" in prompt_id:
+                        prompting_strategy = "direct"
+                    elif "::scot" in prompt_id:
+                        prompting_strategy = "scot"
+                
                 natural_gold = natural_gold_by_intent.get(intent_key, [])
                 
                 override = None
@@ -628,14 +707,13 @@ def main() -> None:
                 
                 # Write row
                 row = {
-                    "prompt_id": resp.get("prompt_id"),
                     "query_id": qid,
                     "intent_key": intent_key,
                     "model": model,
                     "decoding": resp.get("decoding"),
-                    "prompting_strategy": resp.get("prompting_strategy"),
-                    "graph_variant": resp.get("graph_variant"),
-                    "hop": resp.get("hop"),
+                    "prompting_strategy": prompting_strategy,
+                    "graph_variant": graph_variant,
+                    "hop": hop,
                     "template_id": resp.get("template_id") or q.get("template_id"),
                     "gold_answer": golds[0] if len(golds) == 1 else json.dumps(golds, ensure_ascii=False),
                     "pred_answer": pred[0] if len(pred) == 1 else json.dumps(pred, ensure_ascii=False),
@@ -657,11 +735,20 @@ def main() -> None:
                     "estimated_cost_usd": est_cost,
                     "parse_error": parse_error,
                     "error_type": error_type,
+                    "response_file": rf,
                 }
                 w.writerow(row)
                 
                 # Aggregate
+                # Update resp dict for group_key
+                resp.update({
+                    "model": model,
+                    "prompting_strategy": prompting_strategy,
+                    "graph_variant": graph_variant,
+                    "hop": hop
+                })
                 gk = group_key(resp)
+                
                 for bucket in (overall, agg[gk]):
                     bucket.n += 1
                     bucket.em.append(em)
@@ -701,7 +788,7 @@ def main() -> None:
                 
                 processed += 1
                 if args.verbose and processed % 100 == 0:
-                    print(f"Processed {processed} responses...", file=sys.stderr)
+                    print(f"  Processed {processed} responses...", file=sys.stderr)
     
     if args.verbose:
         print(f"Processed {processed} total responses")

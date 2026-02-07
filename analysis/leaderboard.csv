@@ -1,3 +1,0 @@
-rank,model,decoding,n,em_mean,em_stderr,f1_mean,f1_stderr,latency_ms_median,total_tokens_mean,estimated_cost_usd_total,em_per_1k_tokens
-1,deepseek-ai/deepseek-v3.2-maas,greedy,18,0.0,0.0,0.0,0.0,1161.5,,,
-2,gemini-2.5-flash,greedy,18,0.0,0.0,0.0,0.0,2507.0,,,

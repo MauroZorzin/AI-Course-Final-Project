@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 """
-analysis.py - Enhanced version
+analysis.py - SPARK Benchmark Analysis
 
-Aggregate and analyze SPARK evaluation outputs with:
-- Enhanced statistical analysis (confidence intervals, effect sizes)
-- Better visualization (publication-quality plots)
-- Detailed failure analysis and breakdown
-- Export options (CSV, JSON, LaTeX tables)
-- Comparative analysis across models
+Aggregates and visualizes evaluation results from evaluate.py.
+
+Usage:
+    python analysis.py --eval eval/natural --out_dir analysis/natural --make_plots
 """
 
 from __future__ import annotations
@@ -414,7 +412,13 @@ def plot_em_by_hop(buckets: Dict, out_dir: str, plt, sns):
             means = [safe_mean(by_hop[(model, dec, h)]) for h in hops]
             stderrs = [safe_stderr(by_hop[(model, dec, h)]) for h in hops]
             
-            ax.errorbar(hops, means, yerr=stderrs, marker='o', label=model, capsize=5, linewidth=2)
+            # Filter None values
+            valid_data = [(h, m, s) for h, m, s in zip(hops, means, stderrs) if m is not None]
+            if not valid_data:
+                continue
+            
+            hops_valid, means_valid, stderrs_valid = zip(*valid_data)
+            ax.errorbar(hops_valid, means_valid, yerr=stderrs_valid, marker='o', label=model, capsize=5, linewidth=2)
         
         ax.set_xlabel("Hop Length", fontsize=12)
         ax.set_ylabel("Exact Match (Mean)", fontsize=12)
@@ -537,6 +541,9 @@ def plot_heatmap(buckets: Dict, out_dir: str, plt, sns):
     models = sorted(set(m for (m, _) in heatmap_data.keys()))
     hops = sorted(set(h for (_, h) in heatmap_data.keys()))
     
+    if not models or not hops:
+        return
+    
     # Build matrix
     matrix = []
     for model in models:
@@ -566,7 +573,6 @@ def plot_graph_variant_comparison(buckets: Dict, out_dir: str, plt, sns):
     for (model, dec, _, graph, _), m in buckets.items():
         by_graph[(model, dec)][graph].extend(m["em"])
     
-    # Pick most common model/decoding
     if not by_graph:
         return
     
@@ -644,7 +650,7 @@ def plot_prompting_comparison(buckets: Dict, out_dir: str, plt, sns):
 
 def main() -> None:
     ap = argparse.ArgumentParser(
-        description="Analyze SPARK evaluation results with enhanced statistics and visualization"
+        description="Analyze SPARK evaluation results"
     )
     ap.add_argument("--eval", required=True, help="Path to per_record.csv, eval dir, or parent dir")
     ap.add_argument("--out_dir", required=True, help="Output directory")
