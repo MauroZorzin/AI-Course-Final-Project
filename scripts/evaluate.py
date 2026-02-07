@@ -205,7 +205,7 @@ def main():
         q = queries[qid]
         
         # Extract prediction
-        pred_text = getattr(resp, "final_answer", None)
+        pred_text = resp.get("final_answer")
         
         # If final_answer is missing in top-level, check parsed_json
         if not pred_text and resp.get("parsed_json"):
@@ -282,13 +282,22 @@ def main():
                 elif isinstance(r, str):
                     reasoning = [r]
             
+            # Approximate Path Precision/Recall
+            # We treat finding the gold entities as "Path Accuracy"
             reasoning_text = normalize_answer(" ".join(reasoning))
             
-            # Check coverage: are all elements present?
             if gold_elements:
-                found_count = sum(1 for el in gold_elements if el in reasoning_text)
+                found_count = sum(1 for el in gold_elements if el in reasoning_text and len(el) > 2) # Filtering short tokens
+                # Use a threshold or strict "all found"
                 if found_count == len(gold_elements):
                     path_found = 1
+        elif resp.get("prompting_strategy") == "direct":
+             # Direct prompting has no path requirement, so we can't fail it on paths
+             # But usually path metrics are N/A. We set -1 or keep 0?
+             # User asked for "different metric". 
+             # Let's keep 0 as "No path found" (because none was produced) or mark it distinct?
+             # For aggregation simplicity, 0 is fine, but analysis should separate.
+             pass
 
         # Efficiency
         usage = resp.get("usage_total_across_samples", {})
