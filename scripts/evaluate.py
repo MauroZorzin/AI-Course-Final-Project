@@ -263,6 +263,33 @@ def main():
                     is_parametric_leakage = True
                     outcome = "parametric_leakage" # Specific subtype of wrong_answer
 
+        # Path Fidelity (sCoT only)
+        path_found = 0
+        if resp.get("prompting_strategy") == "scot" and "gold_path" in q:
+            # Flatten gold path elements
+            gold_elements = set()
+            for tri in q["gold_path"]:
+                 gold_elements.add(normalize_answer(tri[0]))
+                 gold_elements.add(normalize_answer(tri[1]))
+                 gold_elements.add(normalize_answer(tri[2]))
+            
+            # Get reasoning
+            reasoning = []
+            if resp.get("parsed_json") and "reasoning" in resp["parsed_json"]:
+                r = resp["parsed_json"]["reasoning"]
+                if isinstance(r, list):
+                    reasoning = [str(x) for x in r]
+                elif isinstance(r, str):
+                    reasoning = [r]
+            
+            reasoning_text = normalize_answer(" ".join(reasoning))
+            
+            # Check coverage: are all elements present?
+            if gold_elements:
+                found_count = sum(1 for el in gold_elements if el in reasoning_text)
+                if found_count == len(gold_elements):
+                    path_found = 1
+
         # Efficiency
         usage = resp.get("usage_total_across_samples", {})
         total_tokens = usage.get("total_token_count", 0)
@@ -283,6 +310,7 @@ def main():
             "natural_gold": natural_gold if natural_gold else "",
             "em": 1 if is_correct else 0,
             "f1": f1,
+            "path_found": path_found,
             "outcome": outcome,
             "parse_error": parse_error,
             "parametric_leakage": 1 if is_parametric_leakage else 0,
@@ -300,9 +328,10 @@ def main():
     
     # 5. Print Summary
     if not df.empty:
-        summary = df.groupby(["model", "graph_variant", "prompting_strategy"]).agg({
+        summary = df.groupby(["model", "decoding", "graph_variant", "prompting_strategy"]).agg({
             "em": "mean",
             "f1": "mean",
+            "path_found": "mean",
             "parametric_leakage": "mean",
             "parse_error": "mean",
             "total_tokens": "mean",
@@ -311,7 +340,7 @@ def main():
         }).reset_index()
         
         # Detailed failure counts
-        failure_counts = df.pivot_table(index=["model", "graph_variant"], columns="outcome", aggfunc="size", fill_value=0)
+        failure_counts = df.pivot_table(index=["model", "decoding", "graph_variant"], columns="outcome", aggfunc="size", fill_value=0)
         
         print("\nSummary:")
         print(summary.to_string())
