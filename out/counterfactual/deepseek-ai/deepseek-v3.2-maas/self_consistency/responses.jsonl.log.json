@@ -1,0 +1,13 @@
+{
+  "prompts_path": "C:\\Users\\ricca\\Desktop\\AI\\AI-Course-Final-Project\\sources\\prompts\\counterfactual.jsonl",
+  "out_path": "C:\\Users\\ricca\\Desktop\\AI\\AI-Course-Final-Project\\out\\counterfactual\\deepseek-ai\\deepseek-v3.2-maas\\self_consistency\\responses.jsonl",
+  "model": "deepseek-ai/deepseek-v3.2-maas",
+  "decoding": "self_consistency",
+  "total_to_process": 0,
+  "skipped_total": 2346,
+  "processed": 0,
+  "errors": 0,
+  "resume": true,
+  "auth_client_email": "ai-service@ai-course-485614.iam.gserviceaccount.com",
+  "auth_project_id_in_key": "ai-course-485614"
+}

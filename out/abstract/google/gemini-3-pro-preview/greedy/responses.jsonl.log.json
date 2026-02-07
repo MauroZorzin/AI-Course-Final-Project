@@ -1,0 +1,13 @@
+{
+  "prompts_path": "C:\\Users\\ricca\\Desktop\\AI\\AI-Course-Final-Project\\sources\\prompts\\abstract.jsonl",
+  "out_path": "C:\\Users\\ricca\\Desktop\\AI\\AI-Course-Final-Project\\out\\abstract\\google\\gemini-3-pro-preview\\greedy\\responses.jsonl",
+  "model": "google/gemini-3-pro-preview",
+  "decoding": "greedy",
+  "total_to_process": 576,
+  "skipped_total": 1462,
+  "processed": 576,
+  "errors": 20,
+  "resume": true,
+  "auth_client_email": "ai-service@ai-course-485614.iam.gserviceaccount.com",
+  "auth_project_id_in_key": "ai-course-485614"
+}
