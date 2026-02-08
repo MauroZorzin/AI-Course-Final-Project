@@ -187,7 +187,8 @@ def plot_accuracy_by_hop(df, out_dir):
                 ax=ax,
                 palette=palette,
                 alpha=0.9,
-                errorbar=None
+                errorbar=None,
+                width=0.9,  # Make bars wider
             )
 
             ax.set_title(f"{strategy.upper()} – {variant.capitalize()}",
@@ -199,7 +200,7 @@ def plot_accuracy_by_hop(df, out_dir):
 
             # Annotate bars with values
             for container in ax.containers:
-                ax.bar_label(container, fmt="%.2f", fontsize=8, padding=2)
+                ax.bar_label(container, fmt="%.1f", fontsize=8, padding=2)
 
             # Single legend on right
             if j == 2:
@@ -272,7 +273,7 @@ def plot_graph_variant_comparison(df, out_dir):
         # Value labels on bars
         for container in ax.containers:
             labels = [
-                f"{v:.2f}" if v is not None else ""
+                f"{v:.1f}" if v is not None else ""
                 for v in container.datavalues
             ]
             ax.bar_label(container, labels=labels, fontsize=9, padding=2)
@@ -347,7 +348,7 @@ def plot_override_rate(df, out_dir):
 
         # Annotate bars
         for container in ax.containers:
-            ax.bar_label(container, fmt="%.2f", fontsize=8, padding=2)
+            ax.bar_label(container, fmt="%.1f", fontsize=8, padding=2)
 
         ax.get_legend().remove()
 
@@ -504,7 +505,7 @@ def plot_efficiency(df, out_dir):
     ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left', frameon=True, shadow=True)
 
     plt.tight_layout()
-    out_path = os.path.join(out_dir, "efficiency_scatter.png")
+    out_path = os.path.join(out_dir, "efficiency_scatter_2.png")
     plt.savefig(out_path, dpi=300, bbox_inches='tight')
     plt.close()
     print(f"Saved {out_path}")
@@ -700,69 +701,95 @@ def plot_heatmap_performance(df, out_dir):
     print(f"Saved {out_path}")
 
 
-def plot_radar_chart(df, out_dir):
+def plot_metrics_histograms(df, out_dir):
     """
-    Radar chart comparing different metrics with consistent colors.
+    Bar charts comparing metric values across configurations
+    for the direct prompting strategy.
+    Uses consistent config colors and a single legend on the right.
     """
-    from math import pi
-    
+    set_style()
     df = prepare_config_column(df)
+
+    # Filter for direct prompting strategy
+    df_direct = df[df["prompting_strategy"] == "scot"]
     
-    # Aggregate metrics
-    metrics = df.groupby(["Config", "prompting_strategy"]).agg({
-        "em": "mean",
-        "f1": "mean",
-        "path_found": "mean",
+    # Aggregate metrics for direct prompting strategy
+    metrics = df_direct.groupby("Config").agg({
+        "em": "mean",  # Column name: "em"
+        "f1": "mean",  # Column name: "f1"
+        "path_found": "mean",  # Column name: "path_found"
     }).reset_index()
     
     # Add inverse normalized latency
-    latency_agg = df.groupby(["Config", "prompting_strategy"])["latency_ms"].mean()
+    latency_agg = df_direct.groupby("Config")["latency_ms"].mean()
     max_latency = latency_agg.max()
     metrics["speed"] = metrics.apply(
-        lambda row: 1 - (df[(df["Config"] == row["Config"]) & 
-                           (df["prompting_strategy"] == row["prompting_strategy"])]["latency_ms"].mean() / max_latency),
+        lambda row: 1 - (df_direct[df_direct["Config"] == row["Config"]]["latency_ms"].mean() / max_latency),
         axis=1
     )
     
+    
+    # Define metrics and their corresponding column names
     categories = ['EM', 'F1', 'Path Found', 'Speed']
-    N = len(categories)
+    column_mapping = {
+        'EM': "em",
+        'F1': "f1",
+        'Path Found': "path_found",
+        'Speed': "speed"
+    }
     
-    strategies = sorted(metrics["prompting_strategy"].unique())
-    fig, axes = plt.subplots(1, len(strategies), figsize=(16, 7), subplot_kw=dict(projection='polar'))
+    # Get unique configurations and generate color palette
+    unique_configs = sorted(metrics["Config"].unique())
+    palette = {cfg: get_config_color(cfg) for cfg in unique_configs}
     
-    if len(strategies) == 1:
-        axes = [axes]
-    
-    fig.suptitle("Multi-Metric Radar Comparison", fontsize=18, fontweight='bold')
-    
-    angles = [n / float(N) * 2 * pi for n in range(N)]
-    angles += angles[:1]
-    
-    for idx, strategy in enumerate(strategies):
+    # Plot bar charts for each metric
+    fig, axes = plt.subplots(2, 2, figsize=(18, 10))
+    fig.suptitle("Metric Values Across Configurations (Direct Prompting Strategy)", fontsize=18, y=0.995)
+    axes = axes.flatten()  # Flatten the axes array for easy iteration
+    for idx, category in enumerate(categories):
         ax = axes[idx]
-        subset = metrics[metrics["prompting_strategy"] == strategy]
-        
-        for i, (_, row) in enumerate(subset.iterrows()):
-            config_name = row["Config"]
-            color = get_config_color(config_name)
-            
-            values = [row["em"], row["f1"], row["path_found"], row["speed"]]
-            values += values[:1]
-            
-            ax.plot(angles, values, 'o-', linewidth=2, label=config_name, 
-                   color=color, alpha=0.7)
-            ax.fill(angles, values, alpha=0.15, color=color)
-        
-        ax.set_xticks(angles[:-1])
-        ax.set_xticklabels(categories, fontsize=11)
-        ax.set_ylim(0, 1)
-        ax.set_title(f"{strategy.upper()}", fontweight='bold', fontsize=13, pad=20)
-        ax.legend(loc='upper right', bbox_to_anchor=(1.3, 1.1), fontsize=9)
-        ax.grid(True, alpha=0.3)
+        column_name = column_mapping[category]
+        subset = metrics[["Config", column_name]]
+        sns.barplot(
+            data=subset,
+            x="Config",
+            y=column_name,
+            hue="Config",
+            hue_order=unique_configs,
+            palette=palette,
+            ax=ax,
+            errorbar=None,
+            alpha=0.9,
+            legend=False
+        )
+        ax.set_title(category, fontsize=12, fontweight="bold", pad=15)
+        ax.set_xlabel("")
+        ax.set_ylabel("Score")
+        ax.set_ylim(0, 1)  # Adjust y-axis limits as needed
+        ax.grid(axis="y", alpha=0.3)
+        ax.set_xticklabels([])  # Hide x-axis labels since we have legend
+        # Annotate bars with values
+        for container in ax.containers:
+            ax.bar_label(container, fmt="%.2f", fontsize=9, padding=3)
+    
+    # Manually create legend from palette
+    from matplotlib.patches import Patch
+    legend_handles = [
+        Patch(facecolor=palette[cfg], label=cfg)
+        for cfg in unique_configs
+    ]
+    axes[1].legend(
+        handles=legend_handles,
+        title="Config",
+        bbox_to_anchor=(1.05, 0.5),
+        loc="center left",
+        frameon=True,
+        fontsize=9
+    )
     
     plt.tight_layout()
-    out_path = os.path.join(out_dir, "radar_comparison.png")
-    plt.savefig(out_path, dpi=300, bbox_inches='tight')
+    out_path = os.path.join(out_dir, "metrics_histograms.png")
+    plt.savefig(out_path, dpi=300, bbox_inches="tight")
     plt.close()
     print(f"Saved {out_path}")
 
@@ -771,23 +798,26 @@ def plot_hop_degradation(df, out_dir):
     """
     Line plot showing performance degradation with increasing hops.
     Uses consistent colors for configs.
+    Changes:
+    - Y-axis limited to 0.5 to 1.
+    - Single legend outside the plot grid.
     """
     df = prepare_config_column(df)
     df["hop"] = df["hop"].astype(int)
-
     hop_perf = (
         df.groupby(["Config", "prompting_strategy", "graph_variant", "hop"])["em"]
         .mean()
         .reset_index()
     )
-
     fig, axes = plt.subplots(2, 3, figsize=(18, 10), sharex=True, sharey=True)
     fig.suptitle("Performance Degradation by Hop Count",
                  fontsize=18, fontweight="bold")
-
     strategies = sorted(hop_perf["prompting_strategy"].unique())
     variants = sorted(hop_perf["graph_variant"].unique())
-
+    
+    # Collect legend handles and labels
+    handles, labels = [], []
+    
     for i, strategy in enumerate(strategies):
         for j, variant in enumerate(variants):
             ax = axes[i, j]
@@ -795,16 +825,13 @@ def plot_hop_degradation(df, out_dir):
                 (hop_perf["prompting_strategy"] == strategy) &
                 (hop_perf["graph_variant"] == variant)
             ]
-
             if subset.empty:
                 ax.axis("off")
                 continue
-
             for config in sorted(subset["Config"].unique()):
                 config_data = subset[subset["Config"] == config].sort_values("hop")
                 color = get_config_color(config)
-
-                ax.plot(
+                line = ax.plot(
                     config_data["hop"],
                     config_data["em"],
                     marker="o",
@@ -814,54 +841,55 @@ def plot_hop_degradation(df, out_dir):
                     color=color,
                     alpha=0.8,
                 )
-
+                # Collect handles and labels for the legend
+                if config not in labels:
+                    handles.append(line[0])
+                    labels.append(config)
             ax.set_title(f"{strategy.upper()} - {variant.capitalize()}",
                          fontweight="bold", fontsize=12)
             ax.set_xlabel("Hop Count" if i == 1 else "", fontsize=11)
             ax.set_ylabel("Exact Match" if j == 0 else "", fontsize=11)
-            ax.set_ylim(0, 1.05)
+            ax.set_ylim(0.6, 1.05)  # Set y-axis to start at 0.5
             ax.grid(True, alpha=0.3)
-
             # Force integer x-axis ticks
             ax.xaxis.set_major_locator(MaxNLocator(integer=True))
-
-            if j == 2:
-                ax.legend(
-                    bbox_to_anchor=(1.05, 0.5),
-                    loc="center left",
-                    frameon=True,
-                    shadow=True,
-                    fontsize=9,
-                )
-
+    
+    # Add a single legend outside the plot grid
+    fig.legend(handles, labels,
+               bbox_to_anchor=(1.02, 0.5),
+               loc="center left",
+               frameon=True,
+               shadow=True,
+               fontsize=9,
+               title="Configuration")
+    
     plt.tight_layout()
     out_path = os.path.join(out_dir, "hop_degradation.png")
     plt.savefig(out_path, dpi=300, bbox_inches="tight")
     plt.close()
     print(f"Saved {out_path}")
 
-
 def plot_cost_vs_accuracy(df, out_dir):
     """
-    Scatter plot showing cost-accuracy tradeoff with consistent colors.
+    Scatter plot showing cost-accuracy tradeoff with consistent colors and further aggregation.
     """
     if "cost" not in df.columns or df["cost"].sum() == 0:
         return
     
+    # Prepare data
     df = prepare_config_column(df)
     
-    agg = df.groupby(["Config", "prompting_strategy", "graph_variant"]).agg({
-        "em": "mean",
-        "cost": "mean"
+    # Aggregate data: Average cost and accuracy per configuration (ignoring prompting strategy and graph variant)
+    agg = df.groupby(["Config"]).agg({
+        "em": "mean",  # Or use "median" for robustness
+        "cost": "mean"  # Or use "median" for robustness
     }).reset_index()
     
-    fig, ax = plt.subplots(figsize=(14, 8))
-    
     # Plot with consistent colors
+    fig, ax = plt.subplots(figsize=(14, 8))
     for config in sorted(agg["Config"].unique()):
         config_data = agg[agg["Config"] == config]
         color = get_config_color(config)
-        
         ax.scatter(
             config_data["cost"],
             config_data["em"],
@@ -873,28 +901,13 @@ def plot_cost_vs_accuracy(df, out_dir):
             label=config
         )
     
+    # Add labels and grid
     ax.set_title("Cost vs Accuracy Tradeoff", fontweight='bold', fontsize=18, pad=20)
     ax.set_xlabel("Average Cost per Query (USD)", fontsize=13)
     ax.set_ylabel("Average Exact Match (Accuracy)", fontsize=13)
     ax.grid(True, linestyle='--', alpha=0.4)
     
-    # Pareto frontier
-    pareto_points = []
-    for _, row in agg.iterrows():
-        is_pareto = True
-        for _, other in agg.iterrows():
-            if (other["cost"] <= row["cost"] and other["em"] >= row["em"]) and \
-               (other["cost"] < row["cost"] or other["em"] > row["em"]):
-                is_pareto = False
-                break
-        if is_pareto:
-            pareto_points.append(row)
-            
-    if pareto_points:
-        pareto_df = pd.DataFrame(pareto_points).sort_values("cost")
-        ax.plot(pareto_df["cost"], pareto_df["em"], color='red', linestyle='--', 
-               linewidth=2.5, alpha=0.6, label='Pareto Frontier')
-    
+    # Add legend
     ax.legend(
         title="Configuration",
         bbox_to_anchor=(1.02, 1), 
@@ -904,6 +917,7 @@ def plot_cost_vs_accuracy(df, out_dir):
         fontsize=10
     )
     
+    # Save plot
     plt.tight_layout()
     out_path = os.path.join(out_dir, "cost_vs_accuracy.png")
     plt.savefig(out_path, dpi=300, bbox_inches='tight')
@@ -913,67 +927,248 @@ def plot_cost_vs_accuracy(df, out_dir):
 
 def plot_outcome_sunburst(df, out_dir):
     """
-    Single-bar plot showing percentage of correct answers
-    per (prompting strategy × graph variant) typology.
+    Horizontal stacked bar charts split by graph_variant (side label).
+    Columns = prompting strategy.
+    Correct outcome uses model/config color.
     """
     set_style()
     df = prepare_config_column(df)
 
-    # Aggregate counts
-    counts = (
-        df.groupby(["prompting_strategy", "graph_variant", "outcome"])
-          .size()
-          .reset_index(name="counts")
+    strategies = sorted(df["prompting_strategy"].unique())
+    variants = sorted(df["graph_variant"].unique())
+    configs = sorted(df["Config"].unique())
+
+    fig, axes = plt.subplots(
+        len(variants),
+        len(strategies),
+        figsize=(5 * len(strategies), 2.8 * len(variants)),
+        sharex=True
     )
 
-    counts["total"] = (
-        counts.groupby(["prompting_strategy", "graph_variant"])["counts"]
-              .transform("sum")
+    if len(variants) == 1:
+        axes = [axes]
+    if len(strategies) == 1:
+        axes = [[ax] for ax in axes]
+
+    fig.suptitle("Outcome Distribution", fontsize=18, fontweight="bold")
+
+    base_outcome_colors = {
+        "missed_answer": "#bdc3c7",
+        "wrong_answer": "#ff0000",
+    }
+
+    config_colors = {cfg: get_config_color(cfg) for cfg in configs}
+
+    for r, variant in enumerate(variants):
+        for c, strategy in enumerate(strategies):
+            ax = axes[r][c]
+
+            subset = df[
+                (df["graph_variant"] == variant) &
+                (df["prompting_strategy"] == strategy)
+            ]
+
+            if subset.empty:
+                ax.axis("off")
+                continue
+
+            counts = (
+                subset.groupby(["Config", "outcome"])
+                      .size()
+                      .reset_index(name="counts")
+            )
+
+            counts["total"] = counts.groupby("Config")["counts"].transform("sum")
+            counts["percentage"] = counts["counts"] / counts["total"] * 100
+
+            pivot = counts.pivot_table(
+                index="Config",
+                columns="outcome",
+                values="percentage",
+                fill_value=0
+            )
+
+            for col in ["correct", "missed_answer", "wrong_answer"]:
+                if col not in pivot.columns:
+                    pivot[col] = 0
+
+            pivot = pivot.loc[configs]
+            y_pos = np.arange(len(pivot))
+            left = np.zeros(len(pivot))
+
+            # Correct (model-colored)
+            for i, cfg in enumerate(pivot.index):
+                v = pivot.loc[cfg, "correct"]
+                if v > 0:
+                    ax.barh(
+                        i,
+                        v,
+                        left=left[i],
+                        color=config_colors[cfg],
+                        height=0.65,
+                        alpha=0.9
+                    )
+                    left[i] += v
+
+            # Other outcomes
+            for outcome in ["missed_answer", "wrong_answer"]:
+                vals = pivot[outcome].values
+                ax.barh(
+                    y_pos,
+                    vals,
+                    left=left,
+                    color=base_outcome_colors[outcome],
+                    height=0.65,
+                    alpha=0.9
+                )
+                left += vals
+
+            ax.set_xlim(0, 100)
+            ax.grid(axis="x", alpha=0.3)
+
+            if r == len(variants) - 1:
+                ax.set_xlabel("Percentage (%)")
+
+            if c == 0:
+                ax.set_yticks(y_pos)
+                ax.set_yticklabels(pivot.index, fontsize=9)
+                ax.set_ylabel(variant, fontsize=11, fontweight="bold")
+            else:
+                ax.set_yticks([])
+
+            if r == 0:
+                ax.set_title(strategy.upper(), fontsize=12, fontweight="bold")
+
+    from matplotlib.patches import Patch
+
+    outcome_legend = [
+        Patch(facecolor="#000000", label="Correct (model color)"),
+        Patch(facecolor=base_outcome_colors["missed_answer"], label="Missed"),
+        Patch(facecolor=base_outcome_colors["wrong_answer"], label="Wrong"),
+    ]
+
+    config_legend = [
+        Patch(facecolor=config_colors[cfg], label=cfg)
+        for cfg in configs
+    ]
+
+    fig.legend(
+        handles=outcome_legend,
+        title="Outcome",
+        loc="lower center",
+        bbox_to_anchor=(0.5, -0.02),
+        ncol=3,
+        frameon=True
     )
 
-    counts["percentage"] = counts["counts"] / counts["total"] * 100
-
-    # Keep only correct outcomes
-    correct = counts[counts["outcome"] == "correct"].copy()
-
-    # Build typology label
-    correct["typology"] = (
-        correct["prompting_strategy"].str.upper()
-        + " – "
-        + correct["graph_variant"].str.capitalize()
-    )
-
-    correct = correct.sort_values("typology")
-
-    # Palette (one color per typology)
-    palette = sns.color_palette("tab10", n_colors=len(correct))
-
-    fig, ax = plt.subplots(figsize=(14, 6))
-    fig.suptitle("Correct Answer Rate by Typology",
-                 fontsize=18, fontweight="bold")
-
-    bars = ax.bar(
-        correct["typology"],
-        correct["percentage"],
-        color=palette,
-        alpha=0.9
-    )
-
-    ax.set_ylabel("Percentage (%)", fontsize=12)
-    ax.set_xlabel("")
-    ax.set_ylim(0, 105)
-    ax.grid(axis="y", alpha=0.3)
-    ax.set_xticklabels(correct["typology"], rotation=30, ha="right")
-
-    # Value labels
-    ax.bar_label(bars, fmt="%.1f%%", fontsize=10, padding=3)
-
-    plt.tight_layout()
+    plt.tight_layout(rect=[0, 0.05, 0.9, 0.95])
     out_path = os.path.join(out_dir, "outcome_distribution.png")
     plt.savefig(out_path, dpi=300, bbox_inches="tight")
     plt.close()
     print(f"Saved {out_path}")
 
+
+def plot_efficiency_enhanced(df, out_dir):
+    """
+    Enhanced scatter plot matching the uploaded design:
+    - Config colors (consistent) with uniform size in legend
+    - Token usage as size in plot
+    - Aggregated based on the model (Config)
+    - Single legend with uniform config dots + token size reference
+    """
+    df = prepare_config_column(df)
+    
+    # Aggregate by Config (ignore prompting_strategy and graph_variant)
+    agg = df.groupby(["Config"]).agg({
+        "em": "mean",
+        "latency_ms": "mean",
+        "total_tokens": "mean"
+    }).reset_index()
+    
+    if agg.empty:
+        print("No data to plot.")
+        return
+    
+    fig, ax = plt.subplots(figsize=(16, 9))
+    
+    # Plot points with Config-specific colors and token-based sizes
+    # Don't add label here - we'll create custom legend with fixed sizes
+    for config in sorted(agg["Config"].unique()):
+        config_data = agg[agg["Config"] == config]
+        color = get_config_color(config)
+        
+        ax.scatter(
+            config_data["latency_ms"],
+            config_data["em"],
+            s=config_data["total_tokens"] / 2,  # Variable size based on tokens
+            color=color,
+            alpha=0.7,
+            edgecolor='white',
+            linewidth=1.5,
+            marker='o'
+            # NO label parameter - we create custom legend below
+        )
+    
+    ax.set_title("Efficiency Analysis: Latency vs Accuracy vs Token Usage", 
+                 fontweight='bold', fontsize=18, pad=20)
+    ax.set_xlabel("Average Latency (ms)", fontsize=14)
+    ax.set_ylabel("Average Exact Match (Accuracy)", fontsize=14)
+    ax.grid(True, linestyle='--', alpha=0.3, zorder=0)
+    
+    # Create custom legend
+    from matplotlib.lines import Line2D
+    
+    # Config handles - UNIFORM SIZE (not based on actual data)
+    config_handles = [
+        Line2D([0], [0], marker='o', color='w',
+               markerfacecolor=get_config_color(config),
+               markersize=10,  # Fixed uniform size for legend
+               label=config,
+               markeredgecolor='white',
+               markeredgewidth=1.5)
+        for config in sorted(agg["Config"].unique())
+    ]
+    
+    # Token size reference handles - gray dots with varying sizes
+    size_handles = [
+        Line2D([0], [0], marker='o', color='w', markerfacecolor='gray',
+               markersize=np.sqrt(1000/2), label='1000 tokens',
+               markeredgecolor='white', markeredgewidth=1.5),
+        Line2D([0], [0], marker='o', color='w', markerfacecolor='gray',
+               markersize=np.sqrt(2000/2), label='2000 tokens',
+               markeredgecolor='white', markeredgewidth=1.5),
+        Line2D([0], [0], marker='o', color='w', markerfacecolor='gray',
+               markersize=np.sqrt(3000/2), label='3000 tokens',
+               markeredgecolor='white', markeredgewidth=1.5),
+        Line2D([0], [0], marker='o', color='w', markerfacecolor='gray',
+               markersize=np.sqrt(5000/2), label='5000 tokens',
+               markeredgecolor='white', markeredgewidth=1.5)
+    ]
+    
+    # Combine all handles for single legend
+    all_handles = config_handles + size_handles
+    
+    # Add combined legend
+    ax.legend(
+        handles=all_handles,
+        title="Configuration & Token Size",
+        bbox_to_anchor=(1.02, 1), 
+        loc='upper left', 
+        frameon=True, 
+        shadow=True,
+        fontsize=10,
+        title_fontsize=12,
+        ncol=1,
+        borderpad=1.2,
+        labelspacing=1.0,
+        handletextpad=1.5
+    )
+    
+    plt.tight_layout()
+    out_path = os.path.join(out_dir, "efficiency_scatter.png")
+    plt.savefig(out_path, dpi=300, bbox_inches='tight')
+    plt.close()
+    print(f"Saved {out_path}")
 
 def main():
     parser = argparse.ArgumentParser(description="Enhanced analysis with consistent naming and colors")
@@ -1015,7 +1210,8 @@ def main():
         
         print("\nGenerating additional insights...")
         plot_heatmap_performance(df, plots_dir)
-        plot_radar_chart(df, plots_dir)
+        plot_efficiency_enhanced(df, plots_dir)
+        plot_metrics_histograms(df, plots_dir)
         plot_hop_degradation(df, plots_dir)
         plot_cost_vs_accuracy(df, plots_dir)
         plot_outcome_sunburst(df, plots_dir)
