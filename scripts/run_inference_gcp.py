@@ -416,7 +416,7 @@ def main() -> None:
     # Retries
     ap.add_argument("--max_retries", type=int, default=6)
     ap.add_argument("--retry_base_delay_s", type=float, default=1.0)
-    ap.add_argument("--retry_max_delay_s", type=float, default=30.0)
+    ap.add_argument("--retry_max_delay_s", type=float, default=300.0)
     ap.add_argument("--retry_jitter", type=float, default=0.3)
     ap.add_argument("--machine_readable_progress", action="store_true", help="Print progress as simple text for parsing.")
 

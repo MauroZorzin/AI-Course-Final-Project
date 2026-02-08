@@ -57,7 +57,7 @@
     "top_p": 0.95,
     "top_k": 40,
     "max_output_tokens": 1024,
-    "max_retries": 1,
+    "max_retries": 10,
     "seed": 42,
     "stop_sequences": []
   },
