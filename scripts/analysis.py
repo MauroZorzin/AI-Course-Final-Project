@@ -378,10 +378,10 @@ def plot_override_rate(df, out_dir):
 
     subset = prepare_config_column(subset)
     # Convert to Percentage
-    subset["em_pct"] = subset["em"] * 100
+    subset["leakage_pct"] = subset["parametric_leakage"] * 100
 
     fig, axes = plt.subplots(1, 2, figsize=(18, 7))
-    fig.suptitle("Counterfactual Override Success Rate (by Hop)",
+    fig.suptitle("Parametric Leakage Rate (by Hop)",
                  fontsize=18, fontweight="bold")
 
     strategies = sorted(subset["prompting_strategy"].unique())
@@ -396,7 +396,7 @@ def plot_override_rate(df, out_dir):
         sns.barplot(
             data=strat_subset,
             x="hop",
-            y="em_pct",
+            y="leakage_pct",
             hue="Config",
             hue_order=unique_configs,
             ax=ax,
@@ -408,7 +408,7 @@ def plot_override_rate(df, out_dir):
 
         ax.set_title(f"{strategy.upper()} Strategy", fontweight="bold", fontsize=14)
         ax.set_xlabel("Hop Count", fontsize=12)
-        ax.set_ylabel("Override Success Rate (%)", fontsize=12)
+        ax.set_ylabel("Parametric Leakage Rate (%)", fontsize=12)
         ax.set_ylim(0, 110)
         ax.grid(axis="y", alpha=0.3)
         if ax.get_legend(): ax.get_legend().remove()
