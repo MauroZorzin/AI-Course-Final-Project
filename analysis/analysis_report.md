@@ -1,6 +1,6 @@
 # Experiment Analysis Report
 
-**Generated:** 2026-02-09 09:54:44
+**Generated:** 2026-02-09 11:17:22
 
 **Total Queries Evaluated:** 51376
 
@@ -17,7 +17,7 @@
 
 - Mean EM: `0.9827`
 - Mean F1: `0.9828`
-- Path Found Rate: `0.2449`
+- Path Found Rate: `0.4768`
 - Mean Latency: `10040.56` ms
 - Total Cost: `$96.5703`
 - Avg Cost per Query: `$0.001880`

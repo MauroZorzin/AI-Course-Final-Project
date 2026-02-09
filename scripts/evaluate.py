@@ -273,24 +273,54 @@ def main():
                  gold_elements.add(normalize_answer(tri[1]))
                  gold_elements.add(normalize_answer(tri[2]))
             
+            # Helper to check a single reasoning chain
+            def check_path_found(reasoning_list):
+                 reasoning_text = normalize_answer(" ".join([str(x) for x in reasoning_list]))
+                 if not gold_elements: return 0
+                 # We filter short tokens to avoid false positives on common words
+                 found_count = sum(1 for el in gold_elements if el in reasoning_text and len(el) > 2)
+                 if found_count == len(gold_elements):
+                    return 1
+                 return 0
+
             # Get reasoning
-            reasoning = []
-            if resp.get("parsed_json") and "reasoning" in resp["parsed_json"]:
-                r = resp["parsed_json"]["reasoning"]
-                if isinstance(r, list):
-                    reasoning = [str(x) for x in r]
-                elif isinstance(r, str):
-                    reasoning = [r]
+            if resp.get("decoding") == "self_consistency" and resp.get("samples"):
+                # Majority voting on PATH
+                path_counts = collections.Counter()
+                path_to_reasoning = {}
+                
+                for s in resp["samples"]:
+                    # Get reasoning from sample
+                    r_sample = []
+                    if s.get("parsed_json") and "reasoning" in s["parsed_json"]:
+                        r_raw = s["parsed_json"]["reasoning"]
+                        if isinstance(r_raw, list):
+                            r_sample = [str(x) for x in r_raw]
+                        elif isinstance(r_raw, str):
+                            r_sample = [r_raw]
+                    
+                    # Tuple-ize for counting
+                    r_tuple = tuple(r_sample)
+                    path_counts[r_tuple] += 1
+                    path_to_reasoning[r_tuple] = r_sample
+                
+                # Find majority
+                if path_counts:
+                    most_common_path, count = path_counts.most_common(1)[0]
+                    # Check if the majority path is correct
+                    path_found = check_path_found(path_to_reasoning[most_common_path])
             
-            # Approximate Path Precision/Recall
-            # We treat finding the gold entities as "Path Accuracy"
-            reasoning_text = normalize_answer(" ".join(reasoning))
-            
-            if gold_elements:
-                found_count = sum(1 for el in gold_elements if el in reasoning_text and len(el) > 2) # Filtering short tokens
-                # Use a threshold or strict "all found"
-                if found_count == len(gold_elements):
-                    path_found = 1
+            else:
+                # Standard / Greedy
+                reasoning = []
+                if resp.get("parsed_json") and "reasoning" in resp["parsed_json"]:
+                    r = resp["parsed_json"]["reasoning"]
+                    if isinstance(r, list):
+                        reasoning = [str(x) for x in r]
+                    elif isinstance(r, str):
+                        reasoning = [r]
+                
+                path_found = check_path_found(reasoning)
         elif resp.get("prompting_strategy") == "direct":
              # Direct prompting has no path requirement, so we can't fail it on paths
              # But usually path metrics are N/A. We set -1 or keep 0?
