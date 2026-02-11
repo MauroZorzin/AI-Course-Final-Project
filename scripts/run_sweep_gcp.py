@@ -1,44 +1,65 @@
 #!/usr/bin/env python3
 """
-run_sweep_gcp_v2.py
+run_sweep_gcp.py (Threaded / Work-Stealing Version)
 
-Drop-in replacement for run_sweep_gcp.py that supports per-run overrides for:
-- location
-- project
-- service_account_json
-- api_version
-
-It keeps the original config format but reads run-level fields if present.
-
-Example run entry:
-{ "model":"llama-4-maverick-17b-128e-instruct-maas", "decoding":"greedy", "location":"us-east5" }
+This script runs multiple inference configurations ("runs") in parallel using a thread pool.
+It implements a dynamic work-stealing scheduler:
+- Each prompt is a task.
+- Workers write to thread-local temporary files for each run (avoids locking output file).
+- At shutdown, temporary files are merged into the main output.
+- Resume logic checks both main output and existing temporary files.
 """
 
 import argparse
-import concurrent.futures
+import datetime
 import json
 import os
-import subprocess
+import threading
+import time
 import sys
-import queue
-from typing import Any, Dict, List, Optional
+import shutil
+from collections import deque
+from concurrent.futures import ThreadPoolExecutor
+from types import SimpleNamespace
+from typing import Any, Dict, List, Optional, Tuple, Set
 
 from tqdm import tqdm
 
-JSONObj = Dict[str, Any]
+try:
+    import run_inference_gcp
+    # Ensure we have access to necessary classes/functions
+    from run_inference_gcp import (
+        RetryConfig, 
+        build_client, 
+        process_one_prompt, 
+        read_jsonl, 
+        should_keep, 
+        load_done_ids
+    )
+except ImportError:
+    sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+    import run_inference_gcp
+    from run_inference_gcp import (
+        RetryConfig, 
+        build_client, 
+        process_one_prompt, 
+        read_jsonl, 
+        should_keep, 
+        load_done_ids
+    )
 
 
-def load_config(path: str) -> JSONObj:
+def load_config(path: str) -> Dict[str, Any]:
     ext = os.path.splitext(path)[1].lower()
     with open(path, "r", encoding="utf-8") as f:
         txt = f.read()
     if ext in (".yaml", ".yml"):
         try:
-            import yaml  # type: ignore
-        except Exception as e:
-            raise RuntimeError("YAML config requested but PyYAML not installed.") from e
+            import yaml
+        except ImportError:
+            raise RuntimeError("YAML config requested but PyYAML not installed.")
         return yaml.safe_load(txt)
-    return json.loads(txt)
+    return json.loads(txt) # Handle JSONL or JSON
 
 
 def project_root() -> str:
@@ -47,236 +68,346 @@ def project_root() -> str:
 
 
 def abspath_from_root(p: str) -> str:
-    if p is None:
-        return p
-    if os.path.isabs(p):
-        return p
+    if not p: return p
+    if os.path.isabs(p): return p
     return os.path.abspath(os.path.join(project_root(), p))
 
 
-def to_cli_args(cfg: JSONObj, run: JSONObj, runner: str) -> List[str]:
-    vertex = cfg.get("vertex", {}) or {}
-    io = cfg.get("io", {}) or {}
-    common = cfg.get("common", {}) or {}
-    filt = cfg.get("filters", {}) or {}
-
-    # Allow per-run overrides
-    project = run.get("project") or vertex.get("project")
-    location = run.get("location") or vertex.get("location")
-    sa_json = run.get("service_account_json") or vertex.get("service_account_json")
-    api_version = run.get("api_version") or vertex.get("api_version")
-
-    args: List[str] = [
-        sys.executable, runner,
-        "--prompts_path", abspath_from_root(io["prompts_path"]),
-        "--out_path", abspath_from_root(os.path.join(io["out_dir"], run.get("model","model"), run.get("decoding","decoding"), "responses.jsonl")),
-        "--model", str(run["model"]),
-        "--decoding", str(run.get("decoding", "greedy")),
-    ]
-
-    if io.get("resume", False):
-        args.append("--resume")
-
-    # Filters
-    if "prompting_strategy" in filt:
-        args += ["--filter_prompting_strategy"] + [str(x) for x in filt["prompting_strategy"]]
-    if "graph_variant" in filt:
-        args += ["--filter_graph_variant"] + [str(x) for x in filt["graph_variant"]]
-    if "hop" in filt:
-        args += ["--filter_hop"] + [str(int(x)) for x in filt["hop"]]
-
-    # Common + run-level overrides
-    merged = dict(common)
-    merged.update({k: v for k, v in run.items() if k not in ("model","decoding")})
-
-    for k in ("temperature","top_p","top_k","max_output_tokens","max_retries","seed"):
-        if k in merged and merged[k] is not None:
-            args += [f"--{k}", str(merged[k])]
-    if merged.get("json_mode", False):
-        args.append("--json_mode")
-    if merged.get("stop_sequences"):
-        args += ["--stop_sequences"] + [str(x) for x in merged["stop_sequences"]]
-
-    # Self-consistency options
-    if run.get("decoding") == "self_consistency":
-        if run.get("sc_samples") is not None:
-            args += ["--sc_samples", str(int(run["sc_samples"]))]
-        if run.get("sc_prefer_non_unknown"):
-            args.append("--sc_prefer_non_unknown")
-
-    # Vertex/auth
-    if vertex.get("use_vertexai", False):
-        args.append("--use_vertexai")
-    if project:
-        args += ["--project", str(project)]
-    if location:
-        args += ["--location", str(location)]
-    if sa_json:
-        args += ["--service_account_json", abspath_from_root(str(sa_json))]
-    if api_version:
-        args += ["--api_version", str(api_version)]
-
-    return args
-
-
-def run_single_job(
-    cfg: JSONObj, 
-    run: JSONObj, 
-    runner: str, 
-    dry_run: bool, 
-    parallel: bool = False,
-    bar_pos: int = 0
-) -> Optional[str]:
-    cmd = to_cli_args(cfg, run, runner)
-    # If parallel, we enable machine_readable_progress
-    if parallel:
-        cmd.append("--machine_readable_progress")
-
-    if dry_run:
-        return " ".join(cmd)
+def create_args_namespace(common_cfg: Dict, run_cfg: Dict, io_cfg: Dict, filters_cfg: Dict) -> SimpleNamespace:
+    merged = {}
     
-    run_name = f"{run.get('model', 'model')}/{run.get('decoding', 'greedy')}"
-    
-    if parallel:
-        # Create a progress bar at the assigned position.
-        # Use position=bar_pos + 1 to leave room for the main bar at 0.
-        # leave=False so it disappears when done (optional, prevents clutter if many lines)
-        pbar = tqdm(total=100, position=bar_pos + 1, desc=f"{run_name}", leave=False, 
-                    bar_format="{desc}: {percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt}")
+    defaults = {
+        "temperature": 0.0,
+        "top_p": 0.95,
+        "top_k": 40,
+        "max_output_tokens": 256,
+        "seed": None,
+        "json_mode": False,
+        "sc_samples": 5,
+        "sc_prefer_non_unknown": False,
+        "stop_sequences": None,
+        "api_version": "v1",
+        "timeout_ms": None,
+        "decoding": "greedy",
+        "max_retries": 6,
+        "retry_base_delay_s": 1.0,
+        "retry_max_delay_s": 300.0,
+        "retry_jitter": 0.3,
+        "limit": 0,
+        "resume": False,
+        "prompts_path": None,
+        "out_path": None,
+        "filter_prompting_strategy": None,
+        "filter_graph_variant": None,
+        "filter_hop": None,
         
-        try:
-             process = subprocess.Popen(
-                 cmd, 
-                 stdout=subprocess.PIPE, 
-                 stderr=subprocess.PIPE, 
-                 text=True, 
-                 encoding='utf-8',
-                 bufsize=1 # Line buffered
-             )
-             
-             # Read stdout for progress updates
-             while True:
-                 line = process.stdout.readline()
-                 if not line and process.poll() is not None:
-                     break
-                 
-                 if line:
-                     line = line.strip()
-                     # Look for PROGRESS_UPDATE:{current}:{total}:{errors}
-                     if line.startswith("PROGRESS_UPDATE:"):
-                         try:
-                             parts = line.split(":")
-                             curr = int(parts[1])
-                             total = int(parts[2])
-                             # errs = int(parts[3])
-                             
-                             if pbar.total != total:
-                                 pbar.reset(total=total)
-                             
-                             pbar.n = curr
-                             pbar.last_print_n = curr
-                             pbar.update(0) # trigger refresh
-                         except Exception:
-                             pass
-             
-             pbar.close()
-             if process.returncode != 0:
-                 stderr_out = process.stderr.read()
-                 raise RuntimeError(f"Job {run_name} failed. Exit code {process.returncode}\nSTDERR: {stderr_out}")
-                 
-             return f"Job {run_name} completed."
-             
-        except Exception as e:
-            pbar.close()
-            raise e
-    else:
-        # Serial: let it stream
-        # (We did not add --machine_readable_progress, so run_inference uses normal tqdm)
-        subprocess.run(cmd, check=True)
-        return None
+        # Auth / Vertex defaults
+        "use_vertexai": False,
+        "project": None,
+        "location": None,
+        "service_account_json": None,
+        "service_account_scopes": None,
+        "api_key": None
+    }
+    merged.update(defaults)
+    merged.update(common_cfg)
+
+    if "prompts_path" in io_cfg:
+        merged["prompts_path"] = abspath_from_root(io_cfg["prompts_path"])
+    
+    if "resume" in io_cfg:
+        merged["resume"] = bool(io_cfg["resume"])
+    
+    if "prompting_strategy" in filters_cfg:
+        merged["filter_prompting_strategy"] = [str(x) for x in filters_cfg["prompting_strategy"]]
+    if "graph_variant" in filters_cfg:
+        merged["filter_graph_variant"] = [str(x) for x in filters_cfg["graph_variant"]]
+    if "hop" in filters_cfg:
+        merged["filter_hop"] = [int(x) for x in filters_cfg["hop"]]
+
+    merged.update(run_cfg)
+    
+    if merged.get("service_account_json"):
+        merged["service_account_json"] = abspath_from_root(merged["service_account_json"])
+    
+    if "out_dir" in io_cfg and "model" in merged:
+        base = abspath_from_root(io_cfg["out_dir"])
+        dec = merged.get("decoding", "greedy")
+        path = os.path.join(base, merged["model"], dec, "responses.jsonl")
+        merged["out_path"] = path
+
+    return SimpleNamespace(**merged)
 
 
-def main() -> None:
+class Scheduler:
+    def __init__(self):
+        self.lock = threading.Lock()
+        self.queues = {}     # run_idx -> deque
+        self.clients = {}    # run_idx -> client
+        self.retry_cfgs = {} # run_idx -> retry_cfg
+        self.auth_infos = {} # run_idx -> auth_info
+        self.args_map = {}   # run_idx -> args
+        self.out_paths = {}  # run_idx -> str (final output path)
+        
+        self.todo_counts = {} # run_idx -> int
+        self.total_processed = 0
+        self.total_errors = 0
+        self.pbar = None
+        
+        # Resume sets (loaded from main + tmp files)
+        self.done_sets = {} # run_idx -> set of prompt_ids
+
+    def load_resume_state(self, run_idx, out_path):
+        """
+        Custom load_done_ids that checks out_path AND out_path + ".part*"
+        """
+        # load_done_ids from run_inference_gcp already scans partial files
+        # in the directory (responses.jsonl.part*).
+        # So we just call it directly.
+        done = load_done_ids(out_path)
+        self.done_sets[run_idx] = done
+
+    def register_run(self, run_idx, args, client, auth_info, retry_cfg):
+        self.clients[run_idx] = client
+        self.auth_infos[run_idx] = auth_info
+        self.retry_cfgs[run_idx] = retry_cfg
+        self.args_map[run_idx] = args
+        self.out_paths[run_idx] = args.out_path
+        self.queues[run_idx] = deque()
+        self.todo_counts[run_idx] = 0
+        
+        os.makedirs(os.path.dirname(args.out_path), exist_ok=True)
+        
+        # Load resume state
+        if getattr(args, "resume", False):
+            self.load_resume_state(run_idx, args.out_path)
+        else:
+            self.done_sets[run_idx] = set()
+
+    def add_task(self, run_idx, prompt_obj):
+        pid = str(prompt_obj.get("prompt_id") or "")
+        # Resume check
+        if pid and pid in self.done_sets[run_idx]:
+            return # Skip
+            
+        self.queues[run_idx].append(prompt_obj)
+        self.todo_counts[run_idx] += 1
+
+    def get_task(self, preferred_run_idx) -> Tuple[Optional[int], Any]:
+        with self.lock:
+            # 1. Try preferred
+            q = self.queues.get(preferred_run_idx)
+            if q and len(q) > 0:
+                self.todo_counts[preferred_run_idx] -= 1
+                return preferred_run_idx, q.popleft()
+            
+            # 2. Help the most behind (largest queue)
+            best_idx = -1
+            max_len = 0
+            for r_idx, dq in self.queues.items():
+                if len(dq) > max_len:
+                    max_len = len(dq)
+                    best_idx = r_idx
+            
+            if best_idx != -1:
+                self.todo_counts[best_idx] -= 1
+                return best_idx, self.queues[best_idx].popleft()
+            
+            return None, None
+
+    def update_stats(self, success: bool):
+        with self.lock:
+            self.total_processed += 1
+            if not success:
+                self.total_errors += 1
+            if self.pbar:
+                self.pbar.update(1)
+                self.pbar.set_postfix_str(f"err={self.total_errors}")
+
+
+class WorkerContext:
+    def __init__(self, scheduler: Scheduler, worker_id: int):
+        self.scheduler = scheduler
+        self.worker_id = worker_id
+        # Cache open file handles: { run_idx: file_handle }
+        self.file_handles = {}
+
+    def get_handle(self, run_idx: int):
+        if run_idx in self.file_handles:
+            return self.file_handles[run_idx]
+        
+        # Open new handle: out_path + ".part_workerID"
+        base_path = self.scheduler.out_paths[run_idx]
+        part_path = f"{base_path}.part_{self.worker_id}"
+        
+        f = open(part_path, "a", encoding="utf-8")
+        self.file_handles[run_idx] = f
+        return f
+
+    def close(self):
+        for f in self.file_handles.values():
+            try:
+                f.close()
+            except:
+                pass
+
+
+def worker_main(scheduler: Scheduler, initial_run_idx: int, worker_id: int):
+    ctx = WorkerContext(scheduler, worker_id)
+    try:
+        while True:
+            run_idx, prompt_obj = scheduler.get_task(initial_run_idx)
+            if run_idx is None:
+                break
+            
+            try:
+                client = scheduler.clients[run_idx]
+                args = scheduler.args_map[run_idx]
+                retry_cfg = scheduler.retry_cfgs[run_idx]
+                auth_info = scheduler.auth_infos[run_idx]
+                
+                # Execute
+                out = process_one_prompt(client, prompt_obj, args, retry_cfg, auth_info)
+                
+                # Write to temp file
+                f = ctx.get_handle(run_idx)
+                f.write(json.dumps(out, ensure_ascii=False) + "\n")
+                f.flush()
+                
+                scheduler.update_stats(success=not out.get("error"))
+                
+            except Exception as e:
+                # Fallback logging if catastrophic failure in process_one_prompt
+                # We still want to count it
+                scheduler.update_stats(success=False)
+                # Maybe print?
+                # print(f"Error in W{worker_id} R{run_idx}: {e}")
+
+    finally:
+        ctx.close()
+
+
+def merge_results(scheduler: Scheduler):
+    """
+    Merge all .part_* files into the main output file for each run.
+    """
+    print("Merging temporary files...")
+    for run_idx, out_path in scheduler.out_paths.items():
+        base_dir = os.path.dirname(out_path)
+        basename = os.path.basename(out_path)
+        
+        # Gather all part files
+        part_files = []
+        if os.path.exists(base_dir):
+            for fname in os.listdir(base_dir):
+                if fname.startswith(basename + ".part_"):
+                    part_files.append(os.path.join(base_dir, fname))
+        
+        if not part_files:
+            continue
+            
+        print(f"Merging {len(part_files)} logs for run {run_idx} into {out_path}")
+        # Merge
+        with open(out_path, "a", encoding="utf-8") as fout:
+            for pfile in part_files:
+                try:
+                    with open(pfile, "r", encoding="utf-8") as fin:
+                        shutil.copyfileobj(fin, fout)
+                    # Delete after successful merge
+                    try:
+                        os.remove(pfile)
+                    except:
+                        pass
+                except Exception as e:
+                    print(f"Error merging {pfile} to {out_path}: {e}")
+
+
+def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--config", required=True, help="Config JSON/YAML.")
-    ap.add_argument("--runner", default=os.path.join(project_root(), "scripts", "run_inference_gcp.py"),
-                    help="Path to run_inference script.")
-    ap.add_argument("--dry_run", action="store_true")
-    ap.add_argument("--parallel", type=int, nargs="?", const=-1, default=0,
-                    help="Number of parallel workers. 0 (default) for serial. "
-                         "If flag is used without value, uses cpu_count - 2.")
+    ap.add_argument("--parallel", type=int, default=8, help="Number of parallel threads (default 8).")
     args = ap.parse_args()
 
     cfg = load_config(args.config)
-    runs = cfg.get("runs", [])
-    if not isinstance(runs, list) or not runs:
-        raise SystemExit("No runs[] found in config.")
+    runs_cfg = cfg.get("runs", [])
+    if not runs_cfg:
+        print("No runs found in config.")
+        return
 
-    runner = args.runner
-    if not os.path.isabs(runner):
-        runner = abspath_from_root(runner)
+    common_cfg = cfg.get("common", {})
+    io_cfg = cfg.get("io", {})
+    filters_cfg = cfg.get("filters", {})
+    vertex_global = cfg.get("vertex", {})
+    common_cfg.update(vertex_global)
 
-    # Determine parallelism
-    workers = args.parallel
+    scheduler = Scheduler()
     
-    if workers == -1:
-        # Flag present without value: default to cpu_count - 2
-        cpus = os.cpu_count() or 4
-        workers = max(1, cpus - 2)
-    
-    # Cap workers based on user constraints if we are in parallel mode
-    if workers > 0:
-        cpus = os.cpu_count() or 1
-        limit = min(cpus, len(runs))
-        if workers > limit:
-            workers = limit
-        workers = max(1, workers) # Ensure at least 1
+    print(f"Initializing {len(runs_cfg)} runs...")
 
-    if workers > 0:
-        print(f"Running sweep with {workers} workers.")
+    for i, run_c in enumerate(runs_cfg):
+        run_args = create_args_namespace(common_cfg, run_c, io_cfg, filters_cfg)
         
-        # We need to assign each worker a "slot" (0 to workers-1) for UI positioning
-        slot_queue = queue.Queue()
-        for i in range(workers):
-            slot_queue.put(i)
-
-        # Wrapper to grab slot
-        def _worker_wrapper(r):
-            slot = slot_queue.get()
-            try:
-                return run_single_job(cfg, r, runner, args.dry_run, parallel=True, bar_pos=slot)
-            finally:
-                slot_queue.put(slot)
-
-        with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as executor:
-            futures = []
-            for run in runs:
-                futures.append(executor.submit(_worker_wrapper, run))
+        try:
+            client, auth_info = build_client(run_args)
+        except Exception as e:
+            print(f"Failed to initialize client for run {i} ({run_args.model}): {e}")
+            continue
             
-            # Using position 0 for the main bar
-            for f in tqdm(concurrent.futures.as_completed(futures), total=len(runs), desc="Sweep runs", position=0):
-                try:
-                    res = f.result()
-                    if res and res.strip():
-                        # We don't print "Job Completed" to avoid messing up the bars, 
-                        # or we print it above/below?
-                        # tqdm.write automatically prints above bars if possible.
-                        pass 
-                except Exception as e:
-                    tqdm.write(f"Job failed: {e}")
-    else:
-        # Serial execution
-        print("Running sweep in serial mode.")
-        for run in tqdm(runs, desc="Sweep runs"):
-            try:
-                run_single_job(cfg, run, runner, args.dry_run, False)
-            except subprocess.CalledProcessError:
-                print("Job failed.") 
-                # Don't exit entire sweep on one failure? Or do? 
-                # Original behavior was check=True -> exit.
-                # Let's keep check=True behavior which raises exception and stops script.
-                raise
+        retry_cfg = RetryConfig(
+            max_retries=run_args.max_retries,
+            base_delay_s=run_args.retry_base_delay_s,
+            max_delay_s=run_args.retry_max_delay_s,
+            jitter=run_args.retry_jitter
+        )
+        
+        scheduler.register_run(i, run_args, client, auth_info, retry_cfg)
+        
+        if not run_args.prompts_path or not os.path.exists(run_args.prompts_path):
+            print(f"Warning: prompts_path not found: {run_args.prompts_path}")
+            continue
+        
+        c = 0
+        limit = run_args.limit
+        for prompt_obj in read_jsonl(run_args.prompts_path):
+            if not should_keep(prompt_obj, run_args):
+                continue
+                
+            scheduler.add_task(i, prompt_obj)
+            c += 1
+            if limit > 0 and c >= limit:
+                break
+        
+        print(f"  Run {i}: {run_args.model} | {run_args.decoding} -> {scheduler.todo_counts[i]} tasks (after resume filter)")
 
+    total_tasks = sum(scheduler.todo_counts.values())
+    if total_tasks == 0:
+        print("No tasks to run.")
+        return
+
+    scheduler.pbar = tqdm(total=total_tasks, desc="Sweep Progress", unit="task")
+
+    workers = args.parallel if args.parallel > 0 else 8
+    num_runs = len(runs_cfg)
+    
+    print(f"Starting {workers} workers processing {total_tasks} tasks...")
+    
+    with ThreadPoolExecutor(max_workers=workers) as executor:
+        futures = []
+        for w_id in range(workers):
+            initial_run_idx = w_id % num_runs
+            futures.append(executor.submit(worker_main, scheduler, initial_run_idx, w_id))
+        
+        for f in futures:
+            try:
+                f.result()
+            except Exception as e:
+                print(f"Worker exception: {e}")
+
+    scheduler.pbar.close()
+    
+    # Merge results
+    merge_results(scheduler)
+    print("Sweep completed.")
 
 if __name__ == "__main__":
     main()

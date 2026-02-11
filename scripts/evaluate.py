@@ -154,7 +154,7 @@ def main():
     parser.add_argument("--queries", required=True, help="Directory containing query instance JSONL files (ground truth).")
     parser.add_argument("--responses", required=True, help="Root directory containing response JSONL files.")
     parser.add_argument("--out_dir", required=True, help="Directory to save evaluation results.")
-    parser.add_argument("--natural_queries", default=None, help="Path to natural queries JSONL (optional, required for rigorous override rate calculation if IDs match).")
+    parser.add_argument("--counterfactual_edits", default=None, help="Path to counterfactual_edits.jsonl (for parametric leakage calculation).")
     parser.add_argument("--config", default="config/config.json", help="Path to config file (optional, for reference).")
     
     args = parser.parse_args()
@@ -175,21 +175,28 @@ def main():
     # 1. Load Ground Truth
     queries = load_queries(args.queries)
     
-    # Optional: Load natural queries map for Counterfactual Override checking
-    natural_answers = {}
-    if args.natural_queries and os.path.exists(args.natural_queries):
-        print(f"Loading natural queries from {args.natural_queries} for override checks...")
-        with open(args.natural_queries, "r", encoding="utf-8") as f:
+    # Optional: Load parametric leakage map from edits file
+    # Map (head, relation) -> original_tail
+    leakage_map = {}
+    if args.counterfactual_edits and os.path.exists(args.counterfactual_edits):
+        print(f"Loading counterfactual edits from {args.counterfactual_edits}...")
+        with open(args.counterfactual_edits, "r", encoding="utf-8") as f:
             for line in f:
-                obj = json.loads(line)
-                # Map by ID. Assuming CF queries have same ID or we map by intent/question.
-                # Usually CF queries share the same ID or can be mapped. 
-                # If they have different IDs, we might need a mapping key.
-                # In this project, let's assume `id` or `intent_key` helps. 
-                # For now, we store by `intent_key` and `hop` as a composite key if IDs vary.
-                key = obj.get("id") 
-                natural_answers[key] = obj.get("gold_answer")
-                
+                try:
+                    obj = json.loads(line)
+                    # We want to know: if we ask (new_h, new_r), what was the OLD t?
+                    # The query will be against the NEW graph (counterfactual).
+                    # So we use the 'new' h/r as the key.
+                    if "new" in obj and "old" in obj:
+                        new_trip = obj["new"]
+                        old_trip = obj["old"]
+                        # Key: (Subject, Relation) -> Value: Original Object (Natural Answer)
+                        key = (normalize_answer(new_trip["h"]), normalize_answer(new_trip["r"]))
+                        leakage_map[key] = old_trip["t"]
+                except json.JSONDecodeError:
+                    continue
+        print(f"Loaded {len(leakage_map)} leakage entries.")
+
     # 2. Load Responses
     responses = load_responses(args.responses)
     
@@ -253,12 +260,20 @@ def main():
         # Check if it matches the *natural* answer despite being a CF query
         is_parametric_leakage = False
         natural_gold = None
+        
         if resp.get("graph_variant") == "counterfactual":
-            # Try to find natural answer
-            natural_gold = natural_answers.get(qid)
+            # Identify natural answer from leakage map if 1-hop
+            # Multi-hop leakage is harder to detect without full graph traversal, 
+            # so we focus on 1-hop verification where we have explicit edits.
+            start_ent = q.get("start_entity")
+            rel_chain = q.get("rel_chain", [])
+            
+            if start_ent and rel_chain and len(rel_chain) == 1:
+                key = (normalize_answer(start_ent), normalize_answer(rel_chain[0]))
+                natural_gold = leakage_map.get(key)
+                
             if natural_gold:
                  # Only count as leakage if it matches natural AND is incorrect for current graph
-                 # (Though usually if it matches natural in CF, it IS incorrect, unless the fact wasn't changed)
                  if metric_max_over_ground_truths(exact_match_score, str(pred_text), [natural_gold]) and not is_correct:
                     is_parametric_leakage = True
                     outcome = "parametric_leakage" # Specific subtype of wrong_answer

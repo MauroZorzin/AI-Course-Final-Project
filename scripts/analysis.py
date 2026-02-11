@@ -18,6 +18,10 @@ import pandas as pd
 import seaborn as sns
 import numpy as np
 from matplotlib.ticker import MaxNLocator
+import json
+import networkx as nx
+import collections
+from tqdm import tqdm
 
 # Model name mapping - centralized configuration
 MODEL_NAMES = {
@@ -378,10 +382,10 @@ def plot_override_rate(df, out_dir):
 
     subset = prepare_config_column(subset)
     # Convert to Percentage
-    subset["leakage_pct"] = subset["parametric_leakage"] * 100
+    subset["leakage_pct"] = (1 - subset["parametric_leakage"]) * 100
 
     fig, axes = plt.subplots(1, 2, figsize=(18, 7))
-    fig.suptitle("Parametric Leakage Rate (by Hop)",
+    fig.suptitle("Override Rate (by Hop)",
                  fontsize=18, fontweight="bold")
 
     strategies = sorted(subset["prompting_strategy"].unique())
@@ -408,7 +412,7 @@ def plot_override_rate(df, out_dir):
 
         ax.set_title(f"{strategy.upper()} Strategy", fontweight="bold", fontsize=14)
         ax.set_xlabel("Hop Count", fontsize=12)
-        ax.set_ylabel("Parametric Leakage Rate (%)", fontsize=12)
+        ax.set_ylabel("Override Rate (%)", fontsize=12)
         ax.set_ylim(0, 110)
         ax.grid(axis="y", alpha=0.3)
         if ax.get_legend(): ax.get_legend().remove()
@@ -725,6 +729,71 @@ def plot_total_cost(df, out_dir):
     print(f"Saved {out_path}")
 
 
+def plot_cost_by_hop(df, out_dir):
+    """
+    Histogram of average accumulated cost per query by Hop.
+    """
+    if "cost" not in df.columns or df["cost"].sum() == 0:
+        return
+
+    df = prepare_config_column(df)
+
+    avg_cost = (
+        df.groupby(["Config", "prompting_strategy", "hop"])["cost"]
+        .mean()
+        .reset_index()
+    )
+
+    fig, axes = plt.subplots(1, 2, figsize=(18, 7))
+    fig.suptitle("Average Cost per Query (By Hop)", fontsize=18, fontweight="bold")
+
+    strategies = sorted(avg_cost["prompting_strategy"].unique())
+    unique_configs = sorted(avg_cost["Config"].unique())
+    palette = get_color_palette(unique_configs)
+    
+    y_max = avg_cost["cost"].max() * 1.1
+
+    for idx, strategy in enumerate(strategies):
+        if idx >= 2: break 
+        
+        ax = axes[idx]
+        subset = avg_cost[avg_cost["prompting_strategy"] == strategy]
+        
+        barplot = sns.barplot(
+            data=subset,
+            x="hop",
+            y="cost",
+            hue="Config",
+            hue_order=unique_configs,
+            palette=palette,
+            ax=ax,
+            alpha=0.9
+        )
+        
+        ax.set_title(f"Strategy: {strategy}", fontsize=14)
+        ax.set_xlabel("Hop Count", fontsize=12)
+        ax.set_ylabel("Average Cost ($)", fontsize=12)
+        ax.set_ylim(0, y_max)
+        ax.grid(axis="y", alpha=0.3)
+        ax.legend_.remove()
+        
+        for p in barplot.patches:
+            height = p.get_height()
+            if height > 0:
+                ax.annotate(f"{height:.4f}", 
+                            (p.get_x() + p.get_width() / 2., height), 
+                            ha="center", va="bottom", fontsize=8, xytext=(0, 4), textcoords="offset points")
+
+    handles, labels = axes[0].get_legend_handles_labels()
+    fig.legend(handles, labels, title="Configuration", loc="center right", bbox_to_anchor=(0.98, 0.5))
+    plt.tight_layout(rect=[0, 0.03, 0.85, 0.95])
+    
+    out_path = os.path.join(out_dir, "cost_by_hop.png")
+    plt.savefig(out_path, dpi=300, bbox_inches="tight")
+    plt.close()
+    print(f"Saved {out_path}")
+
+
 def plot_heatmap_performance(df, out_dir):
     """
     Heatmap showing performance across all dimensions with clean config names.
@@ -920,7 +989,7 @@ def plot_hop_degradation(df, out_dir):
                          fontweight="bold", fontsize=12)
             ax.set_xlabel("Hop Count" if i == 1 else "", fontsize=11)
             ax.set_ylabel("Exact Match" if j == 0 else "", fontsize=11)
-            ax.set_ylim(0.6, 1.05)  # Set y-axis to start at 0.5
+            ax.set_ylim(0.5, 1.05)  # Set y-axis to start at 0.5
             ax.grid(True, alpha=0.3)
             # Force integer x-axis ticks
             ax.xaxis.set_major_locator(MaxNLocator(integer=True))
@@ -1186,6 +1255,184 @@ def plot_efficiency_scatter(df, out_dir):
     plt.close()
     print(f"Saved {out_path}")
 
+def load_graph(kb_path):
+    print(f"Loading graph from {kb_path}...")
+    G = nx.MultiDiGraph()
+    with open(kb_path, 'r', encoding='utf-8') as f:
+        for line in f:
+            line = line.strip()
+            if not line: continue
+            parts = line.split('|')
+            if len(parts) == 3:
+                h, r, t = parts
+                G.add_edge(h, t, relation=r)
+    return G
+
+def find_other_paths(G, start, answers, hop, gold_path_list, max_depth_buffer=2):
+    """
+    Returns True if there is a simple path P from start to any node in answers
+    such that len(P) >= hop AND P != gold_path.
+    """
+    
+    # Gold path list is list of lists [u, r, v]. 
+    # Let's flatten to tuple of edges to compare easily if we wanted full exact matching.
+    # Note: path finding returns sequence of (u, r, v).
+    
+    # We target any answer in the answer set.
+    answer_set = set(answers)
+    
+    # Convert gold_path to a comparable format 
+    # gold_path_list looks like [['u', 'r', 'v'], ['v', 'r2', 'w']]
+    gold_path_tuples = [tuple(x) for x in gold_path_list]
+    
+    # BFS
+    # Queue: (curr_node, path_edges_list, visited_nodes_set)
+    # path_edges_list: [(u,r,v), (v,r2,w), ...]
+    
+    max_depth = hop + max_depth_buffer
+    
+    queue = collections.deque()
+    queue.append((start, [], {start}))
+    
+    # Optimization: if start not in G, no paths.
+    if start not in G:
+        return False, False # Found, LimitReached
+
+    # Count iterations to prevent hang in dense loops if any (though we use simple path check)
+    steps = 0
+    MAX_STEPS = 100000 
+
+    while queue:
+        steps += 1
+        if steps > MAX_STEPS:
+            return False, True # Found=False, LimitReached=True
+            
+        curr, path, visited = queue.popleft()
+        
+        # Check current path
+        current_len = len(path)
+        
+        if current_len >= hop:
+            if curr in answer_set:
+                # Found a path to an answer with sufficient length.
+                # Check if it is distinct from gold path
+                if path != gold_path_tuples:
+                    return True, False
+        
+        if current_len >= max_depth:
+            continue
+            
+        # Expand
+        if curr in G:
+            for neighbor in G[curr]:
+                if neighbor not in visited:
+                    # Iterate over all edges between curr and neighbor
+                    for k, attr in G[curr][neighbor].items():
+                        r = attr['relation']
+                        
+                        new_path = path + [(curr, r, neighbor)]
+                        new_visited = visited | {neighbor}
+                        queue.append((neighbor, new_path, new_visited))
+                        
+    return False, False
+
+def run_path_redundancy_analysis(out_dir):
+    workspace_root = os.getcwd()
+    variants = ['natural', 'abstract', 'counterfactual']
+    
+    results = []
+    
+    for variant in variants:
+        kb_path = os.path.join(workspace_root, 'sources', 'graphs', f'{variant}.kb')
+        jsonl_path = os.path.join(workspace_root, 'sources', 'queries', 'instances', f'{variant}.jsonl')
+        
+        if not os.path.exists(kb_path) or not os.path.exists(jsonl_path):
+            print(f"Skipping {variant} (files not found)")
+            continue
+            
+        G = load_graph(kb_path)
+        
+        print(f"Processing queries for {variant}...")
+        with open(jsonl_path, 'r', encoding='utf-8') as f:
+            lines = f.readlines()
+            
+        for line in tqdm(lines):
+            q_obj = json.loads(line)
+            
+            hop = q_obj.get('hop')
+            start = q_obj.get('start_entity')
+            answers = q_obj.get('gold_answers', [])
+            gold_path = q_obj.get('gold_path', [])
+            
+            # Defensive checks
+            if not start or not answers or hop is None:
+                continue
+                
+            has_other, limit_reached = find_other_paths(G, start, answers, hop, gold_path)
+            
+            results.append({
+                'variant': variant,
+                'hop': hop,
+                'has_long_other_path': has_other,
+                'limit_reached': limit_reached
+            })
+            
+    # Create DataFrame
+    df = pd.DataFrame(results)
+    
+    if df.empty:
+        print("No data found for path redundancy analysis.")
+        return
+
+    # Count queries with other paths
+    # We want "how many queries"
+    summary = df.groupby(['variant', 'hop'])['has_long_other_path'].sum().reset_index()
+    summary.rename(columns={'has_long_other_path': 'count'}, inplace=True)
+    
+    # Count stopped due to limit
+    limit_summary = df.groupby(['variant', 'hop'])['limit_reached'].sum().reset_index()
+    limit_summary.rename(columns={'limit_reached': 'stopped_count'}, inplace=True)
+    summary = pd.merge(summary, limit_summary, on=['variant', 'hop'])
+
+    # Also calculate total to get percentages if needed
+    total_counts = df.groupby(['variant', 'hop']).size().reset_index(name='total')
+    summary = pd.merge(summary, total_counts, on=['variant', 'hop'])
+    summary['percentage'] = (summary['count'] / summary['total']) * 100
+    summary['stopped_percentage'] = (summary['stopped_count'] / summary['total']) * 100
+
+    
+    print("\nPath Redundancy Summary Results:")
+    print(summary)
+
+    # Plotting
+    sns.set_theme(style="whitegrid")
+    plt.figure(figsize=(10, 6))
+    
+    chart = sns.barplot(
+        data=summary,
+        x='hop',
+        y='percentage',
+        hue='variant',
+        palette='viridis'
+    )
+    
+    plt.title('Percentage of Queries with Alternative Paths (Length >= Hop-Depth)')
+    plt.ylabel('Percentage of Queries (%)')
+    plt.xlabel('Hop Depth')
+    
+    # Add counts on top of bars
+    for i in chart.containers:
+        chart.bar_label(i, fmt='%.1f%%')
+        
+    os.makedirs(os.path.join(out_dir, 'plots'), exist_ok=True)
+    out_path = os.path.join(out_dir, 'plots', 'path_redundancy.png')
+    
+    plt.savefig(out_path)
+    print(f"Plot saved to {out_path}")
+    
+    return summary
+
+
 def main():
     parser = argparse.ArgumentParser(description="Enhanced analysis with consistent naming and colors")
     parser.add_argument("--eval", required=True, help="Directory containing evaluation_results.csv or path to csv.")
@@ -1193,6 +1440,9 @@ def main():
     parser.add_argument("--make_plots", action="store_true", help="Generate plots.")
     
     args = parser.parse_args()
+
+    redunancy_summary = None
+    redunancy_summary = run_path_redundancy_analysis(args.out_dir)
     
     # Determine input file path
     if os.path.isdir(args.eval):
@@ -1224,6 +1474,7 @@ def main():
         plot_token_usage_by_hop(df, plots_dir)
         plot_cost_analysis(df, plots_dir)
         plot_total_cost(df, plots_dir)
+        plot_cost_by_hop(df, plots_dir)
         
         print("\nGenerating additional insights...")
         plot_heatmap_performance(df, plots_dir)
@@ -1293,6 +1544,11 @@ def main():
         f.write(hop_pivot.to_markdown())
         f.write("\n\n---\n\n")
         
+        if redunancy_summary is not None:
+             f.write("## Path Redundancy Analysis\n\n")
+             f.write(redunancy_summary.to_markdown())
+             f.write("\n\n---\n\n")
+
         f.write("---\n\n")
         f.write("*End of Report*\n")
         

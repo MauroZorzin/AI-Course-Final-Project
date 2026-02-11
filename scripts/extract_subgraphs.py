@@ -169,10 +169,14 @@ def sample_distractors_by_relation(
     r_to_triples: Dict[str, List[Triple]],
     rng: random.Random,
     k: int,
+    avoid_tails: Optional[Set[str]] = None,
 ) -> List[Triple]:
     candidates = r_to_triples.get(r, [])
     # Filter out the gold triple itself
-    valid = [c for c in candidates if c != gold_triple]
+    if avoid_tails:
+        valid = [c for c in candidates if c != gold_triple and c[2] not in avoid_tails]
+    else:
+        valid = [c for c in candidates if c != gold_triple]
     if not valid or k <= 0:
         return []
     if len(valid) <= k:
@@ -187,6 +191,7 @@ def build_evidence_for_query(
     rng: random.Random,
     distractors_per_hop: int,
     max_triples: int,
+    avoid_tails: Optional[Set[str]] = None,
 ) -> Tuple[List[Triple], Dict[str, int]]:
     """
     Evidence = gold path triples + distractors.
@@ -207,6 +212,7 @@ def build_evidence_for_query(
             r_to_triples=r_to_triples,
             rng=rng,
             k=distractors_per_hop,
+            avoid_tails=avoid_tails,
         )
         rel_distractors.extend(sample)
 
@@ -235,6 +241,8 @@ def build_evidence_for_query(
             attempts += 1
             cand = rng.choice(all_triples)
             if cand not in evidence_set:
+                if avoid_tails and cand[2] in avoid_tails:
+                    continue
                 evidence_set.add(cand)
                 evidence_list.append(cand)
                 count_additional += 1
@@ -255,8 +263,8 @@ def main() -> None:
     ap.add_argument("--out_path", required=True, help="Output JSONL with evidence_triples added.")
     ap.add_argument("--delimiter", default=None, help="Delimiter for KB file. If omitted, auto-detect.")
     ap.add_argument("--seed", type=int, default=42, help="Seed for distractor sampling.")
-    ap.add_argument("--distractors_per_hop", type=int, default=3, help="Local distractors per gold hop.")
-    ap.add_argument("--max_triples", type=int, default=24, help="Max evidence triples per query (keeps gold).")
+    ap.add_argument("--distractors_per_hop", type=int, default=20, help="Local distractors per gold hop.")
+    ap.add_argument("--max_triples", type=int, default=100, help="Max evidence triples per query (keeps gold).")
     ap.add_argument("--require_gold_path", action="store_true", help="If set, fail when gold_path is missing (no BFS fallback).")
     args = ap.parse_args()
 
@@ -298,6 +306,19 @@ def main() -> None:
                 num_out += 1
                 continue
 
+            # Identify target answer from gold_path and other valid answers to avoid
+            avoid_tails = set()
+            gold_answers_raw = obj.get("gold_answers")
+            if not gold_answers_raw:
+                val = obj.get("answer") or obj.get("gold_answer")
+                if val:
+                    gold_answers_raw = [val] if not isinstance(val, list) else val
+            
+            if gold_answers_raw and gold_path:
+                target_answer = gold_path[-1][2]
+                all_answers = set(str(x) for x in gold_answers_raw)
+                avoid_tails = all_answers - {target_answer}
+
             evidence, estats = build_evidence_for_query(
                 gold_path=gold_path,
                 r_to_triples=r_to_triples,
@@ -305,6 +326,7 @@ def main() -> None:
                 rng=rng,
                 distractors_per_hop=args.distractors_per_hop,
                 max_triples=args.max_triples,
+                avoid_tails=avoid_tails,
             )
 
             obj["gold_path"] = [[h, r, t] for (h, r, t) in gold_path]

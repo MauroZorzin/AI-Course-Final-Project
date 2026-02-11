@@ -203,7 +203,9 @@ def build_counterfactual(
                     attempted += 1
                     # fallback: random tail
                     for _ in range(max_tries):
-                        cand = rng.choice(entities)
+                        # FIX: Sample from the tails of the current relation, NOT the global entities list
+                        # to avoid type mismatches (e.g. swapping a year with a person).
+                        cand = rng.choice(tails)
                         if cand != old_t:
                             new_t = cand
                             break

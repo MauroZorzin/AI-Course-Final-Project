@@ -335,21 +335,228 @@ def should_keep(prompt_obj: JSONObj, args) -> bool:
     return True
 
 
+def process_one_prompt(client, prompt_obj, args, retry_cfg, auth_info=None):
+    if auth_info is None:
+        auth_info = {}
+    
+    system_instruction, contents = extract_messages(prompt_obj)
+
+    # Temperature schedule
+    if args.decoding == "greedy":
+        temps = [0.0]
+    else:
+        base_t = float(args.temperature)
+        if base_t <= 0.0:
+            base_t = 0.7
+        temps = [base_t] * int(args.sc_samples)
+
+    samples_out = []
+    started_at = utc_now_iso()
+    t0 = time.time()
+
+    error_obj = None
+    # Initialize usage accum
+    usage_accum = {
+        "prompt_token_count": 0,
+        "candidates_token_count": 0,
+        "total_token_count": 0,
+        "thoughts_token_count": 0,
+        "tool_use_prompt_token_count": 0,
+    }
+
+    latency_ms = 0
+    
+    try:
+        for si, temp in enumerate(temps):
+            seed = (int(args.seed) + si) if args.seed is not None else None
+            gen_cfg = build_gen_config(args, system_instruction, temperature=temp, seed=seed)
+
+            def _do_call():
+                return client.models.generate_content(
+                    model=args.model,
+                    contents=contents,
+                    config=gen_cfg,
+                )
+
+            resp, retries_used = call_with_retries(_do_call, retry_cfg)
+
+            resp_text = getattr(resp, "text", None)
+            finish_reason = None
+            if resp_text is None:
+                try:
+                    cand0 = resp.candidates[0]
+                    finish_reason = getattr(cand0, "finish_reason", None)
+                    parts = cand0.content.parts if getattr(cand0, "content", None) else []
+                    resp_text = "".join([getattr(p, "text", "") for p in parts if getattr(p, "text", None)])
+                except Exception:
+                    resp_text = None
+            else:
+                try:
+                        cand0 = resp.candidates[0]
+                        finish_reason = getattr(cand0, "finish_reason", None)
+                except Exception:
+                        pass
+
+            parsed, perr = extract_first_json_object(resp_text or "")
+            final_answer = get_final_answer(parsed)
+
+            # Usage metadata (best-effort)
+            usage = {}
+            um = getattr(resp, "usage_metadata", None)
+            if um is not None:
+                usage = safe_model_dump(um) or {}
+            else:
+                md = safe_model_dump(resp) or {}
+                usage = md.get("usage_metadata") or md.get("usageMetadata") or {}
+
+            def _acc(key: str, *aliases: str):
+                v = None
+                if isinstance(usage, dict):
+                    for k in (key,) + aliases:
+                        if k in usage:
+                            v = usage.get(k)
+                            break
+                if isinstance(v, (int, float)):
+                    usage_accum[key] = usage_accum.get(key, 0) + int(v)
+
+            _acc("prompt_token_count", "promptTokenCount")
+            _acc("candidates_token_count", "candidatesTokenCount")
+            _acc("total_token_count", "totalTokenCount")
+            _acc("thoughts_token_count", "thoughtsTokenCount")
+            _acc("tool_use_prompt_token_count", "toolUsePromptTokenCount")
+
+            samples_out.append({
+                "sample_index": si,
+                "temperature": temp,
+                "seed": seed,
+                "retries_used": retries_used,
+                "response_text": resp_text,
+                "finish_reason": str(finish_reason) if finish_reason is not None else None,
+                "parsed_json": parsed,
+                "parse_error": perr,
+                "final_answer": final_answer,
+                "usage_metadata": usage if usage else None,
+            })
+
+        latency_ms = int((time.time() - t0) * 1000)
+
+    except Exception as e:
+        latency_ms = int((time.time() - t0) * 1000)
+        error_obj = {
+            "type": type(e).__name__,
+            "message": str(e),
+            "traceback": traceback.format_exc(),
+        }
+    
+    # Aggregate
+    if args.decoding == "greedy":
+        chosen = samples_out[0] if samples_out else {}
+        final_out = normalize_answer(chosen.get("final_answer")) if chosen else None
+        agg = {
+            "final_answer": final_out,
+            "parsed_json": chosen.get("parsed_json") if chosen else None,
+            "parse_error": chosen.get("parse_error") if chosen else None,
+            "response_text": chosen.get("response_text") if chosen else None,
+        }
+        sc_meta = None
+    else:
+        answers = [s.get("final_answer") for s in samples_out]
+        sc = aggregate_self_consistency(answers, prefer_non_unknown=bool(args.sc_prefer_non_unknown))
+        agg = {
+            "final_answer": sc["final_answer"],
+            "vote_counts": sc["vote_counts"],
+        }
+        sc_meta = {
+            "sc_samples": int(args.sc_samples),
+            "sc_prefer_non_unknown": bool(args.sc_prefer_non_unknown),
+        }
+
+    out = {
+        "prompt_id": prompt_obj.get("prompt_id"),
+        "query_id": prompt_obj.get("query_id"),
+        "intent_key": prompt_obj.get("intent_key"),
+        "prompting_strategy": prompt_obj.get("prompting_strategy"),
+        "graph_variant": prompt_obj.get("graph_variant"),
+        "hop": prompt_obj.get("hop"),
+        "template_id": prompt_obj.get("template_id"),
+
+        "model": args.model,
+        "decoding": args.decoding,
+        "request": {
+            "temperature": float(args.temperature),
+            "top_p": float(args.top_p),
+            "top_k": int(args.top_k),
+            "max_output_tokens": int(args.max_output_tokens),
+            "seed": args.seed,
+            "json_mode": bool(args.json_mode),
+            "stop_sequences": args.stop_sequences,
+            "api_version": args.api_version,
+            "project": args.project,
+            "location": args.location,
+            "service_account_json": os.path.abspath(args.service_account_json) if args.service_account_json else None,
+            "service_account_client_email": auth_info.get("client_email"),
+            "service_account_project_id_in_key": auth_info.get("project_id_in_key"),
+        },
+
+        "started_at": started_at,
+        "latency_ms": latency_ms,
+
+        "final_answer": agg.get("final_answer"),
+        "vote_counts": agg.get("vote_counts"),
+        "parsed_json": agg.get("parsed_json"),
+        "parse_error": agg.get("parse_error"),
+        "response_text": agg.get("response_text"),
+
+        "samples": samples_out,
+        "self_consistency": sc_meta,
+        "usage_total_across_samples": usage_accum,
+        "error": error_obj,
+    }
+    return out
+
+
 def load_done_ids(out_path: str) -> set:
     done = set()
-    if not os.path.exists(out_path):
+    # Check main file
+    if os.path.exists(out_path):
+        with open(out_path, "r", encoding="utf-8") as f:
+            for line in f:
+                if not line.strip():
+                    continue
+                try:
+                    obj = json.loads(line)
+                    pid = str(obj.get("prompt_id") or "")
+                    if pid:
+                        done.add(pid)
+                except Exception:
+                    continue
+    
+    # Check partial files: responses.jsonl.part*
+    if not out_path:
         return done
-    with open(out_path, "r", encoding="utf-8") as f:
-        for line in f:
-            if not line.strip():
-                continue
-            try:
-                obj = json.loads(line)
-                pid = obj.get("prompt_id")
-                if pid:
-                    done.add(pid)
-            except Exception:
-                continue
+        
+    dirname = os.path.dirname(out_path) or "."
+    basename = os.path.basename(out_path)
+    
+    if os.path.isdir(dirname):
+        for fname in os.listdir(dirname):
+            # strict check: startswith basename + ".part"
+            if fname.startswith(basename + ".part"):
+                full = os.path.join(dirname, fname)
+                try:
+                    with open(full, "r", encoding="utf-8") as f:
+                        for line in f:
+                            if not line.strip():
+                                continue
+                            try:
+                                obj = json.loads(line)
+                                pid = str(obj.get("prompt_id") or "")
+                                if pid:
+                                    done.add(pid)
+                            except Exception:
+                                continue
+                except Exception:
+                    pass
     return done
 
 
@@ -454,177 +661,9 @@ def main() -> None:
             if args.limit and processed >= args.limit:
                 break
 
-            system_instruction, contents = extract_messages(prompt_obj)
-
-            # Temperature schedule
-            if args.decoding == "greedy":
-                temps = [0.0]
-            else:
-                base_t = float(args.temperature)
-                if base_t <= 0.0:
-                    base_t = 0.7
-                temps = [base_t] * int(args.sc_samples)
-
-            samples_out: List[Dict[str, Any]] = []
-            started_at = utc_now_iso()
-            t0 = time.time()
-
-            error_obj = None
-            usage_accum = {
-                "prompt_token_count": 0,
-                "candidates_token_count": 0,
-                "total_token_count": 0,
-                "thoughts_token_count": 0,
-                "tool_use_prompt_token_count": 0,
-            }
-
-            try:
-                for si, temp in enumerate(temps):
-                    seed = (int(args.seed) + si) if args.seed is not None else None
-                    gen_cfg = build_gen_config(args, system_instruction, temperature=temp, seed=seed)
-
-                    def _do_call():
-                        return client.models.generate_content(
-                            model=args.model,
-                            contents=contents,
-                            config=gen_cfg,
-                        )
-
-                    resp, retries_used = call_with_retries(_do_call, retry_cfg)
-
-                    resp_text = getattr(resp, "text", None)
-                    finish_reason = None
-                    if resp_text is None:
-                        try:
-                            cand0 = resp.candidates[0]
-                            finish_reason = getattr(cand0, "finish_reason", None)
-                            parts = cand0.content.parts if getattr(cand0, "content", None) else []
-                            resp_text = "".join([getattr(p, "text", "") for p in parts if getattr(p, "text", None)])
-                        except Exception:
-                            resp_text = None
-                    else:
-                        try:
-                             cand0 = resp.candidates[0]
-                             finish_reason = getattr(cand0, "finish_reason", None)
-                        except Exception:
-                             pass
-
-                    parsed, perr = extract_first_json_object(resp_text or "")
-                    final_answer = get_final_answer(parsed)
-
-                    # Usage metadata (best-effort)
-                    usage = {}
-                    um = getattr(resp, "usage_metadata", None)
-                    if um is not None:
-                        usage = safe_model_dump(um) or {}
-                    else:
-                        md = safe_model_dump(resp) or {}
-                        usage = md.get("usage_metadata") or md.get("usageMetadata") or {}
-
-                    def _acc(key: str, *aliases: str):
-                        v = None
-                        if isinstance(usage, dict):
-                            for k in (key,) + aliases:
-                                if k in usage:
-                                    v = usage.get(k)
-                                    break
-                        if isinstance(v, (int, float)):
-                            usage_accum[key] = usage_accum.get(key, 0) + int(v)
-
-                    _acc("prompt_token_count", "promptTokenCount")
-                    _acc("candidates_token_count", "candidatesTokenCount")
-                    _acc("total_token_count", "totalTokenCount")
-                    _acc("thoughts_token_count", "thoughtsTokenCount")
-                    _acc("tool_use_prompt_token_count", "toolUsePromptTokenCount")
-
-                    samples_out.append({
-                        "sample_index": si,
-                        "temperature": temp,
-                        "seed": seed,
-                        "retries_used": retries_used,
-                        "response_text": resp_text,
-                        "finish_reason": str(finish_reason) if finish_reason is not None else None,
-                        "parsed_json": parsed,
-                        "parse_error": perr,
-                        "final_answer": final_answer,
-                        "usage_metadata": usage if usage else None,
-                    })
-
-                latency_ms = int((time.time() - t0) * 1000)
-
-            except Exception as e:
-                latency_ms = int((time.time() - t0) * 1000)
-                error_obj = {
-                    "type": type(e).__name__,
-                    "message": str(e),
-                    "traceback": traceback.format_exc(),
-                }
+            out = process_one_prompt(client, prompt_obj, args, retry_cfg, auth_info)
+            if out.get("error"):
                 errors += 1
-
-            # Aggregate
-            if args.decoding == "greedy":
-                chosen = samples_out[0] if samples_out else {}
-                final_out = normalize_answer(chosen.get("final_answer")) if chosen else None
-                agg = {
-                    "final_answer": final_out,
-                    "parsed_json": chosen.get("parsed_json") if chosen else None,
-                    "parse_error": chosen.get("parse_error") if chosen else None,
-                    "response_text": chosen.get("response_text") if chosen else None,
-                }
-                sc_meta = None
-            else:
-                answers = [s.get("final_answer") for s in samples_out]
-                sc = aggregate_self_consistency(answers, prefer_non_unknown=bool(args.sc_prefer_non_unknown))
-                agg = {
-                    "final_answer": sc["final_answer"],
-                    "vote_counts": sc["vote_counts"],
-                }
-                sc_meta = {
-                    "sc_samples": int(args.sc_samples),
-                    "sc_prefer_non_unknown": bool(args.sc_prefer_non_unknown),
-                }
-
-            out = {
-                "prompt_id": prompt_obj.get("prompt_id"),
-                "query_id": prompt_obj.get("query_id"),
-                "intent_key": prompt_obj.get("intent_key"),
-                "prompting_strategy": prompt_obj.get("prompting_strategy"),
-                "graph_variant": prompt_obj.get("graph_variant"),
-                "hop": prompt_obj.get("hop"),
-                "template_id": prompt_obj.get("template_id"),
-
-                "model": args.model,
-                "decoding": args.decoding,
-                "request": {
-                    "temperature": float(args.temperature),
-                    "top_p": float(args.top_p),
-                    "top_k": int(args.top_k),
-                    "max_output_tokens": int(args.max_output_tokens),
-                    "seed": args.seed,
-                    "json_mode": bool(args.json_mode),
-                    "stop_sequences": args.stop_sequences,
-                    "api_version": args.api_version,
-                    "project": args.project,
-                    "location": args.location,
-                    "service_account_json": os.path.abspath(args.service_account_json) if args.service_account_json else None,
-                    "service_account_client_email": auth_info.get("client_email"),
-                    "service_account_project_id_in_key": auth_info.get("project_id_in_key"),
-                },
-
-                "started_at": started_at,
-                "latency_ms": latency_ms,
-
-                "final_answer": agg.get("final_answer"),
-                "vote_counts": agg.get("vote_counts"),
-                "parsed_json": agg.get("parsed_json"),
-                "parse_error": agg.get("parse_error"),
-                "response_text": agg.get("response_text"),
-
-                "samples": samples_out,
-                "self_consistency": sc_meta,
-                "usage_total_across_samples": usage_accum,
-                "error": error_obj,
-            }
 
             fout.write(json.dumps(out, ensure_ascii=False) + "\n")
             fout.flush()

@@ -50,7 +50,7 @@ mamba create -n ai-proj python=3.12
 
 mamba activate ai-proj
 
-mamba install google-genai, google-api-core, google-cloud-aiplatform, seaborn, tabulate
+mamba install google-genai, google-api-core, google-cloud-aiplatform, seaborn, tabulate, networkx
 ```
 
 ```shell
@@ -90,11 +90,11 @@ python .\scripts\render_prompts.py --queries_path .\sources\queries\counterfactu
 ```
 
 ```shell
-python .\scripts\run_sweep_gcp.py --config .\config\natural.json --parallel
+python .\scripts\run_sweep_gcp.py --config .\config\natural.json --parallel 20
 
-python .\scripts\run_sweep_gcp.py --config .\config\abstract.json --parallel
+python .\scripts\run_sweep_gcp.py --config .\config\abstract.json --parallel 20
 
-python .\scripts\run_sweep_gcp.py --config .\config\counterfactual.json --parallel
+python .\scripts\run_sweep_gcp.py --config .\config\counterfactual.json --parallel 20
 ```
 
 ```shell
@@ -102,7 +102,7 @@ python scripts/clean_responses.py
 ```
 
 ```shell
-python scripts/evaluate.py --queries sources/queries/instances --responses out --config config/natural.json --natural_queries sources/queries/instances/natural.jsonl --out_dir eval
+python scripts/evaluate.py --queries sources/queries/instances --responses out --out_dir eval --config config/natural.json --counterfactual_edits sources/graphs/counterfactual_edits.jsonl
 ```
 
 ```shell

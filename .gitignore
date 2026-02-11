@@ -1,3 +1,4 @@
 MetaQA
 __pycache__
 key.json
+*.jsonl.part_*
